@@ -1,2 +1,2 @@
-# SmartShopping
-A Microservice Based Smart Shopping App
+# SmartShopping/Gateway
+API gateway between client and server side of the SmartShopping App.
