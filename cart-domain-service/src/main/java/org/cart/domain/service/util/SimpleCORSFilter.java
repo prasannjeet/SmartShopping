@@ -9,21 +9,21 @@ import java.io.IOException;
 @Component
 public class SimpleCORSFilter implements Filter {
 
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		HttpServletResponse response = (HttpServletResponse) res;
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PATCH");
-		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers", "x-requested-with, origin, content-type, accept");
-		chain.doFilter(req, res);
-	}
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PATCH");
+        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with, origin, content-type, accept");
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
 
-	public void init(FilterConfig filterConfig) {
-	
-	}
+    public void init(FilterConfig filterConfig) {
 
-	public void destroy() {
-	
-	}
+    }
+
+    public void destroy() {
+
+    }
 }

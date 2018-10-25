@@ -1,29 +1,29 @@
 zookeeper:
   image: eventuateio/eventuateio-local-zookeeper:0.20.1.RELEASE
   ports:
-    - 2181:2181
-    - 2888:2888
-    - 3888:3888
+  - 2181:2181
+  - 2888:2888
+  - 3888:3888
 
 kafka:
   image: eventuateio/eventuateio-local-kafka:0.20.1.RELEASE
   ports:
-    - 9092:9092
+  - 9092:9092
   links:
-    - zookeeper
+  - zookeeper
   environment:
-    - ADVERTISED_HOST_NAME=${DOCKER_HOST_IP}
-    - KAFKA_HEAP_OPTS=-Xmx320m -Xms320m
-    - ZOOKEEPER_SERVERS=zookeeper:2181
+  - ADVERTISED_HOST_NAME=${DOCKER_HOST_IP}
+  - KAFKA_HEAP_OPTS=-Xmx320m -Xms320m
+  - ZOOKEEPER_SERVERS=zookeeper:2181
 
 cdcservice:
   image: eventuateio/eventuateio-local-cdc-service:0.20.1.RELEASE
   ports:
-    - 8099:8080
+  - 8099:8080
   links:
-    - mysql
-    - kafka
-    - zookeeper
+  - mysql
+  - kafka
+  - zookeeper
   environment:
     SPRING_DATASOURCE_URL: jdbc:mysql://mysql/eventuate
     SPRING_DATASOURCE_USERNAME: mysqluser
@@ -37,20 +37,20 @@ cdcservice:
 mysql:
   build: ./mysql
   ports:
-    - 3306:3306
+  - 3306:3306
   environment:
-    - MYSQL_ROOT_PASSWORD=rootpassword
-    - MYSQL_USER=mysqluser
-    - MYSQL_PASSWORD=mysqlpw
-    
-commandsideservice:
+  - MYSQL_ROOT_PASSWORD=rootpassword
+  - MYSQL_USER=mysqluser
+  - MYSQL_PASSWORD=mysqlpw
+
+cartcommandservice:
   extends:
     file: docker-compose-common.yml
-    service: commandsideservice
+    service: cartcommandservice
   links:
-    - mysql
-    - kafka
-    - zookeeper
+  - mysql
+  - kafka
+  - zookeeper
   environment:
     SPRING_DATASOURCE_URL: jdbc:mysql://mysql/eventuate
     SPRING_DATASOURCE_USERNAME: mysqluser
@@ -61,14 +61,14 @@ commandsideservice:
     EVENTUATELOCAL_CDC_DB_USER_NAME: root
     EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
 
-querysideservice:
+cartqueryservice:
   extends:
     file: docker-compose-common.yml
-    service: querysideservice
+    service: cartqueryservice
   links:
-    - mysql
-    - kafka
-    - zookeeper
+  - mysql
+  - kafka
+  - zookeeper
   environment:
     SPRING_DATASOURCE_URL: jdbc:mysql://mysql/eventuate
     SPRING_DATASOURCE_USERNAME: mysqluser
@@ -82,10 +82,10 @@ querysideservice:
 consoleserver:
   image: eventuateio/eventuateio-local-console:0.15.0
   links:
-    - mysql
-    - zookeeper
+  - mysql
+  - zookeeper
   ports:
-    - 8085:8080
+  - 8085:8080
   environment:
     SPRING_DATASOURCE_URL: jdbc:mysql://mysql/eventuate
     SPRING_DATASOURCE_USERNAME: mysqluser

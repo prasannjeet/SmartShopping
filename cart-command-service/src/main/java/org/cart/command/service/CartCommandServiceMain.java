@@ -1,5 +1,9 @@
 package org.cart.command.service;
 
+import io.eventuate.AggregateRepository;
+import io.eventuate.EventuateAggregateStore;
+import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
+import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.cart.command.service.CartCommandServiceMain.MyConfiguration;
 import org.cart.command.service.aggregate.CartAggregate;
 import org.cart.command.service.aggregate.CartBulkDeleteAggregate;
@@ -18,52 +22,49 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import io.eventuate.AggregateRepository;
-import io.eventuate.EventuateAggregateStore;
-import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
-import io.eventuate.javaclient.spring.EnableEventHandlers;
-
 @Configuration
-@Import({ MyConfiguration.class, EventuateDriverConfiguration.class })
+@Import({MyConfiguration.class, EventuateDriverConfiguration.class})
 @EnableAutoConfiguration
 public class CartCommandServiceMain {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CartCommandServiceMain.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CartCommandServiceMain.class, args);
+    }
 
-	@Configuration
-	@ComponentScan(basePackages = { "org.cart.command.service", "org.cart.domain.service" })
-	@EntityScan(basePackages = { "org.cart.command.service", "org.cart.domain.service" })
-	@EnableJpaRepositories(basePackages = { "org.cart.domain.service.repository" })
-	@EnableEventHandlers
-	class MyConfiguration extends WebMvcConfigurerAdapter {
+    @Configuration
+    @ComponentScan(basePackages = {"org.cart.command.service", "org.cart.domain.service"})
+    @EntityScan(basePackages = {"org.cart.command.service", "org.cart.domain.service"})
+    @EnableJpaRepositories(basePackages = {"org.cart.domain.service.repository"})
+    @EnableEventHandlers
+    class MyConfiguration extends WebMvcConfigurerAdapter {
 
-		@Bean
-		public AggregateRepository<CartAggregate, CartCommand> aggregateRepository(EventuateAggregateStore eventStore) {
-			return new AggregateRepository<>(CartAggregate.class, eventStore);
-		}
+        @Bean
+        public AggregateRepository<CartAggregate, CartCommand> cartAggregateRepository(
+                EventuateAggregateStore eventuateAggregateStore) {
+            return new AggregateRepository<>(CartAggregate.class, eventuateAggregateStore);
+        }
 
-		@Bean
-		public AggregateRepository<CartBulkDeleteAggregate, CartCommand> bulkDeleteAggregateRepository(
-				EventuateAggregateStore eventStore) {
-			return new AggregateRepository<>(CartBulkDeleteAggregate.class, eventStore);
-		}
+        @Bean
+        public AggregateRepository<CartBulkDeleteAggregate, CartCommand> cartBulkDeleteAggregateRepository(
+                EventuateAggregateStore eventuateAggregateStore) {
+            return new AggregateRepository<>(CartBulkDeleteAggregate.class, eventuateAggregateStore);
+        }
 
-		@Bean
-		public CartCommandService commandService(AggregateRepository<CartAggregate, CartCommand> aggregateRepository,
-				AggregateRepository<CartBulkDeleteAggregate, CartCommand> bulkDeleteAggregateRepository) {
-			return new CartCommandService(aggregateRepository, bulkDeleteAggregateRepository);
-		}
+        @Bean
+        public CartCommandService cartCommandService(
+                AggregateRepository<CartAggregate, CartCommand> cartAggregateRepository,
+                AggregateRepository<CartBulkDeleteAggregate, CartCommand> cartBulkDeleteAggregateRepository) {
+            return new CartCommandService(cartAggregateRepository, cartBulkDeleteAggregateRepository);
+        }
 
-		@Bean
-		public CartQueryService queryService(CartRepository repository) {
-			return new CartQueryService(repository);
-		}
-		
-		@Bean
-		public CartCommandEventSubscriber cartCommandEventSubscriber() {
-			return new CartCommandEventSubscriber();
-		}
-	}
+        @Bean
+        public CartQueryService cartQueryService(CartRepository cartRepository) {
+            return new CartQueryService(cartRepository);
+        }
+
+        @Bean
+        public CartCommandEventSubscriber cartCommandEventSubscriber() {
+            return new CartCommandEventSubscriber();
+        }
+    }
 }
