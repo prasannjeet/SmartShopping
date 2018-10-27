@@ -18,7 +18,7 @@ public class Controller {
     private CartQueryService cartQueryService;
 
     public Controller(CartCommandService cartCommandService, CartQueryService cartQueryService) {
-        this.cartCommandService =cartCommandService;
+        this.cartCommandService = cartCommandService;
         this.cartQueryService = cartQueryService;
     }
 

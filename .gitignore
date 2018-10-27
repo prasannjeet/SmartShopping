@@ -1,7 +1,6 @@
 .DS_Store
 .project
 .classpath
-.mvn
 .settings
 target
 .idea

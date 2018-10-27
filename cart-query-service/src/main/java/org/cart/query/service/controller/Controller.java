@@ -19,7 +19,7 @@ public class Controller {
     public Controller(CartQueryService cartQueryService) {
         this.cartQueryService = cartQueryService;
     }
-    
+
     @GetMapping
     public CompletableFuture<ResponseEntity<?>> findAll() {
         return CompletableFuture
