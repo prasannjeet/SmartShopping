@@ -1,37 +1,41 @@
 package org.cart.query.service.service;
 
+import org.cart.domain.service.dao.CartDao;
 import org.cart.domain.service.model.Cart;
 import org.cart.domain.service.repository.CartRepository;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 public class CartQueryService {
 
     private CartRepository cartRepository;
+    private ProductQueryService productQueryService;
 
-    public CartQueryService(CartRepository cartRepository) {
+    public CartQueryService(CartRepository cartRepository, ProductQueryService productQueryService) {
         this.cartRepository = cartRepository;
+        this.productQueryService = productQueryService;
     }
 
-    public List<Cart> findAll() {
-        return this.cartRepository.findAll();
+    public List<CartDao> findAll() {
+        List<Cart> carts = this.cartRepository.findAll();
+        List<CartDao> cartDaos = new LinkedList<>();
+        carts.forEach(cart -> cartDaos.add(new CartDao(cart, this.productQueryService.findByUserId(cart.getUserId()))));
+        return cartDaos;
     }
 
-    public Cart findById(String id) {
-        return Optional.of(this.cartRepository.findOne(id)).get();
+    public CartDao findByUserId(String userId) {
+        Cart cart = Optional.of(this.cartRepository.findByUserId(userId)).get();
+        return new CartDao(cart, this.productQueryService.findByUserId(cart.getUserId()));
     }
 
-    public Cart findByUserId(String userId) {
-        return Optional.of(this.cartRepository.findByUserId(userId)).get();
+    public void save(Cart cart) {
+        this.cartRepository.save(cart);
     }
 
-    public Cart save(Cart cart) {
-        return this.cartRepository.save(cart);
-    }
-
-    public void deleteById(String id) {
-        this.cartRepository.delete(this.findById(id));
+    public void delete(String id) {
+        this.cartRepository.delete(id);
     }
 
     public void deleteAll() {

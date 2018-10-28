@@ -20,15 +20,15 @@ public class CartAggregate extends ReflectiveMutableCommandProcessingAggregate<C
     private Cart cart;
     private boolean deleted;
 
-    public List<Event> process(CreateCartCommand createCartCommand) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartCreatedEvent(createCartCommand.getCart()));
+    public List<Event> process(CreateCartCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartCreatedEvent(command.getCart()));
     }
 
-    public List<Event> process(UpdateCartCommand updateCartCommand) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartUpdatedEvent(updateCartCommand.getCart()));
+    public List<Event> process(UpdateCartCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartUpdatedEvent(command.getCart()));
     }
 
-    public List<Event> process(DeleteCartCommand deleteCartCommand) {
+    public List<Event> process(DeleteCartCommand command) {
         return this.deleted ? Collections.emptyList() : EventUtil.events(new CartDeletedEvent());
     }
 

@@ -14,8 +14,8 @@ import java.util.concurrent.CompletableFuture;
 public class CartCommandEventSubscriber {
 
     @EventHandlerMethod
-    public CompletableFuture<EntityWithIdAndVersion<CartAggregate>> delete(
-            EventHandlerContext<CartDeletionRequestedEvent> eventEventHandlerContext) {
+    public CompletableFuture<EntityWithIdAndVersion<CartAggregate>>
+    delete(EventHandlerContext<CartDeletionRequestedEvent> eventEventHandlerContext) {
         return eventEventHandlerContext.update(
                 CartAggregate.class,
                 eventEventHandlerContext.getEvent().getCartId(),

@@ -20,18 +20,21 @@ public class CartQueryEventSubscriber {
 
     @EventHandlerMethod
     public void create(DispatchedEvent<CartCreatedEvent> dispatchedEvent) {
-        Cart cart = new Cart(dispatchedEvent.getEntityId(), dispatchedEvent.getEvent().getCart().getUserId());
+        Cart cart = new Cart(dispatchedEvent.getEvent().getCart());
+        cart.setId(dispatchedEvent.getEntityId());
         this.cartQueryService.save(cart);
     }
 
     @EventHandlerMethod
     public void update(DispatchedEvent<CartUpdatedEvent> dispatchedEvent) {
-        Cart cart = new Cart(dispatchedEvent.getEntityId(), dispatchedEvent.getEvent().getCart().getUserId());
+        Cart cart = new Cart(dispatchedEvent.getEvent().getCart());
+        cart.setId(dispatchedEvent.getEntityId());
         this.cartQueryService.save(cart);
+
     }
 
     @EventHandlerMethod
     public void delete(DispatchedEvent<CartDeletedEvent> dispatchedEvent) {
-        this.cartQueryService.deleteById(dispatchedEvent.getEntityId());
+        this.cartQueryService.delete(dispatchedEvent.getEntityId());
     }
 }

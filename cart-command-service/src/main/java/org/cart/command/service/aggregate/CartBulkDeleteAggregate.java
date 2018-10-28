@@ -9,16 +9,17 @@ import org.cart.domain.service.event.CartDeletionRequestedEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CartBulkDeleteAggregate extends
-        ReflectiveMutableCommandProcessingAggregate<CartBulkDeleteAggregate, CartCommand> {
+public class CartBulkDeleteAggregate
+        extends ReflectiveMutableCommandProcessingAggregate<CartBulkDeleteAggregate, CartCommand> {
 
-    public List<Event> process(DeleteCartsCommand deleteCartsCommand) {
-        return deleteCartsCommand.getIds().stream()
+    public List<Event> process(DeleteCartsCommand command) {
+        return command.getIds()
+                .stream()
                 .map(CartDeletionRequestedEvent::new)
                 .collect(Collectors.toList());
     }
 
-    public void apply(CartDeletionRequestedEvent cartDeletionRequestedEvent) {
+    public void apply(CartDeletionRequestedEvent event) {
 
     }
 }

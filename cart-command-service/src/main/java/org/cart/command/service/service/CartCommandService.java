@@ -12,29 +12,28 @@ import java.util.concurrent.CompletableFuture;
 
 public class CartCommandService {
 
-    private final AggregateRepository<CartAggregate, CartCommand> cartAggregateRepository;
-    private final AggregateRepository<CartBulkDeleteAggregate, CartCommand> cartBulkDeleteAggregateRepository;
+    private final AggregateRepository<CartAggregate, CartCommand> aggregateRepository;
+    private final AggregateRepository<CartBulkDeleteAggregate, CartCommand> bulkDeleteAggregateRepository;
 
-    public CartCommandService(
-            AggregateRepository<CartAggregate, CartCommand> cartAggregateRepository,
-            AggregateRepository<CartBulkDeleteAggregate, CartCommand> cartBulkDeleteAggregateRepository) {
-        this.cartAggregateRepository = cartAggregateRepository;
-        this.cartBulkDeleteAggregateRepository = cartBulkDeleteAggregateRepository;
+    public CartCommandService(AggregateRepository<CartAggregate, CartCommand> aggregateRepository,
+                              AggregateRepository<CartBulkDeleteAggregate, CartCommand> bulkDeleteAggregateRepository) {
+        this.aggregateRepository = aggregateRepository;
+        this.bulkDeleteAggregateRepository = bulkDeleteAggregateRepository;
     }
 
-    public CompletableFuture<EntityWithIdAndVersion<CartAggregate>> create(Cart cart) {
-        return this.cartAggregateRepository.save(new CreateCartCommand(cart));
+    public CompletableFuture<EntityWithIdAndVersion<CartAggregate>> save(Cart cart) {
+        return this.aggregateRepository.save(new CreateCartCommand(cart));
     }
 
     public CompletableFuture<EntityWithIdAndVersion<CartAggregate>> update(String id, Cart cart) {
-        return this.cartAggregateRepository.update(id, new UpdateCartCommand(id, cart));
+        return this.aggregateRepository.update(id, new UpdateCartCommand(id, cart));
     }
 
     public CompletableFuture<EntityWithIdAndVersion<CartAggregate>> delete(String id) {
-        return this.cartAggregateRepository.update(id, new DeleteCartCommand());
+        return this.aggregateRepository.update(id, new DeleteCartCommand());
     }
 
     public CompletableFuture<EntityWithIdAndVersion<CartBulkDeleteAggregate>> deleteAll(List<String> ids) {
-        return this.cartBulkDeleteAggregateRepository.save(new DeleteCartsCommand(ids));
+        return this.bulkDeleteAggregateRepository.save(new DeleteCartsCommand(ids));
     }
 }

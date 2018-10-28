@@ -13,7 +13,7 @@ public class UpdateCartCommand implements CartCommand {
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public Cart getCart() {

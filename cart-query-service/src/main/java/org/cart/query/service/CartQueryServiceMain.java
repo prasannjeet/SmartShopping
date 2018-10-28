@@ -3,9 +3,12 @@ package org.cart.query.service;
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.cart.domain.service.repository.CartRepository;
+import org.cart.domain.service.repository.ProductRepository;
 import org.cart.query.service.CartQueryServiceMain.MyConfiguration;
 import org.cart.query.service.service.CartQueryService;
+import org.cart.query.service.service.ProductQueryService;
 import org.cart.query.service.subscriber.CartQueryEventSubscriber;
+import org.cart.query.service.subscriber.ProductQueryEventSubscriber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -38,8 +41,18 @@ public class CartQueryServiceMain {
         }
 
         @Bean
-        public CartQueryService cartQueryService(CartRepository cartRepository) {
-            return new CartQueryService(cartRepository);
+        public ProductQueryEventSubscriber productQueryEventSubscriber(ProductQueryService productQueryService) {
+            return new ProductQueryEventSubscriber(productQueryService);
+        }
+
+        @Bean
+        public CartQueryService cartQueryService(CartRepository cartRepository, ProductQueryService productQueryService) {
+            return new CartQueryService(cartRepository, productQueryService);
+        }
+
+        @Bean
+        public ProductQueryService productQueryService(ProductRepository productRepository) {
+            return new ProductQueryService(productRepository);
         }
     }
 }
