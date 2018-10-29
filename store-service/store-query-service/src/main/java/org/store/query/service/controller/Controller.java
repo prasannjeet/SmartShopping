@@ -1,25 +1,27 @@
 package org.store.query.service.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.store.domain.service.dao.StoreDao;
+import org.store.query.service.service.StoreQueryService;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping(value = "/store", produces = "application/json")
+@RequestMapping(value = "/stores", produces = "application/json")
 @ResponseBody
 public class Controller {
 
-	int counter = 0;
-	
-	@GetMapping(value = "/test/{message}")
-	public TestEntity Test(@PathVariable String message){
-		return new TestEntity(message, ++counter);
-	}
-	
-	@GetMapping(value = "/hello")
-	public String Simple(){
-		return "Hello world!";
-	}
+    private StoreQueryService storeQueryService;
+
+    public Controller(StoreQueryService storeQueryService) {
+        this.storeQueryService = storeQueryService;
+    }
+
+    @GetMapping
+    public CompletableFuture<List<StoreDao>> findAll() {
+        return CompletableFuture
+                .supplyAsync(() -> this.storeQueryService.findAll());
+    }
 }
