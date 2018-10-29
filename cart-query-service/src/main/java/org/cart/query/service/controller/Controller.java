@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(value = "/carts", produces = "application/json")
@@ -19,12 +20,14 @@ public class Controller {
     }
 
     @GetMapping
-    public List<CartDao> findAll() {
-        return this.cartQueryService.findAll();
+    public CompletableFuture<List<CartDao>> findAll() {
+        return CompletableFuture
+                .supplyAsync(() -> this.cartQueryService.findAll());
     }
 
     @GetMapping("/{userId}")
-    public CartDao findByUserId(@PathVariable @NotBlank String userId) {
-        return this.cartQueryService.findByUserId(userId);
+    public CompletableFuture<CartDao> findByUserId(@PathVariable @NotBlank String userId) {
+        return CompletableFuture
+                .supplyAsync(() -> this.cartQueryService.findByUserId(userId));
     }
 }

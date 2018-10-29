@@ -7,8 +7,10 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "cart")
 public class Cart {
 
     @Id
@@ -23,16 +25,16 @@ public class Cart {
     }
 
     public Cart(String id, String userId) {
-        this.id = id;
-        this.userId = userId;
+        this.setId(id);
+        this.setUserId(userId);
     }
 
     public Cart(Cart cart) {
-        this.userId = cart.userId;
+        this.setUserId(cart.userId);
     }
 
     public Cart(String userId) {
-        this.userId = userId;
+        this.setUserId(userId);
     }
 
     public String getId() {
@@ -40,7 +42,7 @@ public class Cart {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = (id == null) ? this.id : (id.isEmpty() ? this.id : id);
     }
 
     public String getUserId() {
@@ -48,7 +50,7 @@ public class Cart {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = (userId == null) ? this.userId : (userId.isEmpty() ? this.userId : userId);
     }
 
     @Override

@@ -10,4 +10,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, String> {
 
     List<Product> findByUserId(String userId);
+
+    List<Product> findByBarcode(String barcode);
+
+    Product findByIdAndUserId(String id, String userId);
 }

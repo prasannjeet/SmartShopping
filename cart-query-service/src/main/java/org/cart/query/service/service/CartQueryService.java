@@ -6,6 +6,7 @@ import org.cart.domain.service.repository.CartRepository;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class CartQueryService {
@@ -26,7 +27,9 @@ public class CartQueryService {
     }
 
     public CartDao findByUserId(String userId) {
-        Cart cart = Optional.of(this.cartRepository.findByUserId(userId)).get();
+        Cart cart = Optional
+                .of(this.cartRepository.findByUserId(userId))
+                .orElseThrow(() -> new NoSuchElementException("No cart with userId = " + userId));
         return new CartDao(cart, this.productQueryService.findByUserId(cart.getUserId()));
     }
 

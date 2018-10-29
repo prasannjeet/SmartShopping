@@ -7,27 +7,29 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "product")
 public class Product {
 
     @Id
     private String id;
 
     @NotBlank
-    @Column(nullable = false, unique = true)
+    @Column(name = "barcode", nullable = false)
     private String barcode;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "brand", nullable = false)
     private String brand;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "quantity", nullable = false)
     private String quantity;
 
     @NotBlank
@@ -39,37 +41,37 @@ public class Product {
     }
 
     public Product(String id, String barcode, String name, String brand, String quantity, String userId) throws Exception {
-        this.id = id;
-        this.barcode = barcode;
-        this.name = name;
-        this.brand = brand;
+        this.setId(id);
+        this.setBarcode(barcode);
+        this.setName(name);
+        this.setBrand(brand);
         this.setQuantity(quantity);
-        this.userId = userId;
+        this.setUserId(userId);
     }
 
     public Product(Product product) throws Exception {
-        this.barcode = product.barcode;
-        this.name = product.name;
-        this.brand = product.brand;
-        this.setQuantity(product.getQuantity());
-        this.userId = product.userId;
+        this.setBarcode(product.barcode);
+        this.setName(product.name);
+        this.setBrand(product.brand);
+        this.setQuantity(product.quantity);
+        this.setUserId(product.userId);
     }
 
     public Product(String barcode, String name, String brand, String quantity, String userId) throws Exception {
-        this.barcode = barcode;
-        this.name = name;
-        this.brand = brand;
+        this.setBarcode(barcode);
+        this.setName(name);
+        this.setBrand(brand);
         this.setQuantity(quantity);
-        this.userId = userId;
+        this.setUserId(userId);
     }
 
     public Product(String id, Product product) {
-        this.id = id;
-        this.barcode = product.barcode;
-        this.name = product.name;
-        this.brand = product.brand;
+        this.setId(id);
+        this.setBarcode(product.barcode);
+        this.setName(product.name);
+        this.setBrand(product.brand);
         this.quantity = product.quantity;
-        this.userId = product.userId;
+        this.setUserId(product.userId);
     }
 
     public String getId() {
@@ -77,7 +79,7 @@ public class Product {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = (id == null) ? this.id : (id.isEmpty() ? this.id : id);
     }
 
     public String getBarcode() {
@@ -85,15 +87,15 @@ public class Product {
     }
 
     public void setBarcode(String barcode) {
-        this.barcode = barcode;
+        this.barcode = (barcode == null) ? this.barcode : (barcode.isEmpty() ? this.barcode : barcode);
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = (name == null) ? this.name : (name.isEmpty() ? this.name : name);
     }
 
     public String getBrand() {
@@ -101,7 +103,7 @@ public class Product {
     }
 
     public void setBrand(String brand) {
-        this.brand = brand;
+        this.brand = (brand == null) ? this.brand : (brand.isEmpty() ? this.brand : brand);
     }
 
     public String getQuantity() {
@@ -112,7 +114,7 @@ public class Product {
         if (Double.parseDouble(quantity) <= 0) {
             throw new Exception("Quantity value must be > 0");
         }
-        this.quantity = quantity;
+        this.quantity = (quantity == null) ? this.quantity : (quantity.isEmpty() ? this.quantity : quantity);
     }
 
     public String getUserId() {
@@ -120,7 +122,7 @@ public class Product {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = (userId == null) ? this.userId : (userId.isEmpty() ? this.userId : userId);
     }
 
     @Override
