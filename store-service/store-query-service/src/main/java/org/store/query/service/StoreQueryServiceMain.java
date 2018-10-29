@@ -2,10 +2,12 @@ package org.store.query.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.store.query.service.service.StoreQueryService;
 
 @Configuration
 @Import(value = { MyConfiguration.class})
@@ -20,5 +22,8 @@ public class StoreQueryServiceMain {
 @Configuration
 @ComponentScan(basePackages = "{org.store.query.service}")
 class MyConfiguration extends WebMvcConfigurerAdapter {
-
+	@Bean
+    public StoreQueryService cartQueryService() {
+        return new StoreQueryService();
+}
 }
