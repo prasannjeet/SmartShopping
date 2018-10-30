@@ -35,4 +35,11 @@ public class Controller {
                 .save(store)
                 .thenApply(entity -> new StoreDao(entity.getEntityId(), entity.getAggregate().getStore()));
     }
+    
+    @DeleteMapping(value = "/{storeName}")
+    public CompletableFuture<ResponseEntity<?>> deleteStore(@NotBlank @PathVariable String storeName) {
+        return this.storeCommandService
+                .delete(this.storeQueryService.findByStoreName(storeName).getId())
+                .thenApply(entity -> ResponseEntity.ok().build());
+}
 }
