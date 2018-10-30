@@ -1,0 +1,19 @@
+usercommandservice:
+  build: ./user-command-service/
+  ports:
+  - 7081:8080
+
+userqueryservice:
+  build: ./user-query-service/
+  ports:
+  - 7082:8080
+
+cartcommandservice:
+  build: ./cart-command-service/
+  ports:
+  - 7083:8080
+
+cartqueryservice:
+  build: ./cart-query-service/
+  ports:
+  - 7084:8080

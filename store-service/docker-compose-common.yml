@@ -1,9 +1,0 @@
-storecommandservice:
-  build: ./store-command-service/
-  ports:
-  - 8081:8080
-
-storequeryservice:
-  build: ./store-query-service/
-  ports:
-  - 8082:8080
