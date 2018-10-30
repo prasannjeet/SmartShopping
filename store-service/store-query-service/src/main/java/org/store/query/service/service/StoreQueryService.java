@@ -12,17 +12,15 @@ import java.util.Optional;
 public class StoreQueryService {
 
     private StoreRepository storeRepository;
-    private ProductQueryService productQueryService;
 
-    public StoreQueryService(StoreRepository storeRepository, ProductQueryService productQueryService) {
+    public StoreQueryService(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
-        this.productQueryService = productQueryService;
     }
 
     public List<StoreDao> findAll() {
         List<Store> stores = this.storeRepository.findAll();
         List<StoreDao> storeDaos = new LinkedList<>();
-        stores.forEach(store -> storeDaos.add(new StoreDao(store, this.productQueryService.findByUserId(store.getUserId()))));
+        stores.forEach(store -> storeDaos.add(new StoreDao(store.getUserId(), store)));
         return storeDaos;
     }
 
@@ -30,7 +28,7 @@ public class StoreQueryService {
         Store store = Optional
                 .of(this.storeRepository.findByUserId(userId))
                 .orElseThrow(() -> new NoSuchElementException("No store with userId = " + userId));
-        return new StoreDao(store, this.productQueryService.findByUserId(store.getUserId()));
+        return new StoreDao(store.getUserId(), store);
     }
 
     public void save(Store store) {

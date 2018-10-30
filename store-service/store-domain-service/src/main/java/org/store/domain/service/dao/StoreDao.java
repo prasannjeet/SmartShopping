@@ -9,7 +9,6 @@ public class StoreDao {
 
     private String id;
     private String userId;
-    private List<ProductDao> products;
 
     public StoreDao() {
 
@@ -18,13 +17,6 @@ public class StoreDao {
     public StoreDao(String id, Store store) {
         this.id = id;
         this.userId = store.getUserId();
-        this.products = new LinkedList<>();
-    }
-
-    public StoreDao(Store store, List<ProductDao> products) {
-        this.id = store.getId();
-        this.userId = store.getUserId();
-        this.products = products;
     }
 
     public String getId() {
@@ -41,13 +33,5 @@ public class StoreDao {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public List<ProductDao> getProducts() {
-        return this.products;
-    }
-
-    public void setProducts(List<ProductDao> products) {
-        this.products = products;
     }
 }
