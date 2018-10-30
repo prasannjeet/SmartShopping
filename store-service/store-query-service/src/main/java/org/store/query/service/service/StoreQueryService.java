@@ -23,6 +23,11 @@ public class StoreQueryService {
         stores.forEach(store -> storeDaos.add(new StoreDao(store)));
         return storeDaos;
     }
+    
+	public List<StoreDao> findNearby(String position) {
+		return findAll();
+		//TODO: filter by location
+	}
 
     public StoreDao findByStoreName(String storeName) {
         Store store = Optional
