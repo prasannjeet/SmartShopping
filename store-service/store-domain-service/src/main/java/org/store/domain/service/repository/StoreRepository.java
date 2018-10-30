@@ -7,5 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, String> {
 
-    Store findById(String id);
+    Store findByUserId(String userId);
+
+    default boolean isDuplicate(String userId) {
+        return this.findByUserId(userId) != null;
+    }
 }

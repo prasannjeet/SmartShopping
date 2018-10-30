@@ -12,38 +12,25 @@ import java.util.Optional;
 public class StoreQueryService {
 
     private StoreRepository storeRepository;
+    private ProductQueryService productQueryService;
 
-    public StoreQueryService(StoreRepository storeRepository) {
+    public StoreQueryService(StoreRepository storeRepository, ProductQueryService productQueryService) {
         this.storeRepository = storeRepository;
+        this.productQueryService = productQueryService;
     }
 
     public List<StoreDao> findAll() {
         List<Store> stores = this.storeRepository.findAll();
         List<StoreDao> storeDaos = new LinkedList<>();
-        stores.forEach(store -> storeDaos.add(new StoreDao(store)));
+        stores.forEach(store -> storeDaos.add(new StoreDao(store, this.productQueryService.findByUserId(store.getUserId()))));
         return storeDaos;
     }
-    
-    public StoreDao findByStoreId(String storeId) {
-    	/*
+
+    public StoreDao findByUserId(String userId) {
         Store store = Optional
-                .of(this.storeRepository.findById(storeId))
-                .orElseThrow(() -> new NoSuchElementException("No store with id = " + storeId));*/
-    	
-    	Store store = this.storeRepository.findById(storeId);
-    	if (store == null)
-    		{
-    			StoreDao s = new StoreDao();
-    			s.setId("");
-    			s.setName("");
-    			s.setWebsite("");
-    			return s;
-    		}
-        return new StoreDao(store);
-    }
-    
-    public List<StoreDao> findNearby() {
-        return findAll();
+                .of(this.storeRepository.findByUserId(userId))
+                .orElseThrow(() -> new NoSuchElementException("No store with userId = " + userId));
+        return new StoreDao(store, this.productQueryService.findByUserId(store.getUserId()));
     }
 
     public void save(Store store) {

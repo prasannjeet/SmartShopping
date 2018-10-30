@@ -3,9 +3,12 @@ package org.store.query.service;
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.store.domain.service.repository.StoreRepository;
+import org.store.domain.service.repository.ProductRepository;
 import org.store.query.service.StoreQueryServiceMain.MyConfiguration;
 import org.store.query.service.service.StoreQueryService;
+import org.store.query.service.service.ProductQueryService;
 import org.store.query.service.subscriber.StoreQueryEventSubscriber;
+import org.store.query.service.subscriber.ProductQueryEventSubscriber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -38,8 +41,18 @@ public class StoreQueryServiceMain {
         }
 
         @Bean
-        public StoreQueryService storeQueryService(StoreRepository storeRepository) {
-            return new StoreQueryService(storeRepository);
+        public ProductQueryEventSubscriber productQueryEventSubscriber(ProductQueryService productQueryService) {
+            return new ProductQueryEventSubscriber(productQueryService);
+        }
+
+        @Bean
+        public StoreQueryService storeQueryService(StoreRepository storeRepository, ProductQueryService productQueryService) {
+            return new StoreQueryService(storeRepository, productQueryService);
+        }
+
+        @Bean
+        public ProductQueryService productQueryService(ProductRepository productRepository) {
+            return new ProductQueryService(productRepository);
         }
     }
 }

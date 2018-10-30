@@ -1,69 +1,58 @@
 package org.store.domain.service.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Entity
 @Table(name = "store")
 public class Store {
+
     @Id
     private String id;
-    
+
     @NotBlank
-    @Column(name = "name", nullable = false)
-    private String name;
-    
-    @NotBlank
-    @Column(name = "website", nullable = false)
-    private String website;
+    @Column(name = "user_id", unique = true, nullable = false)
+    private String userId;
 
     public Store() {
 
     }
 
-    public Store(String id, String name, String website) {
+    public Store(String id, String userId) {
         this.setId(id);
-        this.setName(name);
-        this.setWebsite(website);
+        this.setUserId(userId);
     }
-    
-    public Store(Store store) {
-    	this.setId(id);
-        this.setName(name);
-        this.setWebsite(website);
-	}
 
-	public String getId() {
+    public Store(Store store) {
+        this.setUserId(store.userId);
+    }
+
+    public Store(String userId) {
+        this.setUserId(userId);
+    }
+
+    public String getId() {
         return this.id;
     }
 
-    public void setId(String id) {  
+    public void setId(String id) {
         this.id = (id == null) ? this.id : (id.isEmpty() ? this.id : id);
     }
 
-    public String getName() {
-        return this.name;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setName(String name) {
-        this.name = (name == null) ? this.name : (name.isEmpty() ? this.name : name);
-    }
-    
-    public String getWebsite() {
-        return this.website;
+    public void setUserId(String userId) {
+        this.userId = (userId == null) ? this.userId : (userId.isEmpty() ? this.userId : userId);
     }
 
-    public void setWebsite(String website) {
-        this.website = (website == null) ? this.website : (website.isEmpty() ? this.website : website);
-    }
-    
     @Override
     public String toString() {
         try {

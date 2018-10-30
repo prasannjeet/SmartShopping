@@ -7,11 +7,18 @@ import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.store.command.service.StoreCommandServiceMain.MyConfiguration;
 import org.store.command.service.aggregate.StoreAggregate;
 import org.store.command.service.aggregate.StoreBulkDeleteAggregate;
+import org.store.command.service.aggregate.ProductAggregate;
+import org.store.command.service.aggregate.ProductBulkDeleteAggregate;
 import org.store.command.service.command.StoreCommand;
+import org.store.command.service.command.ProductCommand;
 import org.store.command.service.service.StoreCommandService;
 import org.store.command.service.service.StoreQueryService;
+import org.store.command.service.service.ProductCommandService;
+import org.store.command.service.service.ProductQueryService;
 import org.store.command.service.subscriber.StoreCommandEventSubscriber;
+import org.store.command.service.subscriber.ProductCommandEventSubscriber;
 import org.store.domain.service.repository.StoreRepository;
+import org.store.domain.service.repository.ProductRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -45,9 +52,21 @@ public class StoreCommandServiceMain {
         }
 
         @Bean
+        public AggregateRepository<ProductAggregate, ProductCommand>
+        productAggregateRepository(EventuateAggregateStore eventuateAggregateStore) {
+            return new AggregateRepository<>(ProductAggregate.class, eventuateAggregateStore);
+        }
+
+        @Bean
         public AggregateRepository<StoreBulkDeleteAggregate, StoreCommand>
         storeBulkDeleteAggregateRepository(EventuateAggregateStore eventuateAggregateStore) {
             return new AggregateRepository<>(StoreBulkDeleteAggregate.class, eventuateAggregateStore);
+        }
+
+        @Bean
+        public AggregateRepository<ProductBulkDeleteAggregate, ProductCommand>
+        productBulkDeleteAggregateRepository(EventuateAggregateStore eventuateAggregateStore) {
+            return new AggregateRepository<>(ProductBulkDeleteAggregate.class, eventuateAggregateStore);
         }
 
         @Bean
@@ -57,13 +76,29 @@ public class StoreCommandServiceMain {
         }
 
         @Bean
+        public ProductCommandService productCommandService(AggregateRepository<ProductAggregate, ProductCommand> aggregateRepository,
+                                                           AggregateRepository<ProductBulkDeleteAggregate, ProductCommand> bulkDeleteAggregateRepository) {
+            return new ProductCommandService(aggregateRepository, bulkDeleteAggregateRepository);
+        }
+
+        @Bean
         public StoreQueryService storeQueryService(StoreRepository storeRepository) {
             return new StoreQueryService(storeRepository);
         }
 
         @Bean
+        public ProductQueryService productQueryService(ProductRepository productRepository) {
+            return new ProductQueryService(productRepository);
+        }
+
+        @Bean
         public StoreCommandEventSubscriber storeCommandEventSubscriber() {
             return new StoreCommandEventSubscriber();
+        }
+
+        @Bean
+        public ProductCommandEventSubscriber productCommandEventSubscriber() {
+            return new ProductCommandEventSubscriber();
         }
     }
 }

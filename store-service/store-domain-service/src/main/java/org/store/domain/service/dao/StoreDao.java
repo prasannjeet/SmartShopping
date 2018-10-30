@@ -2,26 +2,29 @@ package org.store.domain.service.dao;
 
 import org.store.domain.service.model.Store;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class StoreDao {
-	private String id;
-    private String name;
-    private String website;
-    
+
+    private String id;
+    private String userId;
+    private List<ProductDao> products;
 
     public StoreDao() {
 
     }
 
-    public StoreDao(Store store){
-    	this.id = store.getId();
-        this.name = store.getName();
-        this.website = store.getWebsite();
-    }
-    
     public StoreDao(String id, Store store) {
         this.id = id;
-        this.name = store.getName();
-        this.website = store.getWebsite();
+        this.userId = store.getUserId();
+        this.products = new LinkedList<>();
+    }
+
+    public StoreDao(Store store, List<ProductDao> products) {
+        this.id = store.getId();
+        this.userId = store.getUserId();
+        this.products = products;
     }
 
     public String getId() {
@@ -32,19 +35,19 @@ public class StoreDao {
         this.id = id;
     }
 
-    public String getName() {
-		return name;
-	}
+    public String getUserId() {
+        return this.userId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public String getWebsite() {
-		return website;
-	}
+    public List<ProductDao> getProducts() {
+        return this.products;
+    }
 
-	public void setWebsite(String website) {
-		this.website = website;
-	}
+    public void setProducts(List<ProductDao> products) {
+        this.products = products;
+    }
 }

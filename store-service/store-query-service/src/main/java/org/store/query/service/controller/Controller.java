@@ -24,16 +24,10 @@ public class Controller {
         return CompletableFuture
                 .supplyAsync(() -> this.storeQueryService.findAll());
     }
-    
-    @GetMapping("/{storeId}")
-    public CompletableFuture<StoreDao> findByUserId(@PathVariable @NotBlank String storeId) {
+
+    @GetMapping("/{userId}")
+    public CompletableFuture<StoreDao> findByUserId(@PathVariable @NotBlank String userId) {
         return CompletableFuture
-                .supplyAsync(() -> this.storeQueryService.findByStoreId(storeId));
-    }
-    
-    @GetMapping("/nearby")
-    public CompletableFuture<List<StoreDao>> findNearby() {
-        return CompletableFuture
-                .supplyAsync(() -> this.storeQueryService.findNearby());
+                .supplyAsync(() -> this.storeQueryService.findByUserId(userId));
     }
 }
