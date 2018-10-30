@@ -33,24 +33,14 @@ public class Store {
         this.setName(name);
         this.setWebsite(website);
     }
-
-    public Store(String name, String website) {
-        this.setName(name);
-        this.setWebsite(website);
-    }
     
     public Store(Store store) {
+    	this.setId(id);
         this.setName(name);
-        this.setWebsite(website);    
-    }
-    
-    public Store(String id, Store store) {
-        this.setId(id);
-        this.setName(name);
-        this.setWebsite(website);    
-    }
-    
-    public String getId() {
+        this.setWebsite(website);
+	}
+
+	public String getId() {
         return this.id;
     }
 

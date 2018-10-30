@@ -23,6 +23,28 @@ public class StoreQueryService {
         stores.forEach(store -> storeDaos.add(new StoreDao(store)));
         return storeDaos;
     }
+    
+    public StoreDao findByStoreId(String storeId) {
+    	/*
+        Store store = Optional
+                .of(this.storeRepository.findById(storeId))
+                .orElseThrow(() -> new NoSuchElementException("No store with id = " + storeId));*/
+    	
+    	Store store = this.storeRepository.findById(storeId);
+    	if (store == null)
+    		{
+    			StoreDao s = new StoreDao();
+    			s.setId("");
+    			s.setName("");
+    			s.setWebsite("");
+    			return s;
+    		}
+        return new StoreDao(store);
+    }
+    
+    public List<StoreDao> findNearby() {
+        return findAll();
+    }
 
     public void save(Store store) {
         this.storeRepository.save(store);

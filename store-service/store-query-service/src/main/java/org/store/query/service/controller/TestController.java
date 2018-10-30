@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/store", produces = "application/json")
+@RequestMapping(value = "/store/test", produces = "application/json")
 @ResponseBody
 public class TestController {
 
 	int counter = 0;
 	
-	@GetMapping(value = "/test/{message}")
+	@GetMapping(value = "/{message}")
 	public TestEntity Test(@PathVariable String message){
 		return new TestEntity(message, ++counter);
 	}

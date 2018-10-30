@@ -24,7 +24,7 @@ public class Controller {
 
     @PostMapping(consumes = "application/json")
     public CompletableFuture<StoreDao> createStore(@RequestBody @Valid Store store) throws Exception {
-        return this.storeCommandService
+    	return this.storeCommandService
                 .save(store)
                 .thenApply(entity -> new StoreDao(entity.getEntityId(), entity.getAggregate().getStore()));
     }
