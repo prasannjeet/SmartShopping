@@ -7,6 +7,7 @@ public class StoreDao {
     private String id;
     private String storeName;
     private String website;
+    private String location;
 
     public StoreDao() {
 
@@ -16,6 +17,7 @@ public class StoreDao {
         this.id = id;
         this.storeName = store.getStoreName();
         this.website = store.getWebsite();
+        this.location = store.getLocation();
     }
     
     public StoreDao(Store store){
@@ -47,4 +49,12 @@ public class StoreDao {
 	public void setWebsite(String website) {
 		this.website = website;
 	}
+
+	public String getLocation() {
+        return location;
+    }
+
+	public void setLocation(String location) {
+        this.location = location;
+    }
 }

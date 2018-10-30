@@ -23,25 +23,32 @@ public class Store {
     @NotBlank
     @Column(name = "website", nullable = false)
     private String website;
+
+    @NotBlank
+    @Column(name = "location", nullable = false)
+    private String location;
     
     public Store() {
 
     }
 
-	public Store(String id, String storeName, String website) {
+	public Store(String id, String storeName, String website, String location) {
         this.setId(id);
         this.setStoreName(storeName);
         this.setWebsite(website);
+        this.setLocation(location);
     }
 
     public Store(Store store) {
         this.setStoreName(store.storeName);
         this.setWebsite(store.website);
+        this.setLocation(store.location);
     }
 
-    public Store(String storeName, String website) {
+    public Store(String storeName, String website, String location) {
     	this.setStoreName(storeName);
         this.setWebsite(website);
+        this.setLocation(location);
     }
 
     public String getId() {
@@ -67,6 +74,14 @@ public class Store {
 	public void setWebsite(String website) {
 		this.website = (website == null) ? this.website : (website.isEmpty() ? this.website : website);
 	}
+
+	public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = (location == null) ? this.location : (location.isEmpty() ? this.location : location);
+    }
 
     @Override
     public String toString() {
