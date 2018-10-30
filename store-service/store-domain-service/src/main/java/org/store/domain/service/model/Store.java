@@ -17,24 +17,24 @@ public class Store {
     private String id;
 
     @NotBlank
-    @Column(name = "user_id", unique = true, nullable = false)
-    private String userId;
+    @Column(name = "store_name", unique = true, nullable = false)
+    private String storeName;
 
     public Store() {
 
     }
 
-    public Store(String id, String userId) {
+    public Store(String id, String storeName) {
         this.setId(id);
-        this.setUserId(userId);
+        this.setStoreName(storeName);
     }
 
     public Store(Store store) {
-        this.setUserId(store.userId);
+        this.setStoreName(store.storeName);
     }
 
-    public Store(String userId) {
-        this.setUserId(userId);
+    public Store(String storeName) {
+        this.setStoreName(storeName);
     }
 
     public String getId() {
@@ -45,12 +45,12 @@ public class Store {
         this.id = (id == null) ? this.id : (id.isEmpty() ? this.id : id);
     }
 
-    public String getUserId() {
-        return this.userId;
+    public String getStoreName() {
+        return this.storeName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = (userId == null) ? this.userId : (userId.isEmpty() ? this.userId : userId);
+    public void setStoreName(String storeName) {
+        this.storeName = (storeName == null) ? this.storeName : (storeName.isEmpty() ? this.storeName : storeName);
     }
 
     @Override

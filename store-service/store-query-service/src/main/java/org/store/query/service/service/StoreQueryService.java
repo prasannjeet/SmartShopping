@@ -20,15 +20,15 @@ public class StoreQueryService {
     public List<StoreDao> findAll() {
         List<Store> stores = this.storeRepository.findAll();
         List<StoreDao> storeDaos = new LinkedList<>();
-        stores.forEach(store -> storeDaos.add(new StoreDao(store.getUserId(), store)));
+        stores.forEach(store -> storeDaos.add(new StoreDao(store)));
         return storeDaos;
     }
 
-    public StoreDao findByUserId(String userId) {
+    public StoreDao findByStoreName(String storeName) {
         Store store = Optional
-                .of(this.storeRepository.findByUserId(userId))
-                .orElseThrow(() -> new NoSuchElementException("No store with userId = " + userId));
-        return new StoreDao(store.getUserId(), store);
+                .of(this.storeRepository.findByStoreName(storeName))
+                .orElseThrow(() -> new NoSuchElementException("No store with storeName = " + storeName));
+        return new StoreDao(store);
     }
 
     public void save(Store store) {

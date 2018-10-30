@@ -28,8 +28,8 @@ public class Controller {
 
     @PostMapping(consumes = "application/json")
     public CompletableFuture<StoreDao> createStore(@RequestBody @Valid Store store) throws Exception {
-        if (this.storeQueryService.isDuplicate(store.getUserId())) {
-            throw new Exception("Duplicate userId = " + store.getUserId());
+        if (this.storeQueryService.isDuplicate(store.getStoreName())) {
+            throw new Exception("Duplicate storeName = " + store.getStoreName());
         }
         return this.storeCommandService
                 .save(store)

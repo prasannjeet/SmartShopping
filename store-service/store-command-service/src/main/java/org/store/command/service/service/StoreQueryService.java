@@ -14,13 +14,13 @@ public class StoreQueryService {
         this.storeRepository = storeRepository;
     }
 
-    public Store findByUserId(String userId) {
+    public Store findByStoreName(String storeName) {
         return Optional
-                .of(this.storeRepository.findByUserId(userId))
-                .orElseThrow(() -> new NoSuchElementException("No store with userId = " + userId));
+                .of(this.storeRepository.findByStoreName(storeName))
+                .orElseThrow(() -> new NoSuchElementException("No store with storeName = " + storeName));
     }
 
-    public boolean isDuplicate(String userId) {
-        return this.storeRepository.isDuplicate(userId);
+    public boolean isDuplicate(String storeName) {
+        return this.storeRepository.isDuplicate(storeName);
     }
 }

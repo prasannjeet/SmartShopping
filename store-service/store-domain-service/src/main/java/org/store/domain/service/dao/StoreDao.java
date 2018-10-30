@@ -8,7 +8,7 @@ import java.util.List;
 public class StoreDao {
 
     private String id;
-    private String userId;
+    private String storeName;
 
     public StoreDao() {
 
@@ -16,7 +16,12 @@ public class StoreDao {
 
     public StoreDao(String id, Store store) {
         this.id = id;
-        this.userId = store.getUserId();
+        this.storeName = store.getStoreName();
+    }
+    
+    public StoreDao(Store store){
+    	this.id = store.getId();
+    	this.storeName = store.getStoreName();
     }
 
     public String getId() {
@@ -27,11 +32,11 @@ public class StoreDao {
         this.id = id;
     }
 
-    public String getUserId() {
-        return this.userId;
+    public String getStoreName() {
+        return this.storeName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 }

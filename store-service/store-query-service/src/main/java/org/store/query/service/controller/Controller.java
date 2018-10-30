@@ -25,9 +25,9 @@ public class Controller {
                 .supplyAsync(() -> this.storeQueryService.findAll());
     }
 
-    @GetMapping("/{userId}")
-    public CompletableFuture<StoreDao> findByUserId(@PathVariable @NotBlank String userId) {
+    @GetMapping("/{storeName}")
+    public CompletableFuture<StoreDao> findByStoreName(@PathVariable @NotBlank String storeName) {
         return CompletableFuture
-                .supplyAsync(() -> this.storeQueryService.findByUserId(userId));
+                .supplyAsync(() -> this.storeQueryService.findByStoreName(storeName));
     }
 }
