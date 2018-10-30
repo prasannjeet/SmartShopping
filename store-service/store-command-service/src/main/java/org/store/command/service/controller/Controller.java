@@ -36,10 +36,20 @@ public class Controller {
                 .thenApply(entity -> new StoreDao(entity.getEntityId(), entity.getAggregate().getStore()));
     }
     
+    @PutMapping(value = "/{storeName}", consumes = "application/json")
+    public CompletableFuture<StoreDao> updateProductsByBarcode(@PathVariable String storeName, @RequestBody Store store) throws Exception {
+    		Store existingStore = this.storeQueryService.findByStoreName(storeName);
+    		existingStore.setStoreName(store.getStoreName());
+    		existingStore.setWebsite(store.getWebsite());
+    		return this.storeCommandService
+    				.update(this.storeQueryService.findByStoreName(storeName).getId(), existingStore)
+    				.thenApply(entity -> new StoreDao(entity.getEntityId(), entity.getAggregate().getStore()));
+}
+    
     @DeleteMapping(value = "/{storeName}")
     public CompletableFuture<ResponseEntity<?>> deleteStore(@NotBlank @PathVariable String storeName) {
         return this.storeCommandService
                 .delete(this.storeQueryService.findByStoreName(storeName).getId())
                 .thenApply(entity -> ResponseEntity.ok().build());
-}
+    }
 }

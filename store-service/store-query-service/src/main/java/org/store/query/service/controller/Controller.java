@@ -24,6 +24,12 @@ public class Controller {
         return CompletableFuture
                 .supplyAsync(() -> this.storeQueryService.findAll());
     }
+    
+    @GetMapping("/nearby/{position}")
+    public CompletableFuture<List<StoreDao>> findNearby(@PathVariable @NotBlank String position ) {
+        return CompletableFuture
+                .supplyAsync(() -> this.storeQueryService.findNearby(position));
+    }
 
     @GetMapping("/{storeName}")
     public CompletableFuture<StoreDao> findByStoreName(@PathVariable @NotBlank String storeName) {
