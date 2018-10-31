@@ -11,11 +11,11 @@ import java.util.List;
 
 import org.user.command.service.command.CreateUserCommand;
 import org.user.command.service.command.DeleteUserCommand;
-import org.user.command.service.command.UpdateUserCommand;
+
 import org.user.command.service.command.UserCommand;
 import org.user.domain.service.event.UserCreatedEvent;
 import org.user.domain.service.event.UserDeletedEvent;
-import org.user.domain.service.event.UserUpdatedEvent;
+
 import org.user.domain.service.model.User;
 
 public class UserAggregate extends ReflectiveMutableCommandProcessingAggregate<UserAggregate, UserCommand> {
@@ -31,9 +31,6 @@ public class UserAggregate extends ReflectiveMutableCommandProcessingAggregate<U
 		return this.deleted ? Collections.emptyList() : EventUtil.events(new UserDeletedEvent());
 	}
 	
-	public List<Event> process (UpdateUserCommand command){
-		return this.deleted ? Collections.emptyList() : EventUtil.events(new UserUpdatedEvent(command.getUser()));
-	}
 	public void apply(UserCreatedEvent event) {
 		this.user=event.getUser();
 	}
@@ -41,9 +38,7 @@ public class UserAggregate extends ReflectiveMutableCommandProcessingAggregate<U
 		this.deleted=true;
 		
 	}
-	public void apply(UserUpdatedEvent event) {
-		this.user=event.getUser();
-	}
+
 	public User getUser() {
 		return this.user;
 	}

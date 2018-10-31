@@ -8,7 +8,7 @@ import org.user.command.service.aggregate.UserBulkDeleteAggregate;
 import org.user.command.service.command.CreateUserCommand;
 import org.user.command.service.command.DeleteUserCommand;
 import org.user.command.service.command.DeleteUsersCommand;
-import org.user.command.service.command.UpdateUserCommand;
+
 import org.user.command.service.command.UserCommand;
 import org.user.domain.service.model.User;
 
@@ -31,9 +31,7 @@ public class UserCommandService {
 		return this.aggregateRepository.save(new CreateUserCommand(user));
 	}
 	
-	public CompletableFuture<EntityWithIdAndVersion<UserAggregate>> update (String id, User user){
-		return this.aggregateRepository.update(id, new UpdateUserCommand(id,user));
-	}
+	
 	public CompletableFuture<EntityWithIdAndVersion<UserAggregate>> delete(String id){
 		return this.aggregateRepository.update(id,new DeleteUserCommand());
 	}

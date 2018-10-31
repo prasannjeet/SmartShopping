@@ -14,7 +14,7 @@ import org.user.command.service.aggregate.UserAggregate;
 import org.user.command.service.aggregate.UserBulkDeleteAggregate;
 import org.user.command.service.command.UserCommand;
 import org.user.command.service.service.UserCommandService;
-import org.user.command.service.service.UserQueryService;
+
 import org.user.command.service.subscriber.UserCommandEventSubscriber;
 import org.user.domain.service.repository.UserRepository;
 
@@ -55,10 +55,7 @@ public class UserCommandServiceMain {
 			return new UserCommandService(aggregateRepository, bulkDeleteAggregateRepository);
 			
 		}
-		@Bean
-		public UserQueryService userQueryService(UserRepository userRepository) {
-			return new UserQueryService(userRepository);
-		}
+		
 		@Bean
 		public UserCommandEventSubscriber userCommandEventSubscriber() {
 			return new UserCommandEventSubscriber();

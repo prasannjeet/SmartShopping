@@ -15,39 +15,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.user.command.service.service.UserCommandService;
-import org.user.command.service.service.UserQueryService;
+
 import org.user.domain.service.model.User;
-import org.user.domain.service.userDao.UserDao;
+
 
 @RestController
-@RequestMapping(value="/users",produces="application/json")
+@RequestMapping(value = "/users", produces = "application/json")
 @ResponseBody
-public class controller {
-	
-	private UserCommandService userCommandService;
-	private UserQueryService userQueryService;
-	
-	public controller(UserCommandService userCommandService, UserQueryService userQueryService) {
-		this.userCommandService=userCommandService;
-		this.userQueryService=userQueryService;
-	}	
-	@PostMapping(consumes = "application/json")
-	public CompletableFuture<UserDao> createUser(@RequestBody @Valid User user) throws Exception{
-		if (this.userQueryService.IsDuplicate(user.getUserId())) {
-			throw new Exception ("Duplicate UserId= "+user.getUserId());
-		}
-		return this.userCommandService
-				.save(user)
-				.thenApply(entity -> new UserDao(entity.getEntityId(),entity.getAggregate().getUser()));
-	}
-	
-	@DeleteMapping (value="/{userId}")
-	public CompletableFuture<ResponseEntity<?>> deleteUser (@NotBlank @PathVariable String userId){
-		return this.userCommandService
-				.delete(this.userQueryService.findByUserId(userId).getId())
-				.thenApply(entity -> ResponseEntity.ok().build());
-	
-	}
-	
-}
+public class controller  {
 
+    private UserCommandService commandService;
+
+    public controller (UserCommandService commandService) {
+        this.commandService = commandService;
+        
+    }
+
+    @PostMapping(consumes = "application/json")
+    public CompletableFuture<User> createUser(@RequestBody @Valid User user) throws Exception {
+        return this.commandService
+                .save(user)
+                .thenApply(entity -> new User(entity.getEntityId(), entity.getAggregate().getUser()));
+    }
+
+    @DeleteMapping("/{id}")
+    public CompletableFuture<User> deleteUserById(@NotBlank @PathVariable String id) {
+        return this.commandService
+                .delete(id)
+                .thenApply(entity -> new User(entity.getEntityId(), entity.getAggregate().getUser()));
+}
+}

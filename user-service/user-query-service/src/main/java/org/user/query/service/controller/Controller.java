@@ -1,5 +1,6 @@
 package org.user.query.service.controller;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -17,11 +18,17 @@ public class Controller {
 		this.userQueryService=userQueryService;
 	}
 	
+	@GetMapping
+	public CompletableFuture<List<User>> findAllUsers() {
+        return CompletableFuture
+                .supplyAsync(() -> this.userQueryService.findAllUsers());
+}
 	
-//	@GetMapping("/{userId}")
-//	public CompletableFuture<User> findByUserId(@PathVariable @NotBlank String userId) {
-//        return CompletableFuture
-//                .supplyAsync(() -> this.userQueryService.findByUserId(userId));
-//                }
+	
+	@GetMapping("/{id}")
+    public CompletableFuture<User> findUserById(@PathVariable @NotBlank String id) {
+        return CompletableFuture
+                .supplyAsync(() -> this.userQueryService.findUserById(id));
+}
 
 }

@@ -7,11 +7,12 @@ import org.user.domain.service.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User , String>{
 	
-	User findByUserId(String userId);
+	User findByUsername(String username);
 	
 	
 	default boolean isDuplicate (String userId) {
-		return this.findByUserId(userId) !=null;
+		return this.findByUsername(userId) !=null;
 	}
+	
 
 }

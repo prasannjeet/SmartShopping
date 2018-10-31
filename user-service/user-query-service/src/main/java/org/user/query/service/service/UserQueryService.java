@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.user.domain.service.model.User;
 import org.user.domain.service.repository.UserRepository;
-import org.user.domain.service.userDao.UserDao;
+
 
 public class UserQueryService {
 	
@@ -28,13 +28,15 @@ public class UserQueryService {
 		this.userRepository.deleteAll();
 	}
 	
-//	public List<UserDao> findAll(){
-//		List<User> users=this.userRepository.findAll();
-//		List<UserDao> usersDao=new LinkedList<>();
-//		users.forEach(user -> usersDao.add(new UserDao(user)));
-//		return usersDao;
-//	}
-//	
+	 public User findUserById(String id) {
+	        return Optional
+	                .of(this.userRepository.findOne(id))
+	                .orElseThrow(() -> new NoSuchElementException("No user with id = " + id));
+	}
+
+	    public List<User> findAllUsers() {
+	        return this.userRepository.findAll();
+	}
 	
 	
 

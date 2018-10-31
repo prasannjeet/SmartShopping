@@ -4,7 +4,7 @@ DROP table IF EXISTS user;
 
 create table user (
   id varchar(255) PRIMARY KEY,
-  userId VARCHAR (255),
+  username VARCHAR (255),
   password VARCHAR (255),
   deleted BOOLEAN
 );
