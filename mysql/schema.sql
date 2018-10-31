@@ -9,7 +9,7 @@ CREATE DATABASE productservice;
 CREATE DATABASE storeservice;
 
 
-USE users;
+USE userservice;
 
 DROP TABLE IF EXISTS user;
 
@@ -21,7 +21,7 @@ CREATE TABLE user (
 );
 
 
-USE carts;
+USE cartservice;
 
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS product;
@@ -40,5 +40,16 @@ CREATE TABLE product (
   deleted BOOLEAN
 );
 
+
+USE productservice;
+
+DROP table IF EXISTS product;
+
+create table product (
+  barcode VARCHAR(255) PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  weightable BOOLEAN NOT NULL,
+  deleted BOOLEAN
+);
 
 SHOW DATABASES;
