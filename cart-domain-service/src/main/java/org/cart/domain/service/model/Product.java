@@ -13,19 +13,19 @@ public class Product {
 
     @Id
     @NotBlank
-    @Column(name = "barcode", nullable = false)
+    @Column(nullable = false)
     private String barcode;
 
     @NotBlank
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @NotBlank
-    @Column(name = "brand", nullable = false)
+    @Column(nullable = false)
     private String brand;
 
     @NotBlank
-    @Column(name = "quantity", nullable = false)
+    @Column(nullable = false)
     private String quantity;
 
     @NotBlank

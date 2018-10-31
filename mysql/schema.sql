@@ -1,7 +1,17 @@
-CREATE DATABASE users;
-CREATE DATABASE carts;
+DROP DATABASE IF EXISTS userservice;
+DROP DATABASE IF EXISTS cartservice;
+DROP DATABASE IF EXISTS productservice;
+DROP DATABASE IF EXISTS storeservice;
+
+CREATE DATABASE userservice;
+CREATE DATABASE cartservice;
+CREATE DATABASE productservice;
+CREATE DATABASE storeservice;
+
 
 USE users;
+
+DROP TABLE IF EXISTS user;
 
 CREATE TABLE user (
   id VARCHAR (255) PRIMARY KEY,
@@ -10,13 +20,16 @@ CREATE TABLE user (
   deleted BOOLEAN
 );
 
+
 USE carts;
+
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS product;
 
 CREATE TABLE cart (
   user_id VARCHAR (255) PRIMARY KEY,
   deleted BOOLEAN
 );
-
 
 CREATE TABLE product (
   barcode VARCHAR (255) PRIMARY KEY,
@@ -26,5 +39,6 @@ CREATE TABLE product (
   user_id VARCHAR(255) NOT NULL,
   deleted BOOLEAN
 );
+
 
 SHOW DATABASES;
