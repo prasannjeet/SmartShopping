@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Store {
 	
 	@Id
-    @NotBlank
     @Column(name = "id", nullable = false, unique = true)
 	private String id;
 	

@@ -15,7 +15,11 @@
 	</parent>
 
 	<dependencies>
-		<!-- Only other modules dependencies -->
+		<dependency>
+			<groupId>smart-shopping</groupId>
+			<artifactId>store-domain-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

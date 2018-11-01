@@ -1,14 +1,20 @@
 package org.store.domain.service.dao;
 
-public class PriceTag {
+import org.store.domain.service.model.PriceTag;
+
+public class PriceTagDao {
 	private String barcode;
 	private double price;
 	
-	public PriceTag(String barcode, double price) {
+	public PriceTagDao(String barcode, double price) {
 		this.barcode = barcode;
 		this.price = price;
 	}	
 	
+	public PriceTagDao(PriceTag priceTag) {
+		this(priceTag.getBarcode(), priceTag.getPrice());
+	}
+
 	public String getBarcode() {
 		return barcode;
 	}

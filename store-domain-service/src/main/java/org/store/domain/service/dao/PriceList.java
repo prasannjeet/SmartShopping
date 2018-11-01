@@ -6,10 +6,10 @@ public class PriceList {
 	private String userId;
 	private String storeName;
 	private double distanceFromUser;
-	private List<PriceTag> pricesTags; //barcode + price
+	private List<PriceTagDao> pricesTags; //barcode + price
 	
 	public PriceList(String userId, String storeName, double distanceFromUser,
-			List<PriceTag> pricesTags) {
+			List<PriceTagDao> pricesTags) {
 		super();
 		this.userId = userId;
 		this.storeName = storeName;
@@ -35,10 +35,10 @@ public class PriceList {
 	public void setDistanceFromUser(double distanceFromUser) {
 		this.distanceFromUser = distanceFromUser;
 	}
-	public List<PriceTag> getPricesTags() {
+	public List<PriceTagDao> getPricesTags() {
 		return pricesTags;
 	}
-	public void setPricesTags(List<PriceTag> pricesTags) {
+	public void setPricesTags(List<PriceTagDao> pricesTags) {
 		this.pricesTags = pricesTags;
 	}
 	

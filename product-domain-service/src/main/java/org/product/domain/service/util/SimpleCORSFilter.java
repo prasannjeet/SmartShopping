@@ -1,4 +1,4 @@
-package org.cart.domain.service.util;
+package org.product.domain.service.util;
 
 import org.springframework.stereotype.Component;
 

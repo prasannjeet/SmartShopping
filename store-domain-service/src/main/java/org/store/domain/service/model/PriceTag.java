@@ -6,25 +6,33 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "price_tag")
 public class PriceTag {
 
 	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    private String id;
+	
     @NotBlank
     @Column(name = "barcode", nullable = false, unique = true)
     private String barcode;
     
-    @NotBlank
+    @NotNull
     @Column(name = "price", nullable = false)
-    private double price;
-    
-    public PriceTag() {
+    private Double price;
 
+    public PriceTag(){
+    	
     }
-
-    public PriceTag(String barcode, double price) {
+    
+    public PriceTag(PriceTag priceTag){
+    	this(priceTag.getBarcode(), priceTag.getPrice());
+    }
+    
+    public PriceTag(String barcode, Double price) {
         this.setBarcode(barcode);
         this.setPrice(price);
     }
