@@ -3,9 +3,8 @@ package org.product.query.service.subscriber;
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
-import org.product.domain.service.event.ProductCreatedEvent;
-import org.product.domain.service.event.ProductDeletedEvent;
-import org.product.domain.service.event.ProductUpdatedEvent;
+import org.store.domain.service.event.StoreSeviceProductAdded;
+import org.store.domain.service.dao.ProductInfo;
 import org.product.domain.service.model.Product;
 import org.product.query.service.service.ProductQueryService;
 
@@ -19,21 +18,9 @@ public class ProductQueryEventSubscriber {
     }
 
     @EventHandlerMethod
-    public void create(DispatchedEvent<ProductCreatedEvent> dispatchedEvent) {
-        Product product = new Product(dispatchedEvent.getEvent().getProduct().getBarcode(), dispatchedEvent.getEvent().getProduct().getBrand(), dispatchedEvent.getEvent().getProduct().getName());
-        product.setId(dispatchedEvent.getEntityId());
+    public void create(DispatchedEvent<StoreSeviceProductAdded> dispatchedEvent) {
+    		ProductInfo infos = dispatchedEvent.getEvent().getProductInfo();
+        Product product = new Product(infos.getBarcode(), infos.getProductName(), infos.isWeightable());
         this.productQueryService.save(product);
-    }
-
-    @EventHandlerMethod
-    public void update(DispatchedEvent<ProductUpdatedEvent> dispatchedEvent) {
-    		Product product = new Product(dispatchedEvent.getEvent().getProduct().getBarcode(), dispatchedEvent.getEvent().getProduct().getBrand(), dispatchedEvent.getEvent().getProduct().getName());
-    		product.setId(dispatchedEvent.getEntityId());
-    		this.productQueryService.save(product);
-    }
-
-    @EventHandlerMethod
-    public void delete(DispatchedEvent<ProductDeletedEvent> dispatchedEvent) {
-        this.productQueryService.delete(dispatchedEvent.getEntityId());
     }
 }

@@ -26,7 +26,7 @@ public class Controller {
     }
 
     @GetMapping("/{barcode}")
-    public CompletableFuture<Product> findByBarcode(@PathVariable int barcode) {
+    public CompletableFuture<Product> findByBarcode(@PathVariable String barcode) {
         return CompletableFuture
                 .supplyAsync(() -> this.productQueryService.findByBarcode(barcode));
     }

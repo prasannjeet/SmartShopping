@@ -115,23 +115,23 @@ mysql:
 #    EVENTUATELOCAL_CDC_DB_USER_NAME: root
 #    EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
 
-product-command-service:
-  extends:
-    file: docker-compose-common.yml
-    service: product-command-service
-  links:
-  - mysql
-  - kafka
-  - zookeeper
-  environment:
-    SPRING_DATASOURCE_URL: jdbc:mysql://mysql/productservice
-    SPRING_DATASOURCE_USERNAME: root
-    SPRING_DATASOURCE_PASSWORD: rootpassword
-    SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
-    EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-    EVENTUATELOCAL_CDC_DB_USER_NAME: root
-    EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
+#product-command-service:
+#  extends:
+#    file: docker-compose-common.yml
+#    service: product-command-service
+#  links:
+#  - mysql
+#  - kafka
+#  - zookeeper
+#  environment:
+#    SPRING_DATASOURCE_URL: jdbc:mysql://mysql/productservice
+#    SPRING_DATASOURCE_USERNAME: root
+#    SPRING_DATASOURCE_PASSWORD: rootpassword
+#    SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
+#    EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+#    EVENTUATELOCAL_CDC_DB_USER_NAME: root
+#    EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
 
 product-query-service:
   extends:
@@ -152,41 +152,41 @@ product-query-service:
     EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
 
 
-store-command-service:
-  extends:
-    file: docker-compose-common.yml
-    service: store-command-service
-  links:
-  - mysql
-  - kafka
-  - zookeeper
-  environment:
-    SPRING_DATASOURCE_URL: jdbc:mysql://mysql/storeservice
-    SPRING_DATASOURCE_USERNAME: root
-    SPRING_DATASOURCE_PASSWORD: rootpassword
-    SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
-    EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-    EVENTUATELOCAL_CDC_DB_USER_NAME: root
-    EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
+#store-command-service:
+#  extends:
+#    file: docker-compose-common.yml
+#    service: store-command-service
+#  links:
+#  - mysql
+#  - kafka
+#  - zookeeper
+#  environment:
+#    SPRING_DATASOURCE_URL: jdbc:mysql://mysql/storeservice
+#    SPRING_DATASOURCE_USERNAME: root
+#    SPRING_DATASOURCE_PASSWORD: rootpassword
+#    SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
+#    EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+#    EVENTUATELOCAL_CDC_DB_USER_NAME: root
+#    EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
 
-store-query-service:
-  extends:
-    file: docker-compose-common.yml
-    service: store-query-service
-  links:
-  - mysql
-  - kafka
-  - zookeeper
-  environment:
-    SPRING_DATASOURCE_URL: jdbc:mysql://mysql/storeservice
-    SPRING_DATASOURCE_USERNAME: root
-    SPRING_DATASOURCE_PASSWORD: rootpassword
-    SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
-    EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-    EVENTUATELOCAL_CDC_DB_USER_NAME: root
-    EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
+#store-query-service:
+#  extends:
+#    file: docker-compose-common.yml
+#    service: store-query-service
+#  links:
+#  - mysql
+#  - kafka
+#  - zookeeper
+#  environment:
+#    SPRING_DATASOURCE_URL: jdbc:mysql://mysql/storeservice
+#    SPRING_DATASOURCE_USERNAME: root
+#    SPRING_DATASOURCE_PASSWORD: rootpassword
+#    SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
+#    EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+#    EVENTUATELOCAL_CDC_DB_USER_NAME: root
+#    EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
 
 #gateway-service:
 #  extends:

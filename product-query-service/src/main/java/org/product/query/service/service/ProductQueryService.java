@@ -19,25 +19,16 @@ public class ProductQueryService {
         return this.productRepository.findAll();
     }
 
-    public Product findById(String id) {
-        return Optional.of(this.productRepository.findOne(id)).get();
-    }
-
-    public Product findByBarcode(int barcode) {
+    public Product findByBarcode(String barcode) {
         return Optional
         		.of(this.productRepository.findByBarcode(barcode))
         		.orElseThrow(() -> new NoSuchElementException("No product with barcode = " + barcode));
     }
 
     public Product save(Product product) {
+    		if(productRepository.isDuplicate(product.getBarcode())) {
+    			return null;
+    		}
         return this.productRepository.save(product);
-    }
-
-    public void delete(String id) {
-        this.productRepository.delete(id);
-    }
-
-    public void deleteAll() {
-        this.productRepository.deleteAll();
     }
 }

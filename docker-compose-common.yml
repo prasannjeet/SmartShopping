@@ -18,25 +18,25 @@
 #  ports:
 #  - 7084:8080
 
-product-command-service:
-  build: ./product-command-service/
-  ports:
-  - 7085:8080
+#product-command-service:
+#  build: ./product-command-service/
+#  ports:
+#  - 7085:8080
 
 product-query-service:
   build: ./product-query-service/
   ports:
   - 7086:8080
 
-store-command-service:
-  build: ./store-command-service/
-  ports:
-  - 7087:8080
+#store-command-service:
+#  build: ./store-command-service/
+#  ports:
+#  - 7087:8080
 
-store-query-service:
-  build: ./store-query-service/
-  ports:
-  - 7088:8080
+#store-query-service:
+#  build: ./store-query-service/
+#  ports:
+#  - 7088:8080
 
 #gateway-service:
 #  build: ./gateway-service/
