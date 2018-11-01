@@ -28,7 +28,7 @@ public class Product {
 		
 	}
 	
-	public Product(int barcode, String name, boolean weightable) {
+	public Product(String barcode, String name, boolean weightable) {
 		this.setBarcode(barcode);
 		this.setName(name);
 		this.setWeightable(weightable);
