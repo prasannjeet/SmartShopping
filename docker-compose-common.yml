@@ -18,10 +18,10 @@ cart-query-service:
   ports:
   - 7084:8080
 
-product-command-service:
-  build: ./product-command-service/
-  ports:
-  - 7085:8080
+#product-command-service:
+#  build: ./product-command-service/
+#  ports:
+#  - 7085:8080
 
 product-query-service:
   build: ./product-query-service/
