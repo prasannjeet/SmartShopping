@@ -68,11 +68,11 @@
 		<module>cart-query-service</module>
 		<module>cart-command-service</module>
 		<module>gateway-service</module>
-    <module>product-domain-service</module>
-    <module>product-query-service</module>
-    <module>product-command-service</module>
-    <module>store-domain-service</module>
-    <module>store-command-service</module>
-    <module>store-query-service</module>
+		<module>product-domain-service</module>
+		<module>product-query-service</module>
+		<module>product-command-service</module>
+		<module>store-domain-service</module>
+		<module>store-command-service</module>
+		<module>store-query-service</module>
   </modules>
 </project>

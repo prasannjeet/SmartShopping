@@ -4,13 +4,13 @@ import org.user.domain.service.model.User;
 
 public class CreateUserCommand implements UserCommand {
 
-    private User cart;
+    private User user;
 
-    public CreateUserCommand(User cart) {
-        this.cart = cart;
+    public CreateUserCommand(User user) {
+        this.user = user;
     }
 
     public User getUser() {
-        return this.cart;
+        return this.user;
     }
 }

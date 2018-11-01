@@ -3,59 +3,64 @@ package org.cart.query.service.subscriber;
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
-import org.cart.domain.service.event.ProductAddedEvent;
-import org.cart.domain.service.event.ProductDeletedEvent;
-import org.cart.domain.service.event.ProductUpdatedEvent;
+import org.cart.domain.service.event.CartEventProductAdded;
+import org.cart.domain.service.event.CartEventProductDeleted;
+import org.cart.domain.service.event.CartEventProductQuantityUpdated;
 import org.cart.domain.service.model.Cart;
 import org.cart.domain.service.model.Product;
-import org.cart.query.service.service.QueryService;
-import org.user.domain.service.event.UserCreatedEvent;
-import org.user.domain.service.event.UserDeletedEvent;
+import org.cart.domain.service.repository.CartRepository;
+import org.cart.domain.service.repository.ProductRepository;
+import org.user.domain.service.event.UserEventUserCreated;
+import org.user.domain.service.event.UserEventUserDeleted;
 
 @EventSubscriber(id = "cartQueryEventHandler")
 public class QueryEventSubscriber {
 
-    private QueryService queryService;
+    private CartRepository cartRepository;
+    private ProductRepository productRepository;
 
-    public QueryEventSubscriber(QueryService queryService) {
-        this.queryService = queryService;
+    public QueryEventSubscriber(CartRepository cartRepository, ProductRepository productRepository) {
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
     }
 
     @EventHandlerMethod
-    public void saveCart(DispatchedEvent<UserCreatedEvent> event) {
-        this.queryService.saveCart(new Cart(event.getEntityId()));
+    public void saveCart(DispatchedEvent<UserEventUserCreated> event) {
+        if (!this.cartRepository.isDuplicate(event.getEntityId())) {
+            this.cartRepository.save(new Cart(event.getEntityId()));
+        }
     }
 
     @EventHandlerMethod
-    public void deleteCart(DispatchedEvent<UserDeletedEvent> event) {
-        this.queryService.delete(event.getEntityId());
+    public void deleteCart(DispatchedEvent<UserEventUserDeleted> event) {
+        Cart cart = this.cartRepository.findByUserId(event.getEntityId());
+        if (cart != null) {
+            this.cartRepository.delete(cart);
+            this.productRepository.findByUserId(cart.getUserId())
+                    .forEach(product -> this.productRepository.delete(product));
+        }
     }
 
     @EventHandlerMethod
-    public void saveProduct(DispatchedEvent<ProductAddedEvent> event) throws Exception {
-        this.queryService.saveProduct(new Product(event.getEntityId(), event.getEvent().getProduct()));
+    public void saveProduct(DispatchedEvent<CartEventProductAdded> event) {
+        try {
+            this.productRepository.save(new Product(event.getEvent().getProduct().getBarcode(), event.getEvent().getProduct()));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @EventHandlerMethod
-    public void updateProductQuantity(DispatchedEvent<ProductUpdatedEvent> event) throws Exception {
-        this.queryService.saveProduct(new Product(event.getEntityId(), event.getEvent().getProduct()));
+    public void updateProductQuantity(DispatchedEvent<CartEventProductQuantityUpdated> event) {
+        try {
+            this.productRepository.save(new Product(event.getEntityId(), event.getEvent().getProduct()));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @EventHandlerMethod
-    public void deleteProductFromCart(DispatchedEvent<ProductDeletedEvent> event) {
-        this.queryService.deleteProduct(event.getEntityId());
+    public void deleteProduct(DispatchedEvent<CartEventProductDeleted> event) {
+        this.productRepository.delete(event.getEntityId());
     }
-
-   /* @EventHandlerMethod
-    public void updateProductInfo() {
-        // from product service
-    }
-
-    @EventHandlerMethod
-    public void deleteProducts() {
-        // from product service
-    }
-    */
-
-
 }

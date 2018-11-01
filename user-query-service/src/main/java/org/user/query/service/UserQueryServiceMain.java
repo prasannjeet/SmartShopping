@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.user.domain.service.repository.UserRepository;
 import org.user.query.service.UserQueryServiceMain.MyConfiguration;
+import org.user.query.service.controller.Controller;
 import org.user.query.service.service.QueryService;
 import org.user.query.service.subscriber.QueryEventSubscriber;
 
@@ -33,13 +34,18 @@ public class UserQueryServiceMain {
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
         @Bean
-        public QueryEventSubscriber queryEventSubscriber(QueryService service) {
-            return new QueryEventSubscriber(service);
+        public QueryEventSubscriber queryEventSubscriber(UserRepository userRepository) {
+            return new QueryEventSubscriber(userRepository);
         }
 
         @Bean
-        public QueryService queryService(UserRepository repository) {
-            return new QueryService(repository);
+        public QueryService queryService(UserRepository userRepository) {
+            return new QueryService(userRepository);
+        }
+
+        @Bean
+        public Controller controller(QueryService queryService) {
+            return new Controller(queryService);
         }
     }
 }

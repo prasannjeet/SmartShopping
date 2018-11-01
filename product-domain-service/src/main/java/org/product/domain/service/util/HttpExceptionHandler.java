@@ -29,7 +29,7 @@ public class HttpExceptionHandler {
         private String error;
 
         public MyError(String message, String defaultMessage) {
-            this.error = (message == null) ? defaultMessage : (message.isEmpty() ? defaultMessage : message);
+            this.error = (message == null || message.isEmpty()) ? defaultMessage : message;
         }
 
         public String getError() {

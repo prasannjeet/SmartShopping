@@ -29,6 +29,6 @@ public class Cart {
     }
 
     public void setUserId(String userId) {
-        this.userId = (userId == null) ? this.userId : (userId.isEmpty() ? this.userId : userId);
+        this.userId = (userId == null || userId.isEmpty()) ? this.userId : userId;
     }
 }

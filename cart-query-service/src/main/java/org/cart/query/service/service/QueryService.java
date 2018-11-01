@@ -1,13 +1,14 @@
 package org.cart.query.service.service;
 
-import org.cart.domain.service.dao.CartDao;
+import org.cart.domain.service.dao.CartDaoForEndUser;
 import org.cart.domain.service.model.Cart;
-import org.cart.domain.service.model.Product;
 import org.cart.domain.service.repository.CartRepository;
 import org.cart.domain.service.repository.ProductRepository;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class QueryService {
 
@@ -19,40 +20,18 @@ public class QueryService {
         this.productRepository = productRepository;
     }
 
-    public List<CartDao> findAllCarts() {
-        List<CartDao> cartDaos = new LinkedList<>();
+    public List<CartDaoForEndUser> findAllCarts() {
+        List<CartDaoForEndUser> cartDaoForEndUsers = new LinkedList<>();
         List<Cart> carts = this.cartRepository.findAll();
         carts.forEach(cart ->
-                cartDaos.add(new CartDao(cart.getUserId(), this.productRepository.findByUserId(cart.getUserId()))));
-        return cartDaos;
+                cartDaoForEndUsers.add(new CartDaoForEndUser(cart.getUserId(), this.productRepository.findByUserId(cart.getUserId()))));
+        return cartDaoForEndUsers;
     }
 
-    public CartDao findCartByUserId(String userId) {
-        Cart cart = this.cartRepository.findByUserId(userId);
-        return new CartDao(cart.getUserId(), this.productRepository.findByUserId(cart.getUserId()));
-    }
-
-    public void saveCart(Cart cart) {
-        this.cartRepository.save(cart);
-    }
-
-    public void saveProduct(Product product) {
-        this.productRepository.save(product);
-    }
-
-    public void deleteProduct(String id) {
-        this.productRepository.delete(id);
-    }
-
-    public void delete(String id) {
-        Cart cart = this.cartRepository.findOne(id);
-        this.cartRepository.delete(cart);
-        this.productRepository.findByUserId(cart.getUserId())
-                .forEach(product -> this.productRepository.delete(product));
-    }
-
-    public void deleteAll() {
-        this.cartRepository.deleteAll();
-        this.productRepository.deleteAll();
+    public CartDaoForEndUser findCartByUserId(String userId) {
+        Cart cart = Optional
+                .of(this.cartRepository.findByUserId(userId))
+                .orElseThrow(() -> new NoSuchElementException("No cart with userId = " + userId));
+        return new CartDaoForEndUser(cart.getUserId(), this.productRepository.findByUserId(cart.getUserId()));
     }
 }

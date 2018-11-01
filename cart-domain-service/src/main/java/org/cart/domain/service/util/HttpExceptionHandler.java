@@ -16,8 +16,8 @@ public class HttpExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<?> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e)
-            throws Exception {
+    public ResponseEntity<?> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
+        e.printStackTrace();
         if (e instanceof NoSuchElementException || e.getCause() instanceof NoSuchElementException
                 || e instanceof NullPointerException
                 || e.getCause() instanceof NoSuchElementException

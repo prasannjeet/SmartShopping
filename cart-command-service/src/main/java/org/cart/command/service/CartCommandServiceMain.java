@@ -5,10 +5,10 @@ import io.eventuate.EventuateAggregateStore;
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.cart.command.service.CartCommandServiceMain.MyConfiguration;
-import org.cart.command.service.aggregate.ProductAggregate;
-import org.cart.command.service.command.ProductCommand;
+import org.cart.command.service.aggregate.CartAggregate;
+import org.cart.command.service.command.CartCommand;
+import org.cart.command.service.controller.Controller;
 import org.cart.command.service.service.CommandService;
-import org.cart.command.service.service.QueryService;
 import org.cart.domain.service.repository.CartRepository;
 import org.cart.domain.service.repository.ProductRepository;
 import org.springframework.boot.SpringApplication;
@@ -38,20 +38,20 @@ public class CartCommandServiceMain {
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
         @Bean
-        public AggregateRepository<ProductAggregate, ProductCommand> aggregateRepository(
+        public AggregateRepository<CartAggregate, CartCommand> aggregateRepository(
                 EventuateAggregateStore eventuateAggregateStore) {
-            return new AggregateRepository<>(ProductAggregate.class, eventuateAggregateStore);
+            return new AggregateRepository<>(CartAggregate.class, eventuateAggregateStore);
         }
 
         @Bean
-        public CommandService commandService(AggregateRepository<ProductAggregate, ProductCommand> aggregateRepository,
-                                             QueryService queryService) {
-            return new CommandService(aggregateRepository, queryService);
+        public CommandService commandService(AggregateRepository<CartAggregate, CartCommand> aggregateRepository) {
+            return new CommandService(aggregateRepository);
         }
 
         @Bean
-        public QueryService queryService(CartRepository cartRepository, ProductRepository productRepository) {
-            return new QueryService(cartRepository, productRepository);
+        public Controller controller(CommandService commandService, ProductRepository productRepository,
+                                     CartRepository cartRepository) {
+            return new Controller(commandService, productRepository, cartRepository);
         }
     }
 }

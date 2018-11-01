@@ -32,9 +32,9 @@ CREATE TABLE cart (
 );
 
 CREATE TABLE product (
-  barcode VARCHAR (255) PRIMARY KEY,
+  id VARCHAR (255) PRIMARY KEY,
+  barcode VARCHAR (255),
   name VARCHAR (255) NOT NULL,
-  brand VARCHAR (255) NOT NULL,
   quantity VARCHAR (255) NOT NULL,
   user_id VARCHAR(255) NOT NULL,
   deleted BOOLEAN

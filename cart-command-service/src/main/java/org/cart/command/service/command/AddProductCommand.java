@@ -2,7 +2,7 @@ package org.cart.command.service.command;
 
 import org.cart.domain.service.model.Product;
 
-public class AddProductCommand implements ProductCommand {
+public class AddProductCommand implements CartCommand {
 
     private Product product;
 

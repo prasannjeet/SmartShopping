@@ -12,4 +12,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     List<Product> findByUserId(String userId);
 
     Product findByBarcodeAndUserId(String barcode, String userId);
+
+    default boolean isDuplicate(Product product) {
+        return this.findByBarcodeAndUserId(product.getBarcode(), product.getUserId()) != null;
+    }
 }
