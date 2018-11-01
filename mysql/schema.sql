@@ -52,4 +52,24 @@ create table product (
   deleted BOOLEAN
 );
 
+USE storeservice;
+
+DROP table IF EXISTS store;
+
+create table store (
+  id VARCHAR(255) PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  website varchar(255) NOT NULL,
+  location varchar(255) NOT NULL,
+  deleted BOOLEAN
+);
+
+DROP table IF EXISTS price_tag;
+
+create table price_tag (
+  barcode VARCHAR(255) PRIMARY KEY,
+  price DOUBLE(10,2) NOT NULL,
+  deleted BOOLEAN
+);
+
 SHOW DATABASES;

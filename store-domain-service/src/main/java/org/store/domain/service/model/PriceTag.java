@@ -11,11 +11,7 @@ import javax.persistence.Table;
 @Table(name = "price_tag")
 public class PriceTag {
 
-    @Id
-    @NotBlank
-    @Column(name = "id", nullable = false, unique = true)
-    private String id;
-
+	@Id
     @NotBlank
     @Column(name = "barcode", nullable = false, unique = true)
     private String barcode;
@@ -28,19 +24,10 @@ public class PriceTag {
 
     }
 
-    public PriceTag(String id, String barcode, double price) {
-        this.setId(id);
+    public PriceTag(String barcode, double price) {
         this.setBarcode(barcode);
         this.setPrice(price);
     }
-
-    public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = (id == null) ? this.id : (id.isEmpty() ? this.id : id);
-	}
 
 	public String getBarcode() {
 		return barcode;
