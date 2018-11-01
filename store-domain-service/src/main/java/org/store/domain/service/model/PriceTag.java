@@ -29,14 +29,23 @@ public class PriceTag {
     }
     
     public PriceTag(PriceTag priceTag){
-    	this(priceTag.getBarcode(), priceTag.getPrice());
+    	this(priceTag.getId(), priceTag.getBarcode(), priceTag.getPrice());
     }
     
-    public PriceTag(String barcode, Double price) {
+    public PriceTag(String id, String barcode, Double price) {
+    	this.setId(id);
         this.setBarcode(barcode);
         this.setPrice(price);
     }
 
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = (id == null) ? this.id : (id.isEmpty() ? this.id : id);
+	}
+	
 	public String getBarcode() {
 		return barcode;
 	}
