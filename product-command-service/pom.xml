@@ -15,7 +15,9 @@
     </parent>
 
     <dependencies>
-        <!-- Only dependencies from other modules -->
+        <dependency>store-domain-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
