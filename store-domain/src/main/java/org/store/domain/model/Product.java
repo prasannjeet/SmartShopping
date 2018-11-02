@@ -21,9 +21,6 @@ public class Product {
     @NotBlank
     private boolean hasWeight;
 
-    @NotBlank
-    private String storeId;
-
     public Product() {
 
     }
@@ -34,7 +31,6 @@ public class Product {
         this.setPrice(product.price);
         this.setBarcode(product.barcode);
         this.setHasWeight(product.hasWeight);
-        this.setStoreId(product.storeId);
     }
 
     public String getId() {
@@ -78,13 +74,5 @@ public class Product {
 
     public void setHasWeight(boolean hasWeight) {
         this.hasWeight = hasWeight;
-    }
-
-    public String getStoreId() {
-        return this.storeId;
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = (storeId == null || storeId.isEmpty()) ? this.storeId : storeId;
     }
 }
