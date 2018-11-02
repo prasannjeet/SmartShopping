@@ -1,12 +1,12 @@
 package org.store.domain.service.model;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "price_tag")
@@ -28,8 +28,8 @@ public class PriceTag {
     	
     }
     
-    public PriceTag(PriceTag priceTag){
-    	this(priceTag.getId(), priceTag.getBarcode(), priceTag.getPrice());
+    public PriceTag(String id, PriceTag priceTag){
+    	this(id, priceTag.getBarcode(), priceTag.getPrice());
     }
     
     public PriceTag(String id, String barcode, Double price) {

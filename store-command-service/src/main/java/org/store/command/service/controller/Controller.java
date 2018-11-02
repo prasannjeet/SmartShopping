@@ -31,7 +31,7 @@ public class Controller {
     public CompletableFuture<PriceTag> addPriceTag(@RequestBody @Valid PriceTag priceTag) throws Exception {
         return this.commandService
                 .addPriceTag(priceTag)
-                .thenApply(entity -> entity.getAggregate().getPriceTag());
+                .thenApply(entity -> new PriceTag(entity.getEntityId(), entity.getAggregate().getPriceTag()));
     }
 
     @PutMapping(value = "/prices/{barcode}/{price}")
@@ -39,14 +39,14 @@ public class Controller {
                                                               @NotBlank @PathVariable double price) throws Exception {
         return this.commandService
                 .updatePriceTag(barcode, price)
-                .thenApply(entity -> entity.getAggregate().getPriceTag());
+                .thenApply(entity -> new PriceTag(entity.getEntityId(), entity.getAggregate().getPriceTag()));
     }
 
     @DeleteMapping(value = "/prices/{barcode}")
     public CompletableFuture<PriceTag> deletePriceTag(@NotBlank @PathVariable String barcode) {
         return this.commandService
                 .deletePriceTag(barcode)
-                .thenApply(entity -> entity.getAggregate().getPriceTag());
+                .thenApply(entity -> new PriceTag(entity.getEntityId(), entity.getAggregate().getPriceTag()));
     }
 
     @PostMapping(consumes = "application/json")

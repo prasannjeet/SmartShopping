@@ -67,7 +67,8 @@ create table store (
 DROP table IF EXISTS price_tag;
 
 create table price_tag (
-  barcode VARCHAR(255) PRIMARY KEY,
+  id VARCHAR(255) PRIMARY KEY,
+  barcode VARCHAR(255) NOT NULL,
   price DOUBLE(10,2) NOT NULL,
   deleted BOOLEAN
 );

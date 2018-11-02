@@ -3,8 +3,8 @@ package org.store.query.service.service;
 import org.store.domain.service.dao.PriceTagDao;
 import org.store.domain.service.model.Store;
 import org.store.domain.service.model.PriceTag;
-import org.store.domain.service.repository.StoreRepository;
 import org.store.domain.service.repository.PriceTagRepository;
+import org.store.domain.service.repository.StoreRepository;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,8 +35,8 @@ public class StoreQueryService {
         this.priceTagRepository.save(priceTag);
     }
 
-    public void deletePriceTag(String barcode) {
-        this.priceTagRepository.delete(barcode);
+    public void deletePriceTag(String id) {
+        this.priceTagRepository.delete(id);
     }
 
     public void deleteAllPriceTags() {

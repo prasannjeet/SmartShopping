@@ -34,11 +34,11 @@ public class CommandService {
         PriceTag priceTag = this.queryService.findPriceTagByBarcode(barcode);
         priceTag.setPrice(price);
         return this.aggregateRepository
-                .update(priceTag.getBarcode(), new UpdatePriceTagCommand(priceTag.getBarcode(), priceTag));
+                .update(priceTag.getId(), new UpdatePriceTagCommand(priceTag.getId(), priceTag));
     }
 
     public CompletableFuture<EntityWithIdAndVersion<PriceTagAggregate>> deletePriceTag(String barcode) {
         PriceTag priceTag = this.queryService.findPriceTagByBarcode(barcode);
-        return this.aggregateRepository.update(priceTag.getBarcode(), new DeletePriceTagCommand(priceTag));
+        return this.aggregateRepository.update(priceTag.getId(), new DeletePriceTagCommand(priceTag));
     }
 }

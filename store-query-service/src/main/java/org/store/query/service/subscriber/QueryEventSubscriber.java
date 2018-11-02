@@ -20,16 +20,16 @@ public class QueryEventSubscriber {
     
     @EventHandlerMethod
     public void savePriceTag(DispatchedEvent<PriceTagAddedEvent> event) throws Exception {
-        this.queryService.savePriceTag(new PriceTag(event.getEvent().getPriceTag()));
+        this.queryService.savePriceTag(new PriceTag(event.getEntityId(), event.getEvent().getPriceTag()));
     }
 
     @EventHandlerMethod
     public void updatePriceTagQuantity(DispatchedEvent<PriceTagUpdatedEvent> event) throws Exception {
-        this.queryService.savePriceTag(new PriceTag(event.getEvent().getPriceTag()));
+        this.queryService.savePriceTag(new PriceTag(event.getEntityId(), event.getEvent().getPriceTag()));
     }
 
     @EventHandlerMethod
     public void deletePriceTag(DispatchedEvent<PriceTagDeletedEvent> event) {
-        this.queryService.deletePriceTag(event.getEvent().getPriceTag().getBarcode());
+        this.queryService.deletePriceTag(event.getEvent().getPriceTag().getId());
     }
 }

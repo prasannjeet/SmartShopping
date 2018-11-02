@@ -3,8 +3,8 @@ package org.store.query.service;
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
 
-import org.store.domain.service.repository.StoreRepository;
 import org.store.domain.service.repository.PriceTagRepository;
+import org.store.domain.service.repository.StoreRepository;
 import org.store.query.service.StoreQueryServiceMain.MyConfiguration;
 import org.store.query.service.service.StoreQueryService;
 import org.store.query.service.subscriber.QueryEventSubscriber;
