@@ -26,14 +26,8 @@ public class Controller {
     }
 
     @GetMapping("/{barcode}")
-    public CompletableFuture<List<Product>> findByBarcode(@NotBlank @PathVariable String barcode) {
+    public CompletableFuture<Product> findByBarcode(@NotBlank @PathVariable String barcode) {
         return CompletableFuture
                 .supplyAsync(() -> this.queryService.findByBarcode(barcode));
-    }
-
-    @GetMapping("/{storeId}")
-    public CompletableFuture<List<Product>> findByStoreId(@NotBlank @PathVariable String storeId) {
-        return CompletableFuture
-                .supplyAsync(() -> this.queryService.findByStoreId(storeId));
     }
 }

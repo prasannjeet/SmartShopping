@@ -9,13 +9,9 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-    List<Product> findByBarcode(String barcode);
+    Product findByBarcode(String barcode);
 
-    List<Product> findByStoreId(String storeId);
-
-    Product findByStoreIdAndBarcode(String storeId, String barcode);
-
-    default boolean isDuplicate(String storeId, String barcode) {
-        return this.findByStoreIdAndBarcode(storeId, barcode) != null;
+    default boolean isDuplicate(String barcode) {
+        return this.findByBarcode(barcode) != null;
     }
 }

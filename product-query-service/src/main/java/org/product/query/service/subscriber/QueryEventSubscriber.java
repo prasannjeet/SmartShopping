@@ -19,10 +19,9 @@ public class QueryEventSubscriber {
     @EventHandlerMethod
     public void createProduct(DispatchedEvent<StoreEventProductCreated> event) {
         org.store.domain.model.Product productFromStore = event.getEvent().getProduct();
-        if (!this.productRepository.isDuplicate(productFromStore.getStoreId(), productFromStore.getBarcode())) {
+        if (!this.productRepository.isDuplicate(productFromStore.getBarcode())) {
             Product product = new Product();
             product.setId(event.getEntityId());
-            product.setStoreId(productFromStore.getStoreId());
             product.setHasWeight(productFromStore.hasWeight());
             product.setBarcode(productFromStore.getBarcode());
             product.setName(productFromStore.getName());

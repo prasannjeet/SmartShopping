@@ -26,10 +26,6 @@ public class Product {
     @Column(name = "has_weight", nullable = false)
     private boolean hasWeight;
 
-    @NotBlank
-    @Column(name = "store_id", nullable = false)
-    private String storeId;
-
     public String getId() {
         return this.id;
     }
@@ -60,13 +56,5 @@ public class Product {
 
     public void setHasWeight(boolean hasWeight) {
         this.hasWeight = hasWeight;
-    }
-
-    public String getStoreId() {
-        return this.storeId;
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = (storeId == null || storeId.isEmpty()) ? this.storeId : storeId;
     }
 }
