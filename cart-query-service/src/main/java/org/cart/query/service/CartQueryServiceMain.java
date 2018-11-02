@@ -5,6 +5,7 @@ import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.cart.domain.service.repository.CartRepository;
 import org.cart.domain.service.repository.ProductRepository;
 import org.cart.query.service.CartQueryServiceMain.MyConfiguration;
+import org.cart.query.service.controller.Controller;
 import org.cart.query.service.service.QueryService;
 import org.cart.query.service.subscriber.QueryEventSubscriber;
 import org.springframework.boot.SpringApplication;
@@ -34,13 +35,18 @@ public class CartQueryServiceMain {
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
         @Bean
-        public QueryEventSubscriber queryEventSubscriber(QueryService queryService) {
-            return new QueryEventSubscriber(queryService);
+        public QueryEventSubscriber queryEventSubscriber(CartRepository cartRepository, ProductRepository productRepository) {
+            return new QueryEventSubscriber(cartRepository, productRepository);
         }
 
         @Bean
         public QueryService queryService(CartRepository cartRepository, ProductRepository productRepository) {
             return new QueryService(cartRepository, productRepository);
+        }
+
+        @Bean
+        public Controller controller(QueryService queryService) {
+            return new Controller(queryService);
         }
     }
 }

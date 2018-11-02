@@ -16,8 +16,7 @@ public class HttpExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<?> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e)
-            throws Exception {
+    public ResponseEntity<?> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
         if (e instanceof NoSuchElementException || e.getCause() instanceof NoSuchElementException
                 || e instanceof NullPointerException
                 || e.getCause() instanceof NoSuchElementException
@@ -37,7 +36,7 @@ public class HttpExceptionHandler {
         private String error;
 
         public MyError(String message, String defaultMessage) {
-            this.error = (message == null) ? defaultMessage : (message.isEmpty() ? defaultMessage : message);
+            this.error = (message == null || message.isEmpty()) ? defaultMessage : message;
         }
 
         public String getError() {

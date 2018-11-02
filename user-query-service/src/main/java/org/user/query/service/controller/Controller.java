@@ -13,21 +13,21 @@ import java.util.concurrent.CompletableFuture;
 @ResponseBody
 public class Controller {
 
-    private QueryService service;
+    private QueryService queryService;
 
-    public Controller(QueryService service) {
-        this.service = service;
+    public Controller(QueryService queryService) {
+        this.queryService = queryService;
     }
 
     @GetMapping
     public CompletableFuture<List<User>> findAllUsers() {
         return CompletableFuture
-                .supplyAsync(() -> this.service.findAllUsers());
+                .supplyAsync(() -> this.queryService.findAllUsers());
     }
 
     @GetMapping("/{id}")
     public CompletableFuture<User> findUserById(@PathVariable @NotBlank String id) {
         return CompletableFuture
-                .supplyAsync(() -> this.service.findUserById(id));
+                .supplyAsync(() -> this.queryService.findUserById(id));
     }
 }

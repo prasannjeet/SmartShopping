@@ -2,15 +2,15 @@ package org.cart.domain.service.event;
 
 import org.cart.domain.service.model.Product;
 
-public class ProductUpdatedEvent implements ProductEvent {
+public class CartEventProductQuantityUpdated implements CartEvent {
 
     private Product product;
 
-    public ProductUpdatedEvent() {
+    public CartEventProductQuantityUpdated() {
 
     }
 
-    public ProductUpdatedEvent(Product product) {
+    public CartEventProductQuantityUpdated(Product product) {
         this.product = product;
     }
 

@@ -9,31 +9,19 @@ import java.util.Optional;
 
 public class QueryService {
 
-    private UserRepository repository;
+    private UserRepository userRepository;
 
-    public QueryService(UserRepository repository) {
-        this.repository = repository;
+    public QueryService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<User> findAllUsers() {
-        return this.repository.findAll();
+        return this.userRepository.findAll();
     }
 
     public User findUserById(String id) {
         return Optional
-                .of(this.repository.findOne(id))
+                .of(this.userRepository.findOne(id))
                 .orElseThrow(() -> new NoSuchElementException("No user with id = " + id));
-    }
-
-    public void saveUser(User user) {
-        this.repository.save(user);
-    }
-
-    public void deleteUser(String id) {
-        this.repository.delete(id);
-    }
-
-    public void deleteAll() {
-        this.repository.deleteAll();
     }
 }

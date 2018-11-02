@@ -6,8 +6,8 @@ import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
 import org.user.command.service.command.CreateUserCommand;
 import org.user.command.service.command.DeleteUserCommand;
 import org.user.command.service.command.UserCommand;
-import org.user.domain.service.event.UserCreatedEvent;
-import org.user.domain.service.event.UserDeletedEvent;
+import org.user.domain.service.event.UserEventUserCreated;
+import org.user.domain.service.event.UserEventUserDeleted;
 import org.user.domain.service.model.User;
 
 import java.util.Collections;
@@ -19,18 +19,18 @@ public class UserAggregate extends ReflectiveMutableCommandProcessingAggregate<U
     private boolean deleted;
 
     public List<Event> process(CreateUserCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new UserCreatedEvent(command.getUser()));
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new UserEventUserCreated(command.getUser()));
     }
 
     public List<Event> process(DeleteUserCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new UserDeletedEvent());
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new UserEventUserDeleted(command.getUser()));
     }
 
-    public void apply(UserCreatedEvent event) {
+    public void apply(UserEventUserCreated event) {
         this.user = event.getUser();
     }
 
-    public void apply(UserDeletedEvent event) {
+    public void apply(UserEventUserDeleted event) {
         this.deleted = true;
     }
 

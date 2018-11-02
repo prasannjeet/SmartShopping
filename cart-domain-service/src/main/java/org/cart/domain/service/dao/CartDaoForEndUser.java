@@ -4,12 +4,12 @@ import org.cart.domain.service.model.Product;
 
 import java.util.List;
 
-public class CartDao {
+public class CartDaoForEndUser {
 
     private String userId;
     private List<Product> products;
 
-    public CartDao(String userId, List<Product> products) {
+    public CartDaoForEndUser(String userId, List<Product> products) {
         this.userId = userId;
         this.products = products;
     }
@@ -30,5 +30,3 @@ public class CartDao {
         this.products = products;
     }
 }
-
-

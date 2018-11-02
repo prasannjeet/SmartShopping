@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.user.command.service.CartCommandServiceMain.MyConfiguration;
 import org.user.command.service.aggregate.UserAggregate;
 import org.user.command.service.command.UserCommand;
+import org.user.command.service.controller.Controller;
 import org.user.command.service.service.CommandService;
 import org.user.domain.service.repository.UserRepository;
 
@@ -42,9 +43,13 @@ public class CartCommandServiceMain {
         }
 
         @Bean
-        public CommandService commandService(AggregateRepository<UserAggregate, UserCommand> aggregateRepository,
-                                             UserRepository userRepository) {
-            return new CommandService(aggregateRepository, userRepository);
+        public CommandService commandService(AggregateRepository<UserAggregate, UserCommand> aggregateRepository) {
+            return new CommandService(aggregateRepository);
+        }
+
+        @Bean
+        public Controller controller(CommandService commandService, UserRepository userRepository) {
+            return new Controller(commandService, userRepository);
         }
     }
 }

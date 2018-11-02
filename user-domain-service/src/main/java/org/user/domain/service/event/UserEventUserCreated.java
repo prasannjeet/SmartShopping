@@ -2,15 +2,15 @@ package org.user.domain.service.event;
 
 import org.user.domain.service.model.User;
 
-public class UserCreatedEvent implements UserEvent {
+public class UserEventUserCreated implements UserEvent {
 
     private User user;
 
-    public UserCreatedEvent() {
+    public UserEventUserCreated() {
 
     }
 
-    public UserCreatedEvent(User user) {
+    public UserEventUserCreated(User user) {
         this.user = user;
     }
 
