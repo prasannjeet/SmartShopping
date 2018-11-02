@@ -11,7 +11,7 @@ import org.store.domain.service.event.PriceTagUpdatedEvent;
 import org.store.domain.service.model.PriceTag;
 import org.store.query.service.service.StoreQueryService;
 
-import org.cart.domain.service.event.CartEventProductsPricesAsked;
+//import org.cart.domain.service.event.CartEventProductsPricesAsked;
 
 @EventSubscriber(id = "storeQueryEventHandler")
 public class QueryEventSubscriber {
