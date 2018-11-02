@@ -61,6 +61,7 @@
     </dependencies>
 
 	<modules>
+	<module>cart-domain-service</module>
     <module>store-domain-service</module>
     <module>store-command-service</module>
     <module>store-query-service</module>

@@ -4,11 +4,14 @@ import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
 
+import org.store.domain.service.dao.PriceList;
 import org.store.domain.service.event.PriceTagAddedEvent;
 import org.store.domain.service.event.PriceTagDeletedEvent;
 import org.store.domain.service.event.PriceTagUpdatedEvent;
 import org.store.domain.service.model.PriceTag;
 import org.store.query.service.service.StoreQueryService;
+
+import org.cart.domain.service.event.;
 
 @EventSubscriber(id = "storeQueryEventHandler")
 public class QueryEventSubscriber {
@@ -32,4 +35,12 @@ public class QueryEventSubscriber {
     public void deletePriceTag(DispatchedEvent<PriceTagDeletedEvent> event) {
         this.queryService.deletePriceTag(event.getEvent().getPriceTag().getId());
     }
+    
+    /*
+    @EventHandlerMethod
+    public PriceList createPriceList(DispatchedEvent<CartEventProductsPricesAsked> event){
+    	return null;
+    }
+    
+    */
 }
