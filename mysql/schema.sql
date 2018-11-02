@@ -51,7 +51,6 @@ create table product (
   barcode VARCHAR(255) NOT NULL,
   name varchar(255) NOT NULL,
   has_weight BOOLEAN NOT NULL,
-  store_id VARCHAR(255) NOT NULL,
   deleted BOOLEAN
 );
 

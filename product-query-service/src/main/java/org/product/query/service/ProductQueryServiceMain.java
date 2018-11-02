@@ -28,7 +28,7 @@ public class ProductQueryServiceMain {
 
     @Configuration
     @ComponentScan(basePackages = {"org.product.query.service", "org.product.domain", "org.utils"})
-    @EntityScan(basePackages = {"org.product.query.service", "org.product.service", "org.utils"})
+    @EntityScan(basePackages = {"org.product.query.service", "org.product.domain", "org.utils"})
     @EnableJpaRepositories(basePackages = {"org.product.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
