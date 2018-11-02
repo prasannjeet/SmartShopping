@@ -6,6 +6,7 @@ import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.store.domain.service.repository.PriceTagRepository;
 import org.store.domain.service.repository.StoreRepository;
 import org.store.query.service.StoreQueryServiceMain.MyConfiguration;
+import org.store.query.service.service.MapService;
 import org.store.query.service.service.StoreQueryService;
 import org.store.query.service.subscriber.QueryEventSubscriber;
 import org.springframework.boot.SpringApplication;
@@ -40,8 +41,8 @@ public class StoreQueryServiceMain {
         }
 
         @Bean
-        public StoreQueryService queryService(StoreRepository storeRepository, PriceTagRepository priceTagRepository) {
-            return new StoreQueryService(storeRepository, priceTagRepository);
+        public StoreQueryService queryService(StoreRepository storeRepository, PriceTagRepository priceTagRepository, MapService mapService) {
+            return new StoreQueryService(storeRepository, priceTagRepository, mapService);
         }
     }
 }

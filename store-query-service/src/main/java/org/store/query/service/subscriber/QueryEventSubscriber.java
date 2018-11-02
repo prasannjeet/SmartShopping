@@ -9,9 +9,9 @@ import org.store.domain.service.event.PriceTagAddedEvent;
 import org.store.domain.service.event.PriceTagDeletedEvent;
 import org.store.domain.service.event.PriceTagUpdatedEvent;
 import org.store.domain.service.model.PriceTag;
+import org.store.query.service.service.MapService;
 import org.store.query.service.service.StoreQueryService;
-
-//import org.cart.domain.service.event.CartEventProductsPricesAsked;
+import org.cart.domain.service.event.CartEventProductsPricesAsked;
 
 @EventSubscriber(id = "storeQueryEventHandler")
 public class QueryEventSubscriber {
@@ -36,11 +36,13 @@ public class QueryEventSubscriber {
         this.queryService.deletePriceTag(event.getEvent().getPriceTag().getId());
     }
     
-    /*
+    
     @EventHandlerMethod
     public PriceList createPriceList(DispatchedEvent<CartEventProductsPricesAsked> event){
-    	return null;
+    	PriceList priceList = this.queryService.getPriceList(event.getEvent().getCart());
+    	if (priceList == null)
+    		return null; //TODO: How to ignore event?
+    	else return priceList;
     }
     
-    */
 }
