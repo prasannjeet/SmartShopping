@@ -6,9 +6,9 @@ import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
 import org.user.command.service.command.CreateUserCommand;
 import org.user.command.service.command.DeleteUserCommand;
 import org.user.command.service.command.UserCommand;
-import org.user.domain.service.event.UserEventUserCreated;
-import org.user.domain.service.event.UserEventUserDeleted;
-import org.user.domain.service.model.User;
+import org.user.domain.event.UserEventUserCreated;
+import org.user.domain.event.UserEventUserDeleted;
+import org.user.domain.model.User;
 
 import java.util.Collections;
 import java.util.List;

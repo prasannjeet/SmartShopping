@@ -1,7 +1,7 @@
 package org.user.query.service.service;
 
-import org.user.domain.service.model.User;
-import org.user.domain.service.repository.UserRepository;
+import org.user.domain.model.User;
+import org.user.domain.repository.UserRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,11 +15,11 @@ public class QueryService {
         this.userRepository = userRepository;
     }
 
-    public List<User> findAllUsers() {
+    public List<User> findAll() {
         return this.userRepository.findAll();
     }
 
-    public User findUserById(String id) {
+    public User findById(String id) {
         return Optional
                 .of(this.userRepository.findOne(id))
                 .orElseThrow(() -> new NoSuchElementException("No user with id = " + id));

@@ -1,6 +1,6 @@
 package org.cart.command.service.command;
 
-import org.cart.domain.service.model.Product;
+import org.cart.domain.model.Product;
 
 public class UpdateProductQuantityCommand implements CartCommand {
 

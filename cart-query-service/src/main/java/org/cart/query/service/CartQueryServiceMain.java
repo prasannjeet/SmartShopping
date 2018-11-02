@@ -2,8 +2,8 @@ package org.cart.query.service;
 
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
-import org.cart.domain.service.repository.CartRepository;
-import org.cart.domain.service.repository.ProductRepository;
+import org.cart.domain.repository.CartRepository;
+import org.cart.domain.repository.ProductRepository;
 import org.cart.query.service.CartQueryServiceMain.MyConfiguration;
 import org.cart.query.service.controller.Controller;
 import org.cart.query.service.service.QueryService;
@@ -28,9 +28,9 @@ public class CartQueryServiceMain {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.cart.query.service", "org.cart.domain.service"})
-    @EntityScan(basePackages = {"org.cart.query.service", "org.cart.domain.service"})
-    @EnableJpaRepositories(basePackages = {"org.cart.domain.service.repository"})
+    @ComponentScan(basePackages = {"org.cart.query.service", "org.cart.domain", "org.utils"})
+    @EntityScan(basePackages = {"org.cart.query.service", "org.cart.domain", "org.utils"})
+    @EnableJpaRepositories(basePackages = {"org.cart.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
 

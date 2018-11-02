@@ -1,6 +1,6 @@
 package org.cart.query.service.controller;
 
-import org.cart.domain.service.dao.CartDaoForEndUser;
+import org.cart.domain.dao.CartDaoForEndUser;
 import org.cart.query.service.service.QueryService;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +20,14 @@ public class Controller {
     }
 
     @GetMapping
-    public CompletableFuture<List<CartDaoForEndUser>> findAllCarts() {
+    public CompletableFuture<List<CartDaoForEndUser>> findAll() {
         return CompletableFuture
-                .supplyAsync(() -> this.queryService.findAllCarts());
+                .supplyAsync(() -> this.queryService.findAll());
     }
 
     @GetMapping("/{userId}")
-    public CompletableFuture<CartDaoForEndUser> findCartByUserId(@PathVariable @NotBlank String userId) {
+    public CompletableFuture<CartDaoForEndUser> findByUserId(@PathVariable @NotBlank String userId) {
         return CompletableFuture
-                .supplyAsync(() -> this.queryService.findCartByUserId(userId));
+                .supplyAsync(() -> this.queryService.findByUserId(userId));
     }
 }

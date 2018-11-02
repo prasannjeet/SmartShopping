@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.user.domain.service.repository.UserRepository;
+import org.user.domain.repository.UserRepository;
 import org.user.query.service.UserQueryServiceMain.MyConfiguration;
 import org.user.query.service.controller.Controller;
 import org.user.query.service.service.QueryService;
@@ -27,9 +27,9 @@ public class UserQueryServiceMain {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.user.query.service", "org.user.domain.service"})
-    @EntityScan(basePackages = {"org.user.query.service", "org.user.domain.service"})
-    @EnableJpaRepositories(basePackages = {"org.user.domain.service.repository"})
+    @ComponentScan(basePackages = {"org.user.query.service", "org.user.domain", "org.utils"})
+    @EntityScan(basePackages = {"org.user.query.service", "org.user.domain", "org.utils"})
+    @EnableJpaRepositories(basePackages = {"org.user.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
 

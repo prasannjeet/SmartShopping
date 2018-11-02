@@ -3,13 +3,10 @@ package org.user.query.service.subscriber;
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
-import org.user.domain.service.event.UserEventUserCreated;
-import org.user.domain.service.event.UserEventUserDeleted;
-import org.user.domain.service.model.User;
-import org.user.domain.service.repository.UserRepository;
-import org.user.query.service.service.QueryService;
-
-import java.util.concurrent.CompletableFuture;
+import org.user.domain.event.UserEventUserCreated;
+import org.user.domain.event.UserEventUserDeleted;
+import org.user.domain.model.User;
+import org.user.domain.repository.UserRepository;
 
 @EventSubscriber(id = "userQueryEventHandler")
 public class QueryEventSubscriber {

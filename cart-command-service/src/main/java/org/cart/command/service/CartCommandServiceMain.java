@@ -9,8 +9,8 @@ import org.cart.command.service.aggregate.CartAggregate;
 import org.cart.command.service.command.CartCommand;
 import org.cart.command.service.controller.Controller;
 import org.cart.command.service.service.CommandService;
-import org.cart.domain.service.repository.CartRepository;
-import org.cart.domain.service.repository.ProductRepository;
+import org.cart.domain.repository.CartRepository;
+import org.cart.domain.repository.ProductRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -31,9 +31,9 @@ public class CartCommandServiceMain {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.cart.command.service", "org.cart.domain.service"})
-    @EntityScan(basePackages = {"org.cart.command.service", "org.cart.domain.service"})
-    @EnableJpaRepositories(basePackages = {"org.cart.domain.service.repository"})
+    @ComponentScan(basePackages = {"org.cart.command.service", "org.cart.domain", "org.utils"})
+    @EntityScan(basePackages = {"org.cart.command.service", "org.cart.domain", "org.utils"})
+    @EnableJpaRepositories(basePackages = {"org.cart.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
@@ -44,14 +44,14 @@ public class CartCommandServiceMain {
         }
 
         @Bean
-        public CommandService commandService(AggregateRepository<CartAggregate, CartCommand> aggregateRepository) {
-            return new CommandService(aggregateRepository);
+        public CommandService commandService(AggregateRepository<CartAggregate, CartCommand> aggregateRepository,
+                                             ProductRepository productRepository, CartRepository cartRepository) {
+            return new CommandService(aggregateRepository, productRepository, cartRepository);
         }
 
         @Bean
-        public Controller controller(CommandService commandService, ProductRepository productRepository,
-                                     CartRepository cartRepository) {
-            return new Controller(commandService, productRepository, cartRepository);
+        public Controller controller(CommandService commandService, ProductRepository productRepository) {
+            return new Controller(commandService);
         }
     }
 }

@@ -3,15 +3,15 @@ package org.cart.query.service.subscriber;
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
-import org.cart.domain.service.event.CartEventProductAdded;
-import org.cart.domain.service.event.CartEventProductDeleted;
-import org.cart.domain.service.event.CartEventProductQuantityUpdated;
-import org.cart.domain.service.model.Cart;
-import org.cart.domain.service.model.Product;
-import org.cart.domain.service.repository.CartRepository;
-import org.cart.domain.service.repository.ProductRepository;
-import org.user.domain.service.event.UserEventUserCreated;
-import org.user.domain.service.event.UserEventUserDeleted;
+import org.cart.domain.event.CartEventProductAdded;
+import org.cart.domain.event.CartEventProductDeleted;
+import org.cart.domain.event.CartEventProductQuantityUpdated;
+import org.cart.domain.model.Cart;
+import org.cart.domain.model.Product;
+import org.cart.domain.repository.CartRepository;
+import org.cart.domain.repository.ProductRepository;
+import org.user.domain.event.UserEventUserCreated;
+import org.user.domain.event.UserEventUserDeleted;
 
 @EventSubscriber(id = "cartQueryEventHandler")
 public class QueryEventSubscriber {
@@ -25,7 +25,7 @@ public class QueryEventSubscriber {
     }
 
     @EventHandlerMethod
-    public void saveCart(DispatchedEvent<UserEventUserCreated> event) {
+    public void createCart(DispatchedEvent<UserEventUserCreated> event) {
         if (!this.cartRepository.isDuplicate(event.getEntityId())) {
             this.cartRepository.save(new Cart(event.getEntityId()));
         }
@@ -42,9 +42,9 @@ public class QueryEventSubscriber {
     }
 
     @EventHandlerMethod
-    public void saveProduct(DispatchedEvent<CartEventProductAdded> event) {
+    public void addProduct(DispatchedEvent<CartEventProductAdded> event) {
         try {
-            this.productRepository.save(new Product(event.getEvent().getProduct().getBarcode(), event.getEvent().getProduct()));
+            this.productRepository.save(new Product(event.getEntityId(), event.getEvent().getProduct()));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

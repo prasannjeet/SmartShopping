@@ -7,10 +7,10 @@ import org.cart.command.service.command.AddProductCommand;
 import org.cart.command.service.command.CartCommand;
 import org.cart.command.service.command.DeleteProductCommand;
 import org.cart.command.service.command.UpdateProductQuantityCommand;
-import org.cart.domain.service.event.CartEventProductAdded;
-import org.cart.domain.service.event.CartEventProductDeleted;
-import org.cart.domain.service.event.CartEventProductQuantityUpdated;
-import org.cart.domain.service.model.Product;
+import org.cart.domain.event.CartEventProductAdded;
+import org.cart.domain.event.CartEventProductDeleted;
+import org.cart.domain.event.CartEventProductQuantityUpdated;
+import org.cart.domain.model.Product;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +29,7 @@ public class CartAggregate extends ReflectiveMutableCommandProcessingAggregate<C
     }
 
     public List<Event> process(DeleteProductCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartEventProductDeleted());
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartEventProductDeleted(command.getProduct()));
     }
 
     public void apply(CartEventProductAdded event) {

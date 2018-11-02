@@ -16,13 +16,19 @@
     <dependencies>
         <dependency>
             <groupId>smart-shopping</groupId>
-            <artifactId>cart-domain-service</artifactId>
+            <artifactId>cart-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>smart-shopping</groupId>
-            <artifactId>user-domain-service</artifactId>
+            <artifactId>user-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>smart-shopping</groupId>
+            <artifactId>utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -1,9 +1,9 @@
 package org.cart.query.service.service;
 
-import org.cart.domain.service.dao.CartDaoForEndUser;
-import org.cart.domain.service.model.Cart;
-import org.cart.domain.service.repository.CartRepository;
-import org.cart.domain.service.repository.ProductRepository;
+import org.cart.domain.dao.CartDaoForEndUser;
+import org.cart.domain.model.Cart;
+import org.cart.domain.repository.CartRepository;
+import org.cart.domain.repository.ProductRepository;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,15 +20,15 @@ public class QueryService {
         this.productRepository = productRepository;
     }
 
-    public List<CartDaoForEndUser> findAllCarts() {
-        List<CartDaoForEndUser> cartDaoForEndUsers = new LinkedList<>();
+    public List<CartDaoForEndUser> findAll() {
+        List<CartDaoForEndUser> dao = new LinkedList<>();
         List<Cart> carts = this.cartRepository.findAll();
         carts.forEach(cart ->
-                cartDaoForEndUsers.add(new CartDaoForEndUser(cart.getUserId(), this.productRepository.findByUserId(cart.getUserId()))));
-        return cartDaoForEndUsers;
+                dao.add(new CartDaoForEndUser(cart.getUserId(), this.productRepository.findByUserId(cart.getUserId()))));
+        return dao;
     }
 
-    public CartDaoForEndUser findCartByUserId(String userId) {
+    public CartDaoForEndUser findByUserId(String userId) {
         Cart cart = Optional
                 .of(this.cartRepository.findByUserId(userId))
                 .orElseThrow(() -> new NoSuchElementException("No cart with userId = " + userId));

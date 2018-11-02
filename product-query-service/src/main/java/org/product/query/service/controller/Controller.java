@@ -1,8 +1,8 @@
 package org.product.query.service.controller;
 
-import org.product.domain.service.model.Product;
-import org.product.query.service.service.ProductQueryService;
-import org.springframework.http.ResponseEntity;
+import org.hibernate.validator.constraints.NotBlank;
+import org.product.domain.model.Product;
+import org.product.query.service.service.QueryService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,21 +13,27 @@ import java.util.concurrent.CompletableFuture;
 @ResponseBody
 public class Controller {
 
-    private ProductQueryService productQueryService;
+    private QueryService queryService;
 
-    public Controller(ProductQueryService productQueryService) {
-        this.productQueryService = productQueryService;
+    public Controller(QueryService queryService) {
+        this.queryService = queryService;
     }
 
     @GetMapping
     public CompletableFuture<List<Product>> findAll() {
         return CompletableFuture
-                .supplyAsync(() -> this.productQueryService.findAll());
+                .supplyAsync(() -> this.queryService.findAll());
     }
 
     @GetMapping("/{barcode}")
-    public CompletableFuture<Product> findByBarcode(@PathVariable String barcode) {
+    public CompletableFuture<List<Product>> findByBarcode(@NotBlank @PathVariable String barcode) {
         return CompletableFuture
-                .supplyAsync(() -> this.productQueryService.findByBarcode(barcode));
+                .supplyAsync(() -> this.queryService.findByBarcode(barcode));
+    }
+
+    @GetMapping("/{storeId}")
+    public CompletableFuture<List<Product>> findByStoreId(@NotBlank @PathVariable String storeId) {
+        return CompletableFuture
+                .supplyAsync(() -> this.queryService.findByStoreId(storeId));
     }
 }

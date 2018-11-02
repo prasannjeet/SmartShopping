@@ -1,6 +1,7 @@
 package org.user.command.service.command;
 
-import org.user.domain.service.model.User;
+
+import org.user.domain.model.User;
 
 public class CreateUserCommand implements UserCommand {
 

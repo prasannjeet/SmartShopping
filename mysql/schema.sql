@@ -33,9 +33,10 @@ CREATE TABLE cart (
 
 CREATE TABLE product (
   id VARCHAR (255) PRIMARY KEY,
-  barcode VARCHAR (255),
+  barcode VARCHAR (255) NOT NULL,
   name VARCHAR (255) NOT NULL,
   quantity VARCHAR (255) NOT NULL,
+  has_weight BOOLEAN NOT NULL,
   user_id VARCHAR(255) NOT NULL,
   deleted BOOLEAN
 );
@@ -46,9 +47,11 @@ USE productservice;
 DROP table IF EXISTS product;
 
 create table product (
-  barcode VARCHAR(255) PRIMARY KEY,
+  id VARCHAR (255) PRIMARY KEY,
+  barcode VARCHAR(255) NOT NULL,
   name varchar(255) NOT NULL,
-  weightable BOOLEAN NOT NULL,
+  has_weight BOOLEAN NOT NULL,
+  store_id VARCHAR(255) NOT NULL,
   deleted BOOLEAN
 );
 
@@ -67,8 +70,9 @@ create table store (
 DROP table IF EXISTS price_tag;
 
 create table price_tag (
-  barcode VARCHAR(255) PRIMARY KEY,
-  price DOUBLE(10,2) NOT NULL,
+  id VARCHAR(255) PRIMARY KEY,
+  barcode VARCHAR(255) NOT NULL,
+  price VARCHAR(255) NOT NULL,
   deleted BOOLEAN
 );
 

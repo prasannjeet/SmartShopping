@@ -2,7 +2,7 @@ package org.user.query.service.controller;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.bind.annotation.*;
-import org.user.domain.service.model.User;
+import org.user.domain.model.User;
 import org.user.query.service.service.QueryService;
 
 import java.util.List;
@@ -20,14 +20,14 @@ public class Controller {
     }
 
     @GetMapping
-    public CompletableFuture<List<User>> findAllUsers() {
+    public CompletableFuture<List<User>> findAll() {
         return CompletableFuture
-                .supplyAsync(() -> this.queryService.findAllUsers());
+                .supplyAsync(() -> this.queryService.findAll());
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<User> findUserById(@PathVariable @NotBlank String id) {
+    public CompletableFuture<User> findById(@PathVariable @NotBlank String id) {
         return CompletableFuture
-                .supplyAsync(() -> this.queryService.findUserById(id));
+                .supplyAsync(() -> this.queryService.findById(id));
     }
 }

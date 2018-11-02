@@ -1,0 +1,15 @@
+package org.cart.domain.repository;
+
+import org.cart.domain.model.Cart;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CartRepository extends JpaRepository<Cart, String> {
+
+    Cart findByUserId(String userId);
+
+    default boolean isDuplicate(String userId) {
+        return this.findByUserId(userId) != null;
+    }
+}

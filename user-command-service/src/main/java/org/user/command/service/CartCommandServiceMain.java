@@ -18,7 +18,7 @@ import org.user.command.service.aggregate.UserAggregate;
 import org.user.command.service.command.UserCommand;
 import org.user.command.service.controller.Controller;
 import org.user.command.service.service.CommandService;
-import org.user.domain.service.repository.UserRepository;
+import org.user.domain.repository.UserRepository;
 
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
@@ -30,9 +30,9 @@ public class CartCommandServiceMain {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.user.command.service", "org.user.domain.service"})
-    @EntityScan(basePackages = {"org.user.command.service", "org.user.domain.service"})
-    @EnableJpaRepositories(basePackages = {"org.user.domain.service.repository"})
+    @ComponentScan(basePackages = {"org.user.command.service", "org.user.domain", "org.utils"})
+    @EntityScan(basePackages = {"org.user.command.service", "org.user.domain", "org.utils"})
+    @EnableJpaRepositories(basePackages = {"org.user.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
@@ -43,13 +43,14 @@ public class CartCommandServiceMain {
         }
 
         @Bean
-        public CommandService commandService(AggregateRepository<UserAggregate, UserCommand> aggregateRepository) {
-            return new CommandService(aggregateRepository);
+        public CommandService commandService(AggregateRepository<UserAggregate, UserCommand> aggregateRepository,
+                                             UserRepository userRepository) {
+            return new CommandService(aggregateRepository, userRepository);
         }
 
         @Bean
-        public Controller controller(CommandService commandService, UserRepository userRepository) {
-            return new Controller(commandService, userRepository);
+        public Controller controller(CommandService commandService) {
+            return new Controller(commandService);
         }
     }
 }
