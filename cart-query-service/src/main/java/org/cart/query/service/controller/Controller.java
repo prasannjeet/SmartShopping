@@ -1,7 +1,7 @@
 package org.cart.query.service.controller;
 
-import org.cart.domain.service.dao.CartDao;
-import org.cart.query.service.service.CartQueryService;
+import org.cart.domain.dao.CartDaoForEndUser;
+import org.cart.query.service.service.QueryService;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +13,21 @@ import java.util.concurrent.CompletableFuture;
 @ResponseBody
 public class Controller {
 
-    private CartQueryService cartQueryService;
+    private QueryService queryService;
 
-    public Controller(CartQueryService cartQueryService) {
-        this.cartQueryService = cartQueryService;
+    public Controller(QueryService queryService) {
+        this.queryService = queryService;
     }
 
     @GetMapping
-    public CompletableFuture<List<CartDao>> findAll() {
+    public CompletableFuture<List<CartDaoForEndUser>> findAll() {
         return CompletableFuture
-                .supplyAsync(() -> this.cartQueryService.findAll());
+                .supplyAsync(() -> this.queryService.findAll());
     }
 
     @GetMapping("/{userId}")
-    public CompletableFuture<CartDao> findByUserId(@PathVariable @NotBlank String userId) {
+    public CompletableFuture<CartDaoForEndUser> findByUserId(@PathVariable @NotBlank String userId) {
         return CompletableFuture
-                .supplyAsync(() -> this.cartQueryService.findByUserId(userId));
+                .supplyAsync(() -> this.queryService.findByUserId(userId));
     }
 }

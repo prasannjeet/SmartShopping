@@ -3,48 +3,49 @@ package org.cart.command.service.aggregate;
 import io.eventuate.Event;
 import io.eventuate.EventUtil;
 import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
+import org.cart.command.service.command.AddProductCommand;
 import org.cart.command.service.command.CartCommand;
-import org.cart.command.service.command.CreateCartCommand;
-import org.cart.command.service.command.DeleteCartCommand;
-import org.cart.command.service.command.UpdateCartCommand;
-import org.cart.domain.service.event.CartCreatedEvent;
-import org.cart.domain.service.event.CartDeletedEvent;
-import org.cart.domain.service.event.CartUpdatedEvent;
-import org.cart.domain.service.model.Cart;
+import org.cart.command.service.command.DeleteProductCommand;
+import org.cart.command.service.command.UpdateProductQuantityCommand;
+import org.cart.domain.event.CartEventProductAdded;
+import org.cart.domain.event.CartEventProductDeleted;
+import org.cart.domain.event.CartEventProductQuantityUpdated;
+import org.cart.domain.model.Product;
 
 import java.util.Collections;
 import java.util.List;
 
 public class CartAggregate extends ReflectiveMutableCommandProcessingAggregate<CartAggregate, CartCommand> {
 
-    private Cart cart;
+    private Product product;
     private boolean deleted;
 
-    public List<Event> process(CreateCartCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartCreatedEvent(command.getCart()));
+    public List<Event> process(AddProductCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartEventProductAdded(command.getProduct()));
     }
 
-    public List<Event> process(UpdateCartCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartUpdatedEvent(command.getCart()));
+    public List<Event> process(UpdateProductQuantityCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartEventProductQuantityUpdated(command.getProduct()));
     }
 
-    public List<Event> process(DeleteCartCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartDeletedEvent());
+    public List<Event> process(DeleteProductCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new CartEventProductDeleted(command.getProduct()));
     }
 
-    public void apply(CartCreatedEvent event) {
-        this.cart = event.getCart();
+    public void apply(CartEventProductAdded event) {
+        this.product = event.getProduct();
     }
 
-    public void apply(CartUpdatedEvent event) {
-        this.cart = event.getCart();
+    public void apply(CartEventProductQuantityUpdated event) {
+        this.product = event.getProduct();
     }
 
-    public void apply(CartDeletedEvent event) {
+    public void apply(CartEventProductDeleted event) {
         this.deleted = true;
     }
 
-    public Cart getCart() {
-        return this.cart;
+    public Product getProduct() {
+        return this.product;
     }
 }
+

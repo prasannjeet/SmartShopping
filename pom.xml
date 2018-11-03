@@ -4,10 +4,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>smart-shopping</groupId>
-    <artifactId>cart-service</artifactId>
+    <artifactId>smart-shopping-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>cart-service</name>
+    <name>smart-shopping</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -21,6 +21,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <jdk.version>1.8</jdk.version>
+        <eventuate.version>0.20.1.RELEASE</eventuate.version>
     </properties>
 
     <repositories>
@@ -30,9 +31,49 @@
         </repository>
     </repositories>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.eventuate.client.java</groupId>
+            <artifactId>eventuate-client-java-spring</artifactId>
+            <version>${eventuate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.eventuate.local.java</groupId>
+            <artifactId>eventuate-local-java-jdbc</artifactId>
+            <version>${eventuate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.eventuate.local.java</groupId>
+            <artifactId>eventuate-local-java-embedded-cdc-autoconfigure</artifactId>
+            <version>${eventuate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+    </dependencies>
+
     <modules>
-        <module>cart-domain-service</module>
+        <module>user-domain</module>
+        <module>user-query-service</module>
+        <module>user-command-service</module>
+        <module>cart-domain</module>
         <module>cart-query-service</module>
         <module>cart-command-service</module>
+        <!--<module>gateway-service</module>
+        <module>product-domain</module>
+        <module>product-query-service</module>
+        <module>store-domain</module>
+        <module>store-command-service</module>
+        <module>store-query-service</module>-->
+        <module>utils</module>
     </modules>
 </project>

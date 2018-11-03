@@ -2,13 +2,12 @@ package org.cart.query.service;
 
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
-import org.cart.domain.service.repository.CartRepository;
-import org.cart.domain.service.repository.ProductRepository;
+import org.cart.domain.repository.CartRepository;
+import org.cart.domain.repository.ProductRepository;
 import org.cart.query.service.CartQueryServiceMain.MyConfiguration;
-import org.cart.query.service.service.CartQueryService;
-import org.cart.query.service.service.ProductQueryService;
-import org.cart.query.service.subscriber.CartQueryEventSubscriber;
-import org.cart.query.service.subscriber.ProductQueryEventSubscriber;
+import org.cart.query.service.controller.Controller;
+import org.cart.query.service.service.QueryService;
+import org.cart.query.service.subscriber.QueryEventSubscriber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -29,30 +28,25 @@ public class CartQueryServiceMain {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.cart.query.service", "org.cart.domain.service"})
-    @EntityScan(basePackages = {"org.cart.query.service", "org.cart.domain.service"})
-    @EnableJpaRepositories(basePackages = {"org.cart.domain.service.repository"})
+    @ComponentScan(basePackages = {"org.cart.query.service", "org.cart.domain", "org.utils"})
+    @EntityScan(basePackages = {"org.cart.query.service", "org.cart.domain", "org.utils"})
+    @EnableJpaRepositories(basePackages = {"org.cart.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
         @Bean
-        public CartQueryEventSubscriber cartQueryEventSubscriber(CartQueryService cartQueryService) {
-            return new CartQueryEventSubscriber(cartQueryService);
+        public QueryEventSubscriber queryEventSubscriber(CartRepository cartRepository, ProductRepository productRepository) {
+            return new QueryEventSubscriber(cartRepository, productRepository);
         }
 
         @Bean
-        public ProductQueryEventSubscriber productQueryEventSubscriber(ProductQueryService productQueryService) {
-            return new ProductQueryEventSubscriber(productQueryService);
+        public QueryService queryService(CartRepository cartRepository, ProductRepository productRepository) {
+            return new QueryService(cartRepository, productRepository);
         }
 
         @Bean
-        public CartQueryService cartQueryService(CartRepository cartRepository, ProductQueryService productQueryService) {
-            return new CartQueryService(cartRepository, productQueryService);
-        }
-
-        @Bean
-        public ProductQueryService productQueryService(ProductRepository productRepository) {
-            return new ProductQueryService(productRepository);
+        public Controller controller(QueryService queryService) {
+            return new Controller(queryService);
         }
     }
 }
