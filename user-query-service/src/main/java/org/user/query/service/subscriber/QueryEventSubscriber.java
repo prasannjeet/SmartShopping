@@ -19,7 +19,6 @@ public class QueryEventSubscriber {
 
     @EventHandlerMethod
     public void createUser(DispatchedEvent<UserEventUserCreated> event) {
-        System.out.println("Event came in user query.");
         this.userRepository.save(new User(event.getEntityId(), event.getEvent().getUser()));
     }
 

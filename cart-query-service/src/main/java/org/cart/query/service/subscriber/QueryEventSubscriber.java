@@ -1,7 +1,5 @@
 package org.cart.query.service.subscriber;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
@@ -27,20 +25,10 @@ public class QueryEventSubscriber {
     }
 
     @EventHandlerMethod
-    public Cart createCart(DispatchedEvent<UserEventUserCreated> event) {
-        System.out.println("Event came in cart query");
+    public void createCart(DispatchedEvent<UserEventUserCreated> event) {
         if (!this.cartRepository.isDuplicate(event.getEntityId())) {
-            Cart cart = this.cartRepository.save(new Cart(event.getEntityId()));
-            try {
-                System.out.println("Event returned a cart = " + new ObjectMapper().writeValueAsString(cart));
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            return cart;
+            this.cartRepository.save(new Cart(event.getEntityId()));
         }
-
-        System.out.println("Event returned null");
-        return null;
     }
 
     @EventHandlerMethod
