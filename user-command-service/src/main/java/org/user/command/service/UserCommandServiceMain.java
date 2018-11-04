@@ -18,6 +18,7 @@ import org.user.command.service.aggregate.UserAggregate;
 import org.user.command.service.command.UserCommand;
 import org.user.command.service.controller.Controller;
 import org.user.command.service.service.CommandService;
+import org.user.command.service.subscriber.CommandEventSubscriber;
 import org.user.domain.repository.UserRepository;
 
 @Configuration
@@ -51,6 +52,11 @@ public class UserCommandServiceMain {
         @Bean
         public Controller controller(CommandService commandService) {
             return new Controller(commandService);
+        }
+
+        @Bean
+        public CommandEventSubscriber commandEventSubscriber(AggregateRepository<UserAggregate, UserCommand> aggregateRepository) {
+            return new CommandEventSubscriber(aggregateRepository);
         }
     }
 }

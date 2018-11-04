@@ -9,6 +9,7 @@ import org.cart.command.service.aggregate.CartAggregate;
 import org.cart.command.service.command.CartCommand;
 import org.cart.command.service.controller.Controller;
 import org.cart.command.service.service.CommandService;
+import org.cart.command.service.subscriber.CommandEventSubscriber;
 import org.cart.domain.repository.CartRepository;
 import org.cart.domain.repository.ProductRepository;
 import org.springframework.boot.SpringApplication;
@@ -31,8 +32,8 @@ public class CartCommandServiceMain {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.cart.command.service", "org.cart.domain", "org.utils"})
-    @EntityScan(basePackages = {"org.cart.command.service", "org.cart.domain", "org.utils"})
+    @ComponentScan(basePackages = {"org.cart.command.service", "org.cart.domain", "org.utils", "org.user.domain"})
+    @EntityScan(basePackages = {"org.cart.command.service", "org.cart.domain", "org.utils", "org.user.domain"})
     @EnableJpaRepositories(basePackages = {"org.cart.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
@@ -45,13 +46,19 @@ public class CartCommandServiceMain {
 
         @Bean
         public CommandService commandService(AggregateRepository<CartAggregate, CartCommand> aggregateRepository,
-                                             ProductRepository productRepository, CartRepository cartRepository) {
-            return new CommandService(aggregateRepository, productRepository, cartRepository);
+                                             ProductRepository productRepository, CartRepository cartRepository,
+                                             CommandEventSubscriber commandEventSubscriber) {
+            return new CommandService(aggregateRepository, productRepository, cartRepository, commandEventSubscriber);
         }
 
         @Bean
-        public Controller controller(CommandService commandService, ProductRepository productRepository) {
+        public Controller controller(CommandService commandService) {
             return new Controller(commandService);
+        }
+
+        @Bean
+        public CommandEventSubscriber commandEventSubscriber() {
+            return new CommandEventSubscriber();
         }
     }
 }
