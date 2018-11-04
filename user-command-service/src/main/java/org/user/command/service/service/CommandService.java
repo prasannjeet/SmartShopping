@@ -25,9 +25,7 @@ public class CommandService {
     }
 
     public CompletableFuture<EntityWithIdAndVersion<UserAggregate>> createUser(User user) throws Exception {
-        if (this.userRepository.isDuplicate(user)) {
-            throw new Exception("Duplicate user with username = " + user.getUsername());
-        }
+        this.userRepository.shouldNotBeDuplicate(user);
         return this.aggregateRepository.save(new CreateUserCommand(user));
     }
 

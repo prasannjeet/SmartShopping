@@ -50,7 +50,6 @@ public class Controller {
     private Product getProduct(EntityWithIdAndVersion<StoreAggregate> entity) {
         Product product = entity.getAggregate().getProduct();
         product.setId(entity.getEntityId());
-        System.err.println("--------" + product.getHasWeight() + "---------");
         return product;
     }
 
