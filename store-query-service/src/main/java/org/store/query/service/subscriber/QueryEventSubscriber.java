@@ -4,6 +4,11 @@ import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
 import org.cart.domain.event.CartEventProductsPricesAsked;
+
+import org.cart.domain.dao.CartDaoForStore;
+import org.cart.domain.dao.ProductDaoForStore;
+import org.store.domain.dao.PriceListDao;
+import org.store.domain.dao.PriceTagDao;
 import org.store.domain.event.StoreEventProductCreated;
 import org.store.domain.event.StoreEventProductPriceUpdated;
 import org.store.domain.event.StoreEventStoreCreated;
@@ -49,6 +54,28 @@ public class QueryEventSubscriber {
 
     @EventHandlerMethod
     public void fillProductsPrice(DispatchedEvent<CartEventProductsPricesAsked> event) {
-        // some logic here
+        CartDaoForStore cart = event.getEvent().getCart();
+        if(this.storeRepository.isIdentified() && this.isClose(cart.getUserLocation())) {
+            PriceListDao list = new PriceListDao(cart.getUserId(), this.storeRepository.findAll().get(0), this.distance(cart.getUserLocation()));
+            for(ProductDaoForStore prod : cart.getProducts()) {
+                PriceTag tag = this.priceTagRepository.findByBarcode(prod.getBarcode());
+                if(tag == null) {
+                    return;
+                }
+                list.addPriceTag(new PriceTagDao(tag));
+                /* TODO
+                 * How do I create an event from here ??*/
+            }
+        }
+    }
+
+    private boolean isClose(String userLocation) {
+        // TODO
+        return true;
+    }
+
+    private String distance(String userLocation) {
+        // TODO
+        return "500";
     }
 }

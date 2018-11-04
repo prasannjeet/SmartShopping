@@ -6,6 +6,10 @@ public class StoreEventProductPriceUpdated implements StoreEvent {
 
     private PriceTag priceTag;
 
+    public StoreEventProductPriceUpdated() {
+        
+    }
+
     public StoreEventProductPriceUpdated(PriceTag priceTag) {
         this.priceTag = priceTag;
     }

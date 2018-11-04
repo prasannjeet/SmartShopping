@@ -6,8 +6,6 @@ import org.store.domain.repository.PriceTagRepository;
 import org.store.domain.repository.StoreRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class QueryService {
 
@@ -23,12 +21,22 @@ public class QueryService {
         return this.storeRepository.findAll();
     }
 
-    public StoreDao findById(String id) {
+
+    public boolean isIdentified() {
+        return this.storeRepository.isIdentified();
+    }
+    
+
+    public StoreDao findSingleton() {
+        return new StoreDao(this.storeRepository.findAll().get(0),this.priceTagRepository.findAll());
+    }
+
+    /*public StoreDao findById(String id) {
         return new StoreDao(
                 Optional
                         .of(this.storeRepository.findOne(id))
                         .orElseThrow(() -> new NoSuchElementException("No store with id = " + id)),
                 this.priceTagRepository.findAll()
         );
-    }
+    }*/
 }

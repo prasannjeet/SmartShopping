@@ -24,7 +24,7 @@ public class Product {
 
     @NotBlank
     @Column(name = "has_weight", nullable = false)
-    private boolean hasWeight;
+    private String hasWeight;
 
     public String getId() {
         return this.id;
@@ -50,11 +50,11 @@ public class Product {
         this.name = (name == null || name.isEmpty()) ? this.name : name;
     }
 
-    public boolean getHasWeight() {
+    public String getHasWeight() {
         return this.hasWeight;
     }
 
-    public void setHasWeight(boolean hasWeight) {
-        this.hasWeight = hasWeight;
+    public void setHasWeight(String hasWeight) {
+        this.hasWeight = (hasWeight == null || hasWeight.isEmpty()) ? this.hasWeight : hasWeight;
     }
 }

@@ -49,8 +49,8 @@ DROP table IF EXISTS product;
 create table product (
   id VARCHAR (255) PRIMARY KEY,
   barcode VARCHAR(255) NOT NULL,
-  name varchar(255) NOT NULL,
-  has_weight BOOLEAN NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  has_weight VARCHAR(10) NOT NULL,
   deleted BOOLEAN
 );
 

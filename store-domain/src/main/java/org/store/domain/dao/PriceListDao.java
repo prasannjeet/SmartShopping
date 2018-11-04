@@ -1,8 +1,8 @@
 package org.store.domain.dao;
 
-import org.store.domain.model.PriceTag;
 import org.store.domain.model.Store;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PriceListDao {
@@ -12,9 +12,11 @@ public class PriceListDao {
     private String distanceFromUser;
     private List<PriceTagDao> pricesTags;
 
-    public PriceListDao(String userId, Store store, PriceTag priceTag) {
+    public PriceListDao(String userId, Store store, String distanceFromUser) {
         this.setUserId(userId);
         this.setStoreName(store.getName());
+        this.setDistanceFromUser(distanceFromUser);
+        pricesTags = new ArrayList<PriceTagDao>();
     }
 
     public String getUserId() {
@@ -47,5 +49,9 @@ public class PriceListDao {
 
     public void setPricesTags(List<PriceTagDao> pricesTags) {
         this.pricesTags = pricesTags;
+    }
+
+    public void addPriceTag(PriceTagDao priceTag) {
+        this.pricesTags.add(priceTag);
     }
 }

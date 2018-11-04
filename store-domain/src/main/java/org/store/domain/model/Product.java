@@ -19,7 +19,7 @@ public class Product {
     private String barcode;
 
     @NotBlank
-    private boolean hasWeight;
+    private String hasWeight;
 
     public Product() {
 
@@ -68,11 +68,11 @@ public class Product {
         this.barcode = barcode;
     }
 
-    public boolean hasWeight() {
+    public String hasWeight() {
         return this.hasWeight;
     }
 
-    public void setHasWeight(boolean hasWeight) {
-        this.hasWeight = hasWeight;
+    public void setHasWeight(String hasWeight) {
+        this.hasWeight = (hasWeight == null || hasWeight.isEmpty()) ? this.hasWeight : hasWeight;
     }
 }

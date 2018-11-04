@@ -31,7 +31,7 @@ public class CommandService {
     }
 
     public CompletableFuture<EntityWithIdAndVersion<StoreAggregate>> createStore(Store store) throws Exception {
-        if (this.storeRepository.findAll().isEmpty()) {
+        if (!this.storeRepository.isIdentified()) {
             return this.aggregateRepository.save(new CreateStoreCommand(store));
         }
         throw new Exception("This store has been already created");
@@ -40,6 +40,9 @@ public class CommandService {
     public CompletableFuture<EntityWithIdAndVersion<StoreAggregate>> createProduct(Product product) throws Exception {
         if (this.priceTagRepository.findByBarcode(product.getBarcode()) != null) {
             throw new Exception("This product has been already added to this store");
+        }
+        if(!(product.hasWeight().contentEquals("true") || product.hasWeight().contentEquals("false"))) {
+            throw new Exception("\"hasWeight\" must be \"true\" or \"false\"");
         }
         return this.aggregateRepository.save(new CreateProductCommand(product));
     }
