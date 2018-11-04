@@ -3,6 +3,7 @@ package org.cart.command.service.controller;
 import io.eventuate.EntityWithIdAndVersion;
 import org.cart.command.service.aggregate.CartAggregate;
 import org.cart.command.service.service.CommandService;
+import org.cart.domain.dao.CartDao;
 import org.cart.domain.model.Product;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class Controller {
     }
 
     @PutMapping(value = "/products", consumes = "application/json")
-    public CompletableFuture<Product> updateProductQuantity(@Valid Product product) throws Exception {
+    public CompletableFuture<Product> updateProductQuantity(@RequestBody @Valid Product product) throws Exception {
         return this.commandService
                 .updateProductQuantity(product)
                 .thenApply(entity -> this.getProduct(entity));
@@ -41,6 +42,20 @@ public class Controller {
         return this.commandService
                 .deleteProduct(userId, barcode)
                 .thenApply(entity -> this.getProduct(entity));
+    }
+
+    @PutMapping("/sort/stores-distance")
+    public synchronized CompletableFuture<?> sortByStoresDistance(@RequestBody @Valid CartDao cartDao) throws Exception {
+        return this.commandService
+                .getProductsPrices(cartDao)
+                .thenApply(res -> this.commandService.sortByStoresDistance());
+    }
+
+    @PutMapping("/sort/products-price")
+    public synchronized CompletableFuture<?> sortByProductsPrice(@RequestBody @Valid CartDao cartDao) throws Exception {
+        return this.commandService
+                .getProductsPrices(cartDao)
+                .thenApply(res -> this.commandService.sortByProductsPrice(cartDao.getUserId()));
     }
 
     private Product getProduct(EntityWithIdAndVersion<CartAggregate> entity) {

@@ -30,13 +30,4 @@ public class QueryService {
     public StoreDao findSingleton() {
         return new StoreDao(this.storeRepository.findAll().get(0),this.priceTagRepository.findAll());
     }
-
-    /*public StoreDao findById(String id) {
-        return new StoreDao(
-                Optional
-                        .of(this.storeRepository.findOne(id))
-                        .orElseThrow(() -> new NoSuchElementException("No store with id = " + id)),
-                this.priceTagRepository.findAll()
-        );
-    }*/
 }

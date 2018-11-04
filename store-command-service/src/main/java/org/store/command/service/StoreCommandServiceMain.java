@@ -9,6 +9,7 @@ import org.store.command.service.StoreCommandServiceMain.MyConfiguration;
 import org.store.command.service.aggregate.StoreAggregate;
 import org.store.command.service.command.StoreCommand;
 import org.store.command.service.service.CommandService;
+import org.store.command.service.subscriber.CommandEventSubscriber;
 import org.store.domain.repository.StoreRepository;
 import org.store.domain.repository.PriceTagRepository;
 import org.springframework.boot.SpringApplication;
@@ -47,6 +48,12 @@ public class StoreCommandServiceMain {
         public CommandService commandService(AggregateRepository<StoreAggregate, StoreCommand> aggregateRepository,
         		StoreRepository storeRepository, PriceTagRepository priceTagRepository) {
             return new CommandService(aggregateRepository, storeRepository, priceTagRepository);
+        }
+
+        @Bean
+        public CommandEventSubscriber commandEventSubscriber(AggregateRepository<StoreAggregate, StoreCommand> aggregateRepository,
+                StoreRepository storeRepository, PriceTagRepository priceTagRepository) {
+            return new CommandEventSubscriber(aggregateRepository, priceTagRepository, storeRepository);
         }
     }
 }

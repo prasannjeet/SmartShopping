@@ -26,7 +26,7 @@ public class Controller {
     public CompletableFuture<Store> createStore(@RequestBody @Valid Store store) throws Exception {
         return this.commandService
                 .createStore(store)
-                .thenApply(entity -> new Store(entity.getEntityId(), entity.getAggregate().getStore()));
+                .thenApply(entity -> this.getStore(entity));
 
     }
 
@@ -50,6 +50,13 @@ public class Controller {
     private Product getProduct(EntityWithIdAndVersion<StoreAggregate> entity) {
         Product product = entity.getAggregate().getProduct();
         product.setId(entity.getEntityId());
+        System.err.println("--------" + product.getHasWeight() + "---------");
         return product;
+    }
+
+    private Store getStore(EntityWithIdAndVersion<StoreAggregate> entity) {
+        Store store = entity.getAggregate().getStore();
+        store.setId(entity.getEntityId());
+        return store;
     }
 }

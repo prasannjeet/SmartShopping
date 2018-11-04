@@ -30,7 +30,7 @@ public class Store {
 
     }
 
-    public Store(String id, Store store) {
+    public Store(String id, Store store) throws Exception {
         this.setId(id);
         this.setName(store.name);
         this.setWebsite(store.website);
@@ -65,7 +65,8 @@ public class Store {
         return this.location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(String location) throws Exception {
+        Double.parseDouble(location);
         this.location = (location == null || location.isEmpty()) ? this.location : location;
     }
 }

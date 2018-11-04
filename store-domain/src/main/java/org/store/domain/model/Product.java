@@ -3,6 +3,7 @@ package org.store.domain.model;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 public class Product {
 
@@ -18,8 +19,8 @@ public class Product {
     @NotBlank
     private String barcode;
 
-    @NotBlank
-    private String hasWeight;
+    @NotNull
+    private Boolean hasWeight;
 
     public Product() {
 
@@ -64,15 +65,18 @@ public class Product {
         return this.barcode;
     }
 
-    public void setBarcode(String barcode) {
+    public void setBarcode(String barcode) throws Exception {
+        if (!barcode.matches("[0-9]+")) {
+            throw new Exception("Barcode should be only composed of digits.");
+        }
         this.barcode = barcode;
     }
 
-    public String hasWeight() {
+    public Boolean getHasWeight() {
         return this.hasWeight;
     }
 
-    public void setHasWeight(String hasWeight) {
-        this.hasWeight = (hasWeight == null || hasWeight.isEmpty()) ? this.hasWeight : hasWeight;
+    public void setHasWeight(Boolean hasWeight) {
+        this.hasWeight = hasWeight;
     }
 }

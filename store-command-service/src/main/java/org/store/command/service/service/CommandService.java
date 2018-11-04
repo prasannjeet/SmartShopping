@@ -41,9 +41,6 @@ public class CommandService {
         if (this.priceTagRepository.findByBarcode(product.getBarcode()) != null) {
             throw new Exception("This product has been already added to this store");
         }
-        if(!(product.hasWeight().contentEquals("true") || product.hasWeight().contentEquals("false"))) {
-            throw new Exception("\"hasWeight\" must be \"true\" or \"false\"");
-        }
         return this.aggregateRepository.save(new CreateProductCommand(product));
     }
 

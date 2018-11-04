@@ -46,7 +46,7 @@ public class QueryEventSubscriber {
         try {
             this.productRepository.save(new Product(event.getEntityId(), event.getEvent().getProduct()));
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println("Cannot add product into cart. " + e.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class QueryEventSubscriber {
         try {
             this.productRepository.save(new Product(event.getEntityId(), event.getEvent().getProduct()));
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println("Cannot update product quantity. " + e.getMessage());
         }
     }
 

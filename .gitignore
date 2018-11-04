@@ -63,6 +63,7 @@ nb-configuration.xml
 ##########################
 ## VS Code
 ##########################
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
