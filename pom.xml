@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>smart-shopping</groupId>
+    <artifactId>smart-shopping-app</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>smart-shopping</name>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.10.RELEASE</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <jdk.version>1.8</jdk.version>
+        <eventuate.version>0.20.1.RELEASE</eventuate.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.eventuate.client.java</groupId>
+            <artifactId>eventuate-client-java-spring</artifactId>
+            <version>${eventuate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.eventuate.local.java</groupId>
+            <artifactId>eventuate-local-java-jdbc</artifactId>
+            <version>${eventuate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.eventuate.local.java</groupId>
+            <artifactId>eventuate-local-java-embedded-cdc-autoconfigure</artifactId>
+            <version>${eventuate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <module>gateway-service</module>
+        <!--<module>user-domain</module>
+        <module>user-query-service</module>
+        <module>user-command-service</module>
+        <module>cart-domain</module>
+        <module>cart-query-service</module>
+        <module>cart-command-service</module>
+        <module>product-domain</module>
+        <module>product-query-service</module>
+        <module>store-domain</module>
+        <module>store-command-service</module>
+        <module>store-query-service</module>
+        <module>utils</module>-->
+    </modules>
+</project>
