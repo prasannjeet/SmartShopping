@@ -1,9 +1,11 @@
 DROP DATABASE IF EXISTS userservice;
+DROP DATABASE IF EXISTS gatewayservice;
 DROP DATABASE IF EXISTS cartservice;
 DROP DATABASE IF EXISTS productservice;
 DROP DATABASE IF EXISTS storeservice;
 
 CREATE DATABASE userservice;
+CREATE DATABASE gatewayservice;
 CREATE DATABASE cartservice;
 CREATE DATABASE productservice;
 CREATE DATABASE storeservice;
@@ -72,6 +74,17 @@ create table price_tag (
   id VARCHAR(255) PRIMARY KEY,
   barcode VARCHAR(255) NOT NULL,
   price VARCHAR(255) NOT NULL,
+  deleted BOOLEAN
+);
+
+USE gatewayservice;
+
+DROP table IF EXISTS store;
+
+create table store (
+  id VARCHAR(255) PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  uri varchar(255) NOT NULL,
   deleted BOOLEAN
 );
 

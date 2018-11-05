@@ -18,8 +18,8 @@ public class Controller {
 
     private GatewayService gatewayService;
 
-    public Controller(GatewayService commandService) {
-        this.gatewayService = commandService;
+    public Controller(GatewayService gatewayService) {
+        this.gatewayService = gatewayService;
     }
     
     @GetMapping(value = "/ip")
