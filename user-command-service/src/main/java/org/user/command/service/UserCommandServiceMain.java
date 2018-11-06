@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.user.command.service.CartCommandServiceMain.MyConfiguration;
+import org.user.command.service.UserCommandServiceMain.MyConfiguration;
 import org.user.command.service.aggregate.UserAggregate;
 import org.user.command.service.command.UserCommand;
 import org.user.command.service.controller.Controller;
@@ -23,10 +23,10 @@ import org.user.domain.repository.UserRepository;
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
 @EnableAutoConfiguration
-public class CartCommandServiceMain {
+public class UserCommandServiceMain {
 
     public static void main(String[] args) {
-        SpringApplication.run(CartCommandServiceMain.class, args);
+        SpringApplication.run(UserCommandServiceMain.class, args);
     }
 
     @Configuration

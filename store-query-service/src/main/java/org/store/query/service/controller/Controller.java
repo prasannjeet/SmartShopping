@@ -1,12 +1,9 @@
 package org.store.query.service.controller;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.bind.annotation.*;
 import org.store.domain.dao.StoreDao;
-import org.store.domain.model.Store;
 import org.store.query.service.service.QueryService;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -21,14 +18,11 @@ public class Controller {
     }
 
     @GetMapping
-    public CompletableFuture<List<Store>> findAll() {
+    public CompletableFuture<StoreDao> findAll() throws Exception {
+        if (!this.queryService.isIdentified()) {
+            throw new Exception("The store isn't identified !");
+        }
         return CompletableFuture
-                .supplyAsync(() -> this.queryService.findAll());
-    }
-
-    @GetMapping("/{id}")
-    public CompletableFuture<StoreDao> findById(@NotBlank @PathVariable String id) {
-        return CompletableFuture
-                .supplyAsync(() -> this.queryService.findById(id));
+                .supplyAsync(() -> this.queryService.findSingleton());
     }
 }

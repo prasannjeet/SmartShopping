@@ -7,4 +7,8 @@ import org.store.domain.model.Store;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, String> {
 
+    default boolean isIdentified() {
+        return !this.findAll().isEmpty();
+    }
+
 }

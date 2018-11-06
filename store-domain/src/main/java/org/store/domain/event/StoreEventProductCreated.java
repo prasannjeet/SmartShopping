@@ -6,6 +6,10 @@ public class StoreEventProductCreated implements StoreEvent {
 
     private Product product;
 
+    public StoreEventProductCreated() {
+
+    }
+
     public StoreEventProductCreated(Product product) {
         this.product = product;
     }

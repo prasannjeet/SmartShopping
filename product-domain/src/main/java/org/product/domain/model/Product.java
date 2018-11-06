@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product")
@@ -22,9 +23,9 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @NotBlank
+    @NotNull
     @Column(name = "has_weight", nullable = false)
-    private boolean hasWeight;
+    private Boolean hasWeight;
 
     public String getId() {
         return this.id;
@@ -50,11 +51,11 @@ public class Product {
         this.name = (name == null || name.isEmpty()) ? this.name : name;
     }
 
-    public boolean getHasWeight() {
+    public Boolean getHasWeight() {
         return this.hasWeight;
     }
 
-    public void setHasWeight(boolean hasWeight) {
+    public void setHasWeight(Boolean hasWeight) {
         this.hasWeight = hasWeight;
     }
 }

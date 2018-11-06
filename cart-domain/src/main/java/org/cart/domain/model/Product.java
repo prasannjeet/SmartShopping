@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product")
@@ -26,9 +27,9 @@ public class Product {
     @Column(nullable = false)
     private String quantity;
 
-    @NotBlank
+    @NotNull
     @Column(name = "has_weight", nullable = false)
-    private boolean hasWeight;
+    private Boolean hasWeight;
 
     @NotBlank
     @Column(name = "user_id", nullable = false)
@@ -42,8 +43,8 @@ public class Product {
         this.setId(id);
         this.setBarcode(product.barcode);
         this.setName(product.name);
-        this.setQuantity(product.quantity);
         this.setHasWeight(product.hasWeight);
+        this.setQuantity(product.quantity);
         this.setUserId(product.userId);
     }
 
@@ -79,14 +80,25 @@ public class Product {
         if (Double.parseDouble(quantity) <= 0) {
             throw new Exception("Quantity value must be > 0");
         }
-        this.quantity = "" + (this.hasWeight ? Double.parseDouble(quantity) : Integer.parseInt(quantity));
+        this.quantity = quantity;
     }
 
-    public boolean getHasWeight() {
+    public void verifyQuantity(Product product) throws Exception {
+        if (Double.parseDouble(product.quantity) <= 0) {
+            throw new Exception("Quantity value must be > 0");
+        }
+        try {
+            product.setQuantity(product.hasWeight ? product.quantity : "" + Integer.parseInt(product.quantity));
+        } catch (Exception e) {
+            throw new Exception("Quantity value must be integer");
+        }
+    }
+
+    public Boolean getHasWeight() {
         return this.hasWeight;
     }
 
-    public void setHasWeight(boolean hasWeight) {
+    public void setHasWeight(Boolean hasWeight) {
         this.hasWeight = hasWeight;
     }
 

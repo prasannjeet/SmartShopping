@@ -3,7 +3,7 @@ package org.store.query.service.subscriber;
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
-import org.cart.domain.event.CartEventProductsPricesAsked;
+
 import org.store.domain.event.StoreEventProductCreated;
 import org.store.domain.event.StoreEventProductPriceUpdated;
 import org.store.domain.event.StoreEventStoreCreated;
@@ -26,7 +26,11 @@ public class QueryEventSubscriber {
 
     @EventHandlerMethod
     public void createStore(DispatchedEvent<StoreEventStoreCreated> event) {
-        this.storeRepository.save(new Store(event.getEntityId(), event.getEvent().getStore()));
+        try {
+            this.storeRepository.save(new Store(event.getEntityId(), event.getEvent().getStore()));
+        } catch (Exception e) {
+            System.err.println("Can't create store. " + e.getMessage());
+        }
     }
 
     @EventHandlerMethod
@@ -45,10 +49,5 @@ public class QueryEventSubscriber {
         } catch (Exception e) {
             System.err.println("Cannot update price tag. " + e.getMessage());
         }
-    }
-
-    @EventHandlerMethod
-    public void fillProductsPrice(DispatchedEvent<CartEventProductsPricesAsked> event) {
-        // some logic here
     }
 }

@@ -31,7 +31,7 @@ public class CommandService {
     }
 
     public CompletableFuture<EntityWithIdAndVersion<StoreAggregate>> createStore(Store store) throws Exception {
-        if (this.storeRepository.findAll().isEmpty()) {
+        if (!this.storeRepository.isIdentified()) {
             return this.aggregateRepository.save(new CreateStoreCommand(store));
         }
         throw new Exception("This store has been already created");

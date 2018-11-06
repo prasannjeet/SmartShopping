@@ -18,6 +18,7 @@ public class UserAggregate extends ReflectiveMutableCommandProcessingAggregate<U
     private User user;
     private boolean deleted;
 
+
     public List<Event> process(CreateUserCommand command) {
         return this.deleted ? Collections.emptyList() : EventUtil.events(new UserEventUserCreated(command.getUser()));
     }

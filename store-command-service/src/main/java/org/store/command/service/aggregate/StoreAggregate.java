@@ -6,7 +6,10 @@ import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
 import org.store.command.service.command.CreateProductCommand;
 import org.store.command.service.command.CreateStoreCommand;
 import org.store.command.service.command.StoreCommand;
+import org.store.command.service.command.UpdateCartCommand;
 import org.store.command.service.command.UpdateProductPriceCommand;
+import org.store.domain.dao.StoreCartDao;
+import org.store.domain.event.StoreEventCartUpdated;
 import org.store.domain.event.StoreEventProductCreated;
 import org.store.domain.event.StoreEventProductPriceUpdated;
 import org.store.domain.event.StoreEventStoreCreated;
@@ -22,6 +25,7 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
     private Store store;
     private Product product;
     private PriceTag priceTag;
+    private StoreCartDao storeCartDao;
     private boolean deleted;
 
     public List<Event> process(CreateProductCommand command) {
@@ -36,6 +40,10 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
         return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventStoreCreated(command.getStore()));
     }
 
+    public List<Event> process(UpdateCartCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventCartUpdated(command.getStoreCartDao()));
+    }
+
     public void apply(StoreEventProductCreated event) {
         this.product = event.getProduct();
     }
@@ -48,6 +56,10 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
         this.store = event.getStore();
     }
 
+    public void apply(StoreEventCartUpdated event) {
+        this.storeCartDao = event.getStoreCartDao();
+    }
+
     public Product getProduct() {
         return this.product;
     }
@@ -58,6 +70,10 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
 
     public PriceTag getPriceTag() {
         return this.priceTag;
+    }
+
+    public StoreCartDao getStoreCartDao() {
+        return this.storeCartDao;
     }
 }
 

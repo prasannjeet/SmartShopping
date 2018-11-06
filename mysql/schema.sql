@@ -48,9 +48,9 @@ DROP table IF EXISTS product;
 
 create table product (
   id VARCHAR (255) PRIMARY KEY,
-  barcode VARCHAR(255) NOT NULL,
-  name varchar(255) NOT NULL,
-  has_weight BOOLEAN NOT NULL,
+  barcode VARCHAR(255) UNIQUE NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  has_weight VARCHAR(10) NOT NULL,
   deleted BOOLEAN
 );
 
@@ -70,7 +70,7 @@ DROP table IF EXISTS price_tag;
 
 create table price_tag (
   id VARCHAR(255) PRIMARY KEY,
-  barcode VARCHAR(255) NOT NULL,
+  barcode VARCHAR(255) UNIQUE NOT NULL,
   price VARCHAR(255) NOT NULL,
   deleted BOOLEAN
 );
