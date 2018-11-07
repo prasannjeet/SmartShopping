@@ -1,4 +1,4 @@
-package org.user.command.service.command;
+package org.gateway.command.service.command;
 
 import io.eventuate.Command;
 

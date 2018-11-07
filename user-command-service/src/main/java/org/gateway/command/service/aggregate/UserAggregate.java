@@ -1,11 +1,11 @@
-package org.user.command.service.aggregate;
+package org.gateway.command.service.aggregate;
 
 import io.eventuate.Event;
 import io.eventuate.EventUtil;
 import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
-import org.user.command.service.command.CreateUserCommand;
-import org.user.command.service.command.DeleteUserCommand;
-import org.user.command.service.command.UserCommand;
+import org.gateway.command.service.command.CreateUserCommand;
+import org.gateway.command.service.command.DeleteUserCommand;
+import org.gateway.command.service.command.UserCommand;
 import org.user.domain.event.UserEventUserCreated;
 import org.user.domain.event.UserEventUserDeleted;
 import org.user.domain.model.User;

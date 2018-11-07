@@ -1,4 +1,4 @@
-package org.user.query.service;
+package org.gateway.query.service;
 
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
@@ -12,18 +12,18 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.user.domain.repository.UserRepository;
-import org.user.query.service.UserQueryServiceMain.MyConfiguration;
-import org.user.query.service.controller.Controller;
-import org.user.query.service.service.QueryService;
-import org.user.query.service.subscriber.QueryEventSubscriber;
+import org.gateway.query.service.GatewayQueryServiceMain.MyConfiguration;
+import org.gateway.query.service.controller.Controller;
+import org.gateway.query.service.service.QueryService;
+import org.gateway.query.service.subscriber.QueryEventSubscriber;
 
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
 @EnableAutoConfiguration
-public class UserQueryServiceMain {
+public class GatewayQueryServiceMain {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserQueryServiceMain.class, args);
+        SpringApplication.run(GatewayQueryServiceMain.class, args);
     }
 
     @Configuration

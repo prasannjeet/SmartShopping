@@ -1,4 +1,4 @@
-package org.user.command.service;
+package org.gateway.command.service;
 
 import io.eventuate.AggregateRepository;
 import io.eventuate.EventuateAggregateStore;
@@ -13,25 +13,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.user.command.service.UserCommandServiceMain.MyConfiguration;
-import org.user.command.service.aggregate.UserAggregate;
-import org.user.command.service.command.UserCommand;
-import org.user.command.service.controller.Controller;
-import org.user.command.service.service.CommandService;
+import org.gateway.command.service.GatewayCommandServiceMain.MyConfiguration;
+import org.gateway.command.service.aggregate.UserAggregate;
+import org.gateway.command.service.command.UserCommand;
+import org.gateway.command.service.controller.Controller;
+import org.gateway.command.service.service.CommandService;
 import org.user.domain.repository.UserRepository;
 
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
 @EnableAutoConfiguration
-public class UserCommandServiceMain {
+public class GatewayCommandServiceMain {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserCommandServiceMain.class, args);
+        SpringApplication.run(GatewayCommandServiceMain.class, args);
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.user.command.service", "org.user.domain", "org.utils"})
-    @EntityScan(basePackages = {"org.user.command.service", "org.user.domain", "org.utils"})
+    @ComponentScan(basePackages = {"org.gateway.command.service", "org.user.domain", "org.utils"})
+    @EntityScan(basePackages = {"org.gateway.command.service", "org.user.domain", "org.utils"})
     @EnableJpaRepositories(basePackages = {"org.user.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {

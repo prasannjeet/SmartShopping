@@ -1,4 +1,4 @@
-package org.user.query.service.service;
+package org.gateway.query.service.service;
 
 import org.user.domain.model.User;
 import org.user.domain.repository.UserRepository;

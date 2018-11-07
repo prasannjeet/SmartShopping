@@ -1,11 +1,11 @@
-package org.user.command.service.service;
+package org.gateway.command.service.service;
 
 import io.eventuate.AggregateRepository;
 import io.eventuate.EntityWithIdAndVersion;
-import org.user.command.service.aggregate.UserAggregate;
-import org.user.command.service.command.CreateUserCommand;
-import org.user.command.service.command.DeleteUserCommand;
-import org.user.command.service.command.UserCommand;
+import org.gateway.command.service.aggregate.UserAggregate;
+import org.gateway.command.service.command.CreateUserCommand;
+import org.gateway.command.service.command.DeleteUserCommand;
+import org.gateway.command.service.command.UserCommand;
 import org.user.domain.model.User;
 import org.user.domain.repository.UserRepository;
 

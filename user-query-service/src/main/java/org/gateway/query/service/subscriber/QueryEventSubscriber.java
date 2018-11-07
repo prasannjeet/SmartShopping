@@ -1,4 +1,4 @@
-package org.user.query.service.subscriber;
+package org.gateway.query.service.subscriber;
 
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
@@ -8,7 +8,7 @@ import org.user.domain.event.UserEventUserDeleted;
 import org.user.domain.model.User;
 import org.user.domain.repository.UserRepository;
 
-@EventSubscriber(id = "userQueryEventHandler")
+@EventSubscriber(id = "gatewayQueryEventHandler")
 public class QueryEventSubscriber {
 
     private UserRepository userRepository;
