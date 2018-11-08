@@ -59,10 +59,10 @@ mysql:
 
 #############################################################
 
-user-command-service:
+gateway-command-service:
   extends:
     file: docker-compose-common.yml
-    service: user-command-service
+    service: gateway-command-service
   links:
   - mysql
   - kafka
@@ -77,10 +77,10 @@ user-command-service:
     EVENTUATELOCAL_CDC_DB_USER_NAME: root
     EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword
 
-user-query-service:
+gateway-query-service:
   extends:
     file: docker-compose-common.yml
-    service: user-query-service
+    service: gateway-query-service
   links:
   - mysql
   - kafka

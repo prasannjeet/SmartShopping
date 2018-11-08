@@ -63,8 +63,8 @@
 
     <modules>
         <module>user-domain</module>
-        <module>user-command-service</module>
-        <module>user-query-service</module>
+        <module>gateway-command-service</module>
+        <module>gateway-query-service</module>
         <module>utils</module>
     </modules>
 </project>
