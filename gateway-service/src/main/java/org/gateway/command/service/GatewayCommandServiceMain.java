@@ -22,7 +22,6 @@ import org.gateway.command.service.aggregate.GatewayAggregate;
 import org.gateway.command.service.command.GatewayCommand;
 import org.gateway.command.service.controller.Controller;
 import org.gateway.command.service.service.CommandService;
-import org.gateway.domain.repository.UserRepository;
 
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
@@ -38,7 +37,6 @@ public class GatewayCommandServiceMain {
     @Configuration
     @ComponentScan(basePackages = {"org.gateway.command.service", "org.gateway.domain", "org.utils"})
     @EntityScan(basePackages = {"org.gateway.command.service", "org.gateway.domain", "org.utils"})
-    @EnableJpaRepositories(basePackages = {"org.gateway.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
@@ -49,9 +47,8 @@ public class GatewayCommandServiceMain {
         }
 
         @Bean
-        public CommandService commandService(AggregateRepository<GatewayAggregate, GatewayCommand> aggregateRepository,
-                                             UserRepository userRepository) {
-            return new CommandService(aggregateRepository, userRepository);
+        public CommandService commandService(AggregateRepository<GatewayAggregate, GatewayCommand> aggregateRepository) {
+            return new CommandService(aggregateRepository);
         }
 
         @Bean
