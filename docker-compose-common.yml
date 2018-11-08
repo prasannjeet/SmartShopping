@@ -1,11 +1,5 @@
-gateway-command-service:
-  build: ./gateway-command-service/
+gateway-service:
+  build: ./gateway-service/
   ports:
-  - 7081:8080
+  - 7088:8080
 
-#############################################################
-
-#gateway-service:
-#  build: ./gateway-service/
-#  ports:
-#  - 7088:8080

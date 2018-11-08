@@ -59,10 +59,10 @@ mysql:
 
 #############################################################
 
-gateway-command-service:
+gateway-service:
   extends:
     file: docker-compose-common.yml
-    service: gateway-command-service
+    service: gateway-service
   links:
   - mysql
   - kafka
