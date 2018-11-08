@@ -5,17 +5,17 @@ import java.util.List;
 
 public class SortByProductsPriceDao {
 
-    private List<SortByProductsPriceDao> products;
+    private List<SortByProductPriceDao> products;
 
     public SortByProductsPriceDao() {
         this.products = new LinkedList<>();
     }
 
-    public List<SortByProductsPriceDao> getProducts() {
+    public List<SortByProductPriceDao> getProducts() {
         return this.products;
     }
 
-    public void setProducts(List<SortByProductsPriceDao> products) {
+    public void setProducts(List<SortByProductPriceDao> products) {
         this.products = products;
     }
 }

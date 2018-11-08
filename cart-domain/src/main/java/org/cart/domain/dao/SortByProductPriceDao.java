@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SortByProductPriceDao {
 
-    List<CartPriceTagDao> prices;
+    private List<CartPriceTagDao> prices;
     private String name;
 
     public SortByProductPriceDao() {

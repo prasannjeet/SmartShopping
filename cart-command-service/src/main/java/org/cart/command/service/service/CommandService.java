@@ -127,6 +127,7 @@ public class CommandService {
                             sortByProductPriceDao.getPrices().add(cartPriceTagDao);
                         }
                         Collections.sort(sortByProductPriceDao.getPrices(), (o1, o2) -> (int) (o1.getRawPrice() - o2.getRawPrice()));
+                        sortByProductsPriceDao.getProducts().add(sortByProductPriceDao);
                     }
                     return sortByProductsPriceDao;
                 });
