@@ -1,13 +1,12 @@
 package org.gateway.command.service.command;
 
-
 import org.user.domain.model.User;
 
-public class CreateUserCommand implements UserCommand {
+public class DeleteGatewayCommand implements GatewayCommand {
 
     private User user;
 
-    public CreateUserCommand(User user) {
+    public DeleteGatewayCommand(User user) {
         this.user = user;
     }
 

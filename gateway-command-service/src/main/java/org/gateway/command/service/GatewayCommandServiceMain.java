@@ -18,8 +18,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.gateway.command.service.GatewayCommandServiceMain.MyConfiguration;
-import org.gateway.command.service.aggregate.UserAggregate;
-import org.gateway.command.service.command.UserCommand;
+import org.gateway.command.service.aggregate.GatewayAggregate;
+import org.gateway.command.service.command.GatewayCommand;
 import org.gateway.command.service.controller.Controller;
 import org.gateway.command.service.service.CommandService;
 import org.user.domain.repository.UserRepository;
@@ -43,13 +43,13 @@ public class GatewayCommandServiceMain {
     class MyConfiguration extends WebMvcConfigurerAdapter {
 
         @Bean
-        public AggregateRepository<UserAggregate, UserCommand> aggregateRepository(
+        public AggregateRepository<GatewayAggregate, GatewayCommand> aggregateRepository(
                 EventuateAggregateStore eventuateAggregateStore) {
-            return new AggregateRepository<>(UserAggregate.class, eventuateAggregateStore);
+            return new AggregateRepository<>(GatewayAggregate.class, eventuateAggregateStore);
         }
 
         @Bean
-        public CommandService commandService(AggregateRepository<UserAggregate, UserCommand> aggregateRepository,
+        public CommandService commandService(AggregateRepository<GatewayAggregate, GatewayCommand> aggregateRepository,
                                              UserRepository userRepository) {
             return new CommandService(aggregateRepository, userRepository);
         }
