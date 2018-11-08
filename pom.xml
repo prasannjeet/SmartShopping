@@ -62,7 +62,11 @@
     </dependencies>
 
     <modules>
+		<module>store-domain</module>
         <module>user-domain</module>
+		<module>cart-domain</module>
+		<module>cart-query-service</module>
+		<module>cart-command-service</module>
         <module>gateway-command-service</module>
         <module>gateway-query-service</module>
         <module>utils</module>

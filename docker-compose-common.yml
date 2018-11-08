@@ -7,7 +7,17 @@ gateway-query-service:
   build: ./gateway-query-service/
   ports:
   - 7082:8080
+#############################################################
 
+cart-command-service:
+  build: ./cart-command-service/
+  ports:
+  - 7083:8080
+
+cart-query-service:
+  build: ./cart-query-service/
+  ports:
+  - 7084:8080
 #############################################################
 
 #gateway-service:
