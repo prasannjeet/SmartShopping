@@ -1,4 +1,4 @@
-package org.user.domain.model;
+package org.gateway.domain.model;
 
 import org.hibernate.validator.constraints.NotBlank;
 

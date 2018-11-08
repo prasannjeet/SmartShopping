@@ -1,8 +1,8 @@
-package org.user.domain.repository;
+package org.gateway.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.user.domain.model.User;
+import org.gateway.domain.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {

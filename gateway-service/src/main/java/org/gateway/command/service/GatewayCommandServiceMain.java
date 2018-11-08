@@ -22,7 +22,7 @@ import org.gateway.command.service.aggregate.GatewayAggregate;
 import org.gateway.command.service.command.GatewayCommand;
 import org.gateway.command.service.controller.Controller;
 import org.gateway.command.service.service.CommandService;
-import org.user.domain.repository.UserRepository;
+import org.gateway.domain.repository.UserRepository;
 
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
@@ -36,9 +36,9 @@ public class GatewayCommandServiceMain {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.gateway.command.service", "org.user.domain", "org.utils"})
-    @EntityScan(basePackages = {"org.gateway.command.service", "org.user.domain", "org.utils"})
-    @EnableJpaRepositories(basePackages = {"org.user.domain.repository"})
+    @ComponentScan(basePackages = {"org.gateway.command.service", "org.gateway.domain", "org.utils"})
+    @EntityScan(basePackages = {"org.gateway.command.service", "org.gateway.domain", "org.utils"})
+    @EnableJpaRepositories(basePackages = {"org.gateway.domain.repository"})
     @EnableEventHandlers
     class MyConfiguration extends WebMvcConfigurerAdapter {
 

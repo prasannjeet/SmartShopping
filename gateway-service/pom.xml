@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>smart-shopping</groupId>
-            <artifactId>user-domain</artifactId>
+            <artifactId>gateway-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

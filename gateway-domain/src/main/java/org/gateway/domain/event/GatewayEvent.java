@@ -1,4 +1,4 @@
-package org.user.domain.event;
+package org.gateway.domain.event;
 
 import io.eventuate.Event;
 import io.eventuate.EventEntity;
