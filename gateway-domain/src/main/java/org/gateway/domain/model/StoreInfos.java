@@ -18,6 +18,14 @@ public class StoreInfos {
     @NotBlank
     private String location;
 
+    public StoreInfos() {
+    	
+    }
+    
+    public StoreInfos(String id) {
+    	this.id = id;
+    }
+    
     public StoreInfos(String name, String website, String location) {
         this.name = name;
         this.website = website;

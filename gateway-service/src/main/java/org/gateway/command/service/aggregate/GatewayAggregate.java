@@ -11,20 +11,22 @@ import org.gateway.command.service.command.UpdatePriceInStoreCommand;
 import org.gateway.domain.event.GatewayEventAddProductInStore;
 import org.gateway.domain.event.GatewayEventInitializeStore;
 import org.gateway.domain.event.GatewayEventUpdatePriceInStore;
+import org.gateway.domain.model.StoreInfos;
+
 import java.util.List;
 
 public class GatewayAggregate extends ReflectiveMutableCommandProcessingAggregate<GatewayAggregate, GatewayCommand> {
 
     public List<Event> process(AddProductInStoreCommand command) {
-        return EventUtil.events(new GatewayEventAddProductInStore());
+        return EventUtil.events(new GatewayEventAddProductInStore(new StoreInfos(command.getStoreId()), command.getProduct()));
     }
 
     public List<Event> process(InitiateStoreCommand command) {
-        return EventUtil.events(new GatewayEventInitializeStore());
+        return EventUtil.events(new GatewayEventInitializeStore(command.getstoreInfo()));
     }
     
     public List<Event> process(UpdatePriceInStoreCommand command) {
-        return EventUtil.events(new GatewayEventUpdatePriceInStore());
+        return EventUtil.events(new GatewayEventUpdatePriceInStore(new StoreInfos(command.getStoreId()), command.getProduct().getBarcode(), command.getProduct().getPrice()));
     }
 
     public void apply(GatewayEventAddProductInStore event) {

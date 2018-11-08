@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.gateway.command.service.service.CommandService;
+import org.gateway.domain.model.Product;
+import org.gateway.domain.model.StoreInfos;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -212,5 +214,31 @@ public class Controller {
             restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
 
         return responseEntity;
+    }
+    
+    //********STORES*******************
+    
+    @PutMapping(value = "/stores/init")
+    @ResponseBody
+    public ResponseEntity sortCartByPrice(@RequestBody @Valid StoreInfos storeInfos) throws URISyntaxException
+    {   
+    	commandService.initStore(storeInfos);
+    	return ResponseEntity.ok(null);
+    }
+    
+    @PostMapping(value = "/stores/{storeId}/product")
+    @ResponseBody
+    public ResponseEntity addProductToStore(@NotBlank @PathVariable String storeId, @RequestBody @Valid Product product) throws URISyntaxException
+    {   
+    	commandService.addProductToStore(storeId, product);
+    	return ResponseEntity.ok(null);
+    }
+    
+    @PutMapping(value = "/stores/{storeId}/product")
+    @ResponseBody
+    public ResponseEntity updateProductInStore(@NotBlank @PathVariable String storeId, @RequestBody Product product) throws URISyntaxException
+    {   
+    	commandService.updateProductInStore(storeId, product);
+    	return ResponseEntity.ok(null);
     }
 }
