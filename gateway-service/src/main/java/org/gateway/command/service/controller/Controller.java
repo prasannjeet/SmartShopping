@@ -30,6 +30,7 @@ import org.user.domain.model.User;
 public class Controller {
 	
 	String serviceIp = "192.168.99.100";
+	
 	private CommandService commandService;
 	
     public Controller(CommandService commandService) {
@@ -71,7 +72,7 @@ public class Controller {
     public ResponseEntity users() throws URISyntaxException
     {        
     	int port = 7082;
-        URI uri = new URI("http", null, serviceIp, port, "/", null, null);
+        URI uri = new URI("http", null, serviceIp, port, "/users", null, null);
         RestTemplate restTemplate= new RestTemplate();
         ResponseEntity responseEntity =
             restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
@@ -84,7 +85,7 @@ public class Controller {
     public ResponseEntity createUser(@RequestBody @Valid Object body) throws URISyntaxException
     {        
     	int port = 7081;
-        URI uri = new URI("http", null, serviceIp, port, "/", null, null);
+        URI uri = new URI("http", null, serviceIp, port, "/users", null, null);
         RestTemplate restTemplate= new RestTemplate();
         ResponseEntity responseEntity =
             restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity(body), String.class);
@@ -98,7 +99,7 @@ public class Controller {
     public ResponseEntity deleteUser(@NotBlank @PathVariable String id) throws URISyntaxException
     {        
     	int port = 7081;
-        URI uri = new URI("http", null, serviceIp, port, "/"+id, null, null);
+        URI uri = new URI("http", null, serviceIp, port, "/users"+id, null, null);
         RestTemplate restTemplate= new RestTemplate();
         ResponseEntity responseEntity =
             restTemplate.exchange(uri, HttpMethod.DELETE, null, String.class);

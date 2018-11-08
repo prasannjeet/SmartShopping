@@ -69,6 +69,8 @@
 		<module>product-query-service</module>
 		<module>cart-query-service</module>
 		<module>cart-command-service</module>
+		<module>user-query-service</module>
+		<module>user-command-service</module>
         <module>gateway-service</module>
         <module>utils</module>
     </modules>

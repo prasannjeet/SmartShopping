@@ -1,3 +1,14 @@
+user-command-service:
+  build: ./user-command-service/
+  ports:
+  - 7081:8080
+
+user-query-service:
+  build: ./user-query-service/
+  ports:
+  - 7082:8080
+
+#############################################################
 gateway-service:
   build: ./gateway-service/
   ports:
