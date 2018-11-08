@@ -22,6 +22,7 @@ import org.gateway.command.service.aggregate.GatewayAggregate;
 import org.gateway.command.service.command.GatewayCommand;
 import org.gateway.command.service.controller.Controller;
 import org.gateway.command.service.service.CommandService;
+import org.gateway.command.service.subscriber.Subscriber;
 
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
@@ -47,13 +48,18 @@ public class GatewayCommandServiceMain {
         }
 
         @Bean
-        public CommandService commandService(AggregateRepository<GatewayAggregate, GatewayCommand> aggregateRepository) {
-            return new CommandService(aggregateRepository);
+        public CommandService commandService(AggregateRepository<GatewayAggregate, GatewayCommand> aggregateRepository, Subscriber subscriber) {
+            return new CommandService(aggregateRepository, subscriber);
         }
 
         @Bean
         public Controller controller(CommandService commandService) {
             return new Controller(commandService);
+        }
+        
+        @Bean
+        public Subscriber subscriber() {
+            return new Subscriber();
         }
     }
 }

@@ -13,6 +13,7 @@ import org.gateway.domain.model.StoreInfos;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -222,8 +223,11 @@ public class Controller {
     @ResponseBody
     public ResponseEntity sortCartByPrice(@RequestBody @Valid StoreInfos storeInfos) throws URISyntaxException
     {   
-    	commandService.initStore(storeInfos);
-    	return ResponseEntity.ok(null);
+    	StoreInfos storeInfo = commandService.initStore(storeInfos);
+    	if (storeInfo == null)
+    		return new ResponseEntity("DOES NOT WORK!! HELP!!", HttpStatus.EXPECTATION_FAILED);
+    	else 
+    		return new ResponseEntity(storeInfo, HttpStatus.OK);
     }
     
     @PostMapping(value = "/stores/{storeId}/product")
