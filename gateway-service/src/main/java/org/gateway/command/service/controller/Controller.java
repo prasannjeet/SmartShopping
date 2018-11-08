@@ -245,4 +245,13 @@ public class Controller {
     	commandService.updateProductInStore(storeId, product);
     	return ResponseEntity.ok(null);
     }
+    
+    @PutMapping(value = "/stores/{storeId}/scrap")
+    @ResponseBody
+    public ResponseEntity updateProductInStore(@NotBlank @PathVariable String storeId) throws URISyntaxException
+    {   
+    	commandService.scrapProduct(storeId);
+    	return ResponseEntity.ok(null);
+    }
+    
 }

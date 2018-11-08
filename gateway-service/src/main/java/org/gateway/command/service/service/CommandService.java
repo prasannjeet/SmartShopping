@@ -10,6 +10,7 @@ import org.gateway.command.service.aggregate.GatewayAggregate;
 import org.gateway.command.service.command.AddProductInStoreCommand;
 import org.gateway.command.service.command.GatewayCommand;
 import org.gateway.command.service.command.InitiateStoreCommand;
+import org.gateway.command.service.command.ScrapProductCommand;
 import org.gateway.command.service.command.UpdatePriceInStoreCommand;
 import org.gateway.command.service.subscriber.Subscriber;
 import org.gateway.domain.model.Product;
@@ -49,4 +50,9 @@ public class CommandService {
 	public CompletableFuture<EntityWithIdAndVersion<GatewayAggregate>> updateProductInStore(String storeId, Product product) {
 		return aggregateRepository.save(new UpdatePriceInStoreCommand(product, storeId));
 	}
+	
+	public CompletableFuture<EntityWithIdAndVersion<GatewayAggregate>> scrapProduct(String storeId) {
+		return aggregateRepository.save(new ScrapProductCommand(storeId));
+	}
+	
 }
