@@ -1,9 +1,13 @@
 package org.gateway.command.service;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import io.eventuate.AggregateRepository;
 import io.eventuate.EventuateAggregateStore;
 import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
 import io.eventuate.javaclient.spring.EnableEventHandlers;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -25,7 +29,9 @@ import org.user.domain.repository.UserRepository;
 @EnableAutoConfiguration
 public class GatewayCommandServiceMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
+    	URI uri = new URI("http", null, "192.168.99.100", 7082, "/", null, null);
+    	System.out.println(uri.toString());
         SpringApplication.run(GatewayCommandServiceMain.class, args);
     }
 
