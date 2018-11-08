@@ -28,31 +28,40 @@ public class CommandService {
         this.subscriber = subscriber;
     }
 
-	public StoreInfos initStore(StoreInfos storeInfo){
+	public StoreInfos initStore(StoreInfos storeInfo) throws Exception {
 		aggregateRepository.save(new InitiateStoreCommand(storeInfo));
-		boolean responseCatched = false;
 		
-		try {
-			responseCatched = subscriber.storeInitSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		if (responseCatched)
-			return storeInfo;
-		else return null;
+		boolean responseCatched = subscriber.storeInitSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
+		if (!responseCatched)
+			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
+		return storeInfo;
 	}
 
-	public CompletableFuture<EntityWithIdAndVersion<GatewayAggregate>> addProductToStore(String storeId, Product product) {
-		return aggregateRepository.save(new AddProductInStoreCommand(product, storeId));
+	public Product addProductToStore(String storeId, Product product) throws Exception {
+		aggregateRepository.save(new AddProductInStoreCommand(product, storeId));
+		
+		boolean responseCatched = subscriber.addProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
+		if (!responseCatched)
+			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
+		return product;
 	}
 
-	public CompletableFuture<EntityWithIdAndVersion<GatewayAggregate>> updateProductInStore(String storeId, Product product) {
-		return aggregateRepository.save(new UpdatePriceInStoreCommand(product, storeId));
+	public Product updateProductInStore(String storeId, Product product) throws Exception {
+		aggregateRepository.save(new UpdatePriceInStoreCommand(product, storeId));
+		
+		boolean responseCatched = subscriber.updateProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
+		if (!responseCatched)
+			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
+		return product;
 	}
 	
-	public CompletableFuture<EntityWithIdAndVersion<GatewayAggregate>> scrapProduct(String storeId) {
-		return aggregateRepository.save(new ScrapProductCommand(storeId));
+	public String scrapProduct(String storeId) throws Exception {
+		aggregateRepository.save(new ScrapProductCommand(storeId));
+		
+		boolean responseCatched = subscriber.scrapStoreSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
+		if (!responseCatched)
+			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
+		return "Scrapping store: "+storeId;
 	}
 	
 }

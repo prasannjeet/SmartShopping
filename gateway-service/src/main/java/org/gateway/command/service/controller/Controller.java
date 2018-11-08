@@ -223,35 +223,54 @@ public class Controller {
     @ResponseBody
     public ResponseEntity sortCartByPrice(@RequestBody @Valid StoreInfos storeInfos) throws URISyntaxException
     {   
-    	StoreInfos storeInfo = commandService.initStore(storeInfos);
-    	if (storeInfo == null)
-    		return new ResponseEntity("DOES NOT WORK!! HELP!!", HttpStatus.EXPECTATION_FAILED);
-    	else 
-    		return new ResponseEntity(storeInfo, HttpStatus.OK);
+    	StoreInfos response;
+		
+    	try {
+			response = commandService.initStore(storeInfos);
+		} catch (Exception e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+		}
+		
+    	return new ResponseEntity(response, HttpStatus.OK);
     }
     
     @PostMapping(value = "/stores/{storeId}/product")
     @ResponseBody
     public ResponseEntity addProductToStore(@NotBlank @PathVariable String storeId, @RequestBody @Valid Product product) throws URISyntaxException
     {   
-    	commandService.addProductToStore(storeId, product);
-    	return ResponseEntity.ok(null);
+    	Product response;
+    	try {
+			response = commandService.addProductToStore(storeId, product);
+		} catch (Exception e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+		}
+    	return new ResponseEntity(response, HttpStatus.OK);
     }
     
     @PutMapping(value = "/stores/{storeId}/product")
     @ResponseBody
     public ResponseEntity updateProductInStore(@NotBlank @PathVariable String storeId, @RequestBody Product product) throws URISyntaxException
     {   
-    	commandService.updateProductInStore(storeId, product);
-    	return ResponseEntity.ok(null);
+    	Product response;
+    	try {
+			response = commandService.updateProductInStore(storeId, product);
+		} catch (Exception e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+		}
+    	return new ResponseEntity(response, HttpStatus.OK);
     }
     
-    @PutMapping(value = "/stores/{storeId}/scrap")
+    @GetMapping(value = "/stores/{storeId}/scrap")
     @ResponseBody
-    public ResponseEntity updateProductInStore(@NotBlank @PathVariable String storeId) throws URISyntaxException
+    public ResponseEntity initScrapStore(@NotBlank @PathVariable String storeId) throws URISyntaxException
     {   
-    	commandService.scrapProduct(storeId);
-    	return ResponseEntity.ok(null);
+    	String response;
+		try {
+			response = commandService.scrapProduct(storeId);
+		} catch (Exception e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+		}
+    	return new ResponseEntity(response, HttpStatus.OK);
     }
     
 }
