@@ -18,6 +18,13 @@ cart-query-service:
   build: ./cart-query-service/
   ports:
   - 7084:8080
+  
+#############################################################
+
+product-query-service:
+  build: ./product-query-service/
+  ports:
+  - 7085:8080
 #############################################################
 
 #gateway-service:

@@ -178,4 +178,32 @@ public class GatewayController {
 
         return responseEntity;
     }
+    
+    
+    //********PRODUCT************
+    @GetMapping(value = "/products")
+    @ResponseBody
+    public ResponseEntity getProducts() throws URISyntaxException
+    {        
+    	int port = 7085;
+        URI uri = new URI("http", null, serviceIp, port, "/products", null, null);
+        RestTemplate restTemplate= new RestTemplate();
+        ResponseEntity responseEntity =
+            restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+
+        return responseEntity;
+    }
+    
+    @GetMapping(value = "/products/{barcode}")
+    @ResponseBody
+    public ResponseEntity getProductByBarcode(@NotBlank @PathVariable String barcode) throws URISyntaxException
+    {        
+    	int port = 7085;
+        URI uri = new URI("http", null, serviceIp, port, "/products/"+barcode, null, null);
+        RestTemplate restTemplate= new RestTemplate();
+        ResponseEntity responseEntity =
+            restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+
+        return responseEntity;
+    }
 }

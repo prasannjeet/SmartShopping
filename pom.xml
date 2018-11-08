@@ -62,9 +62,11 @@
     </dependencies>
 
     <modules>
+		<module>product-domain</module>
 		<module>store-domain</module>
         <module>user-domain</module>
 		<module>cart-domain</module>
+		<module>product-query-service</module>
 		<module>cart-query-service</module>
 		<module>cart-command-service</module>
         <module>gateway-command-service</module>
