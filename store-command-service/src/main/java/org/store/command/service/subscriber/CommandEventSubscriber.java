@@ -87,8 +87,11 @@ public class CommandEventSubscriber {
             store.setLocation(event.getEvent().getStoreInfos().getLocation());
             store.setName(event.getEvent().getStoreInfos().getName());
             store.setWebsite(event.getEvent().getStoreInfos().getWebsite());
+            this.storeRepository.save(store);
             this.aggregateRepository.save(new CreateStoreCommand(store));
-        } catch(Exception e) {}
+        } catch(Exception e) {
+            // TODO Add error command
+        }
     }
 
     @EventHandlerMethod
@@ -103,8 +106,11 @@ public class CommandEventSubscriber {
             product.setName(event.getEvent().getProduct().getName());
             product.setPrice(event.getEvent().getProduct().getPrice());
             product.setHasWeight(event.getEvent().getProduct().getHasWeight());
+            this.priceTagRepository.save(new PriceTag(event.getEntityId(), product));
             this.aggregateRepository.save(new CreateProductCommand(product));
-        } catch(Exception e) {}
+        } catch(Exception e) {
+            // TODO Add error command
+        }
     }
 
     @EventHandlerMethod
@@ -118,8 +124,11 @@ public class CommandEventSubscriber {
                 return;
             }
             priceTag.setPrice(event.getEvent().getPrice());
+            this.priceTagRepository.save(new PriceTag(event.getEntityId(), priceTag));
             this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(priceTag));
-        } catch(Exception e) {}
+        } catch(Exception e) {
+            // TODO Add error command
+        }
     }
 
     @EventHandlerMethod
@@ -141,15 +150,18 @@ public class CommandEventSubscriber {
                     newProduct.setName(prod.getName());
                     newProduct.setPrice(prod.getPrice());
                     newProduct.setHasWeight(prod.getHasWeight());
+                    this.priceTagRepository.save(new PriceTag(event.getEntityId(), newProduct));
                     this.aggregateRepository.save(new CreateProductCommand(newProduct));
                 }
                 else if (!correspondingTag.getPrice().contentEquals(prod.getPrice())) {
                     correspondingTag.setPrice(prod.getPrice());
+                    this.priceTagRepository.save(new PriceTag(event.getEntityId(), correspondingTag));
                     this.aggregateRepository.update(correspondingTag.getId(), new UpdateProductPriceCommand(correspondingTag));
                 }
             }
             for (PriceTag tag : this.priceTagRepository.findAll()) {
                 if(isDeleted(tag, webProducts)) {
+                    this.priceTagRepository.delete(tag);
                     this.aggregateRepository.update(tag.getId(), new DeleteProductCommand(tag));
                 }
             }
