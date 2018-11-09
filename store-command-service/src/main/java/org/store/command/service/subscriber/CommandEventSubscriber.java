@@ -1,11 +1,20 @@
 package org.store.command.service.subscriber;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.cart.domain.event.CartEventSortingStarted;
-import org.gateway.service.model.StoreInfos;
-import org.gateway.service.event.GatewayEventInitializeStore;
-import org.gateway.service.event.GatewayEventAddProductInStore;
-import org.gateway.service.event.GatewayEventUpdatePriceInStore;
+import org.gateway.domain.model.StoreInfos;
+import org.gateway.domain.event.GatewayEventInitializeStore;
+import org.gateway.domain.event.GatewayEventAddProductInStore;
+import org.gateway.domain.event.GatewayEventUpdatePriceInStore;
+import org.gateway.domain.event.GatewayEventScrap;
 import org.store.command.service.aggregate.StoreAggregate;
+import org.store.command.service.command.ApplyScrapperChangesCommand;
 import org.store.command.service.command.CreateProductCommand;
 import org.store.command.service.command.CreateStoreCommand;
 import org.store.command.service.command.StoreCommand;
@@ -67,16 +76,18 @@ public class CommandEventSubscriber {
     }
 
     @EventHandlerMethod
-    public void initializedStore(DispatchedEvent<GatewayEventInitializeStore> event) {
+    public void initializeStore(DispatchedEvent<GatewayEventInitializeStore> event) {
         if(storeRepository.isIdentified()) {
             return;
         }
         Store store = new Store();
-        store.setId(event.getEntityId());
-        store.setLocation(event.getEvent().getStoreInfos().getLocation());
-        store.setName(event.getEvent().getStoreInfos().getName());
-        store.setWebsite(event.getEvent().getStoreInfos().getWebsite());
-        this.aggregateRepository.save(new CreateStoreCommand(store));
+        try {
+            store.setId(event.getEntityId());
+            store.setLocation(event.getEvent().getStoreInfos().getLocation());
+            store.setName(event.getEvent().getStoreInfos().getName());
+            store.setWebsite(event.getEvent().getStoreInfos().getWebsite());
+            this.aggregateRepository.save(new CreateStoreCommand(store));
+        } catch(Exception e) {}
     }
 
     @EventHandlerMethod
@@ -85,24 +96,60 @@ public class CommandEventSubscriber {
             return;
         }
         Product product = new Product();
-        product.setId(event.getEntityId());
-        product.setBarcode(event.getEvent().getProduct().getBarcode());
-        product.setName(event.getEvent().getProduct().getName());
-        product.setPrice(event.getEvent().getProduct().getPrice());
-        product.setHasWeight(event.getEvent().getProduct().getHasWeight());
-        this.aggregateRepository.save(new CreateProductCommand(product));
+        try {
+            product.setId(event.getEntityId());
+            product.setBarcode(event.getEvent().getProduct().getBarcode());
+            product.setName(event.getEvent().getProduct().getName());
+            product.setPrice(event.getEvent().getProduct().getPrice());
+            product.setHasWeight(event.getEvent().getProduct().getHasWeight());
+            this.aggregateRepository.save(new CreateProductCommand(product));
+        } catch(Exception e) {}
     }
 
     @EventHandlerMethod
-    public void addProduct(DispatchedEvent<GatewayEventUpdateProductInStore> event) {
+    public void updateProductPrice(DispatchedEvent<GatewayEventUpdatePriceInStore> event) {
         if(storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
             return;
         }
-        PriceTag priceTag = priceTagRepository.findByBarcode(event.getEvent().getBarcode());
-        if(priceTag == null) {
+        try {
+            PriceTag priceTag = priceTagRepository.findByBarcode(event.getEvent().getBarcode());
+            if(priceTag == null) {
+                return;
+            }
+            priceTag.setPrice(event.getEvent().getPrice());
+            this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(priceTag));
+        } catch(Exception e) {}
+    }
+
+    @EventHandlerMethod
+    public void launchWebScrapper(DispatchedEvent<GatewayEventScrap> event) {
+        if(storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
             return;
         }
-        this.aggregateRepository.save(new UpdateProductPriceCommand(priceTag));
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            TypeReference<List<Product>> typeReference = new TypeReference<List<Product>>(){};
+            InputStream inputStream = TypeReference.class.getResourceAsStream(this.storeRepository.findAll().get(0).getWebsite());
+            List<Product> webProducts = mapper.readValue(inputStream,typeReference);
+            ArrayList<Product> productsCreate = new ArrayList<>();
+            ArrayList<PriceTag> pricesUpdated = new ArrayList<>();
+            ArrayList<PriceTag> pricesDeleted = new ArrayList<>();
+            for (Product prod : webProducts) {
+                PriceTag correspondingTag = this.priceTagRepository.findByBarcode(prod.getBarcode());
+                if(correspondingTag == null) {
+                    productsCreate.add(prod);
+                }
+                else if (!correspondingTag.getPrice().contentEquals(prod.getPrice())) {
+                    pricesUpdated.add(correspondingTag);
+                }
+            }
+            for (PriceTag tag : this.priceTagRepository.findAll()) {
+                if(isDeleted(tag, webProducts)) {
+                    pricesDeleted.add(tag);
+                }
+            }
+            this.aggregateRepository.save(new ApplyScrapperChangesCommand(productsCreate, pricesUpdated, pricesDeleted, this.storeRepository.findAll().get(0)));
+        } catch(Exception e) { System.err.println(e.getMessage());}
     }
 
     private Double distanceFromUser(Double userLocation) {
@@ -111,7 +158,16 @@ public class CommandEventSubscriber {
     }
 
     private boolean isDestination(StoreInfos storeInfos) {
-        return storeRepository.findAll().get(0).getName().contentEquals(storeInfos.getName()) 
+        return storeRepository.findAll().get(0).getId().contentEquals(storeInfos.getId()) 
             && storeRepository.findAll().get(0).getLocation().contentEquals(storeInfos.getLocation());
+    }
+
+    private static boolean isDeleted(PriceTag tag, List<Product> webProducts) {
+        for(Product product : webProducts) {
+            if(product.getBarcode().contentEquals(tag.getBarcode())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

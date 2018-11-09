@@ -1,4 +1,4 @@
-package org.gateway.service.model;
+package org.gateway.domain.model;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -22,6 +22,14 @@ public class StoreInfos {
         this.name = name;
         this.website = website;
         this.location = location;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

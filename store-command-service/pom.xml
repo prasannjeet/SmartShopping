@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>smart-shopping</groupId>
-            <artifactId>gateway-service</artifactId>
+            <artifactId>gateway-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -37,6 +37,11 @@
             <groupId>smart-shopping</groupId>
             <artifactId>utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 

@@ -3,15 +3,20 @@ package org.store.command.service.aggregate;
 import io.eventuate.Event;
 import io.eventuate.EventUtil;
 import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
+
+import org.store.command.service.command.ApplyScrapperChangesCommand;
 import org.store.command.service.command.CreateProductCommand;
 import org.store.command.service.command.CreateStoreCommand;
+import org.store.command.service.command.DeleteProductCommand;
 import org.store.command.service.command.StoreCommand;
 import org.store.command.service.command.UpdateCartCommand;
 import org.store.command.service.command.UpdateProductPriceCommand;
 import org.store.domain.dao.StoreCartDao;
 import org.store.domain.event.StoreEventCartUpdated;
 import org.store.domain.event.StoreEventProductCreated;
+import org.store.domain.event.StoreEventProductDeleted;
 import org.store.domain.event.StoreEventProductPriceUpdated;
+import org.store.domain.event.StoreEventScrapperLaunched;
 import org.store.domain.event.StoreEventStoreCreated;
 import org.store.domain.model.PriceTag;
 import org.store.domain.model.Product;
@@ -36,12 +41,37 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
         return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductPriceUpdated(command.getPriceTag()));
     }
 
+    public List<Event> process(DeleteProductCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductDeleted(command.getPriceTag()));
+    }
+
     public List<Event> process(CreateStoreCommand command) {
         return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventStoreCreated(command.getStore()));
     }
 
     public List<Event> process(UpdateCartCommand command) {
         return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventCartUpdated(command.getStoreCartDao()));
+    }
+
+    public List<Event> process(ApplyScrapperChangesCommand command) {
+        if(this.deleted) {
+            return Collections.emptyList();
+        }
+        List<Event> events = EventUtil.events();
+        command.getProductsCreated()
+            .forEach(product -> {
+                events.add(new StoreEventProductCreated(product));
+            });
+        command.getPricesUpdated()
+            .forEach(tag -> {
+                events.add(new StoreEventProductPriceUpdated(priceTag));
+            });
+        command.getPricesDeleted()
+        .forEach(tag -> {
+            events.add(new StoreEventProductDeleted(priceTag));
+        });
+        events.add(new StoreEventScrapperLaunched(command.getStore()));
+        return events;
     }
 
     public void apply(StoreEventProductCreated event) {
@@ -58,6 +88,14 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
 
     public void apply(StoreEventCartUpdated event) {
         this.storeCartDao = event.getStoreCartDao();
+    }
+
+    public void apply(StoreEventProductDeleted event) {
+        this.priceTag = event.getPriceTag();
+    }
+
+    public void apply(StoreEventScrapperLaunched event) {
+        this.store = event.getStore();
     }
 
     public Product getProduct() {

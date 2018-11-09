@@ -64,6 +64,7 @@
     <modules>
         <module>user-domain</module>
         <module>cart-domain</module>
+        <module>gateway-domain</module>
         <module>gateway-service</module>
         <module>product-domain</module>
         <module>product-query-service</module>

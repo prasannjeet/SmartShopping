@@ -9,6 +9,8 @@ import org.store.domain.model.Product;
 import org.store.domain.model.Store;
 
 import javax.validation.Valid;
+
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -37,6 +39,7 @@ public class Controller {
                 .thenApply(entity -> this.getProduct(entity));
 
     }
+    
 
     @PutMapping(value = "/products/{barcode}/{price}")
     public CompletableFuture<Product> updateProductPrice(@NotBlank @PathVariable String barcode,
@@ -45,6 +48,18 @@ public class Controller {
                 .updateProductPrice(barcode, price)
                 .thenApply(entity -> this.getProduct(entity));
 
+    }
+
+    @DeleteMapping(value = "/products/{barcode}")
+    public CompletableFuture<Product> deleteProduct(@NotBlank @PathVariable String barcode) throws Exception {
+        return this.commandService
+                .deleteProduct(barcode)
+                .thenApply(entity -> this.getProduct(entity));
+    }
+
+    @PostMapping(value = "/scrapper")
+    public void scrapeWebsite() throws Exception {
+        this.commandService.scrapeWebsite();
     }
 
     private Product getProduct(EntityWithIdAndVersion<StoreAggregate> entity) {

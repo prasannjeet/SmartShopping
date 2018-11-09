@@ -1,6 +1,6 @@
-package org.gateway.service.event;
+package org.gateway.domain.event;
 
-import org.gateway.service.model.StoreInfos;
+import org.gateway.domain.model.StoreInfos;
 
 public class GatewayEventUpdatePriceInStore implements GatewayEvent {
 
