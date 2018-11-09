@@ -2,15 +2,15 @@ package org.store.domain.event;
 
 import org.store.domain.model.PriceTag;
 
-public class StoreEventProductPriceUpdated implements StoreEvent {
+public class StoreEventProductDeleted implements StoreEvent {
 
     private PriceTag priceTag;
 
-    public StoreEventProductPriceUpdated() {
-        
+    public StoreEventProductDeleted () {
+
     }
 
-    public StoreEventProductPriceUpdated(PriceTag priceTag) {
+    public StoreEventProductDeleted (PriceTag priceTag) {
         this.priceTag = priceTag;
     }
 

@@ -1,0 +1,26 @@
+[
+    {
+		"name" : "name1",
+		"price" : "1.2",
+		"barcode" : "111",
+		"hasWeight" : "false"
+    },
+    {
+		"name" : "name2",
+		"price" : "2.3",
+		"barcode" : "222",
+		"hasWeight" : "true"
+    },
+    {
+		"name" : "name3",
+		"price" : "3.4",
+		"barcode" : "333",
+		"hasWeight" : "false"
+	},
+	{
+		"name" : "name4",
+		"price" : "4.5",
+		"barcode" : "444",
+		"hasWeight" : "true"
+	}
+]

@@ -2,15 +2,15 @@ package org.store.domain.event;
 
 import org.store.domain.model.Store;
 
-public class StoreEventStoreCreated implements StoreEvent {
+public class StoreEventScrapperLaunched implements StoreEvent {
 
     private Store store;
 
-    public StoreEventStoreCreated() {
+    public StoreEventScrapperLaunched() {
         
     }
 
-    public StoreEventStoreCreated(Store store) {
+    public StoreEventScrapperLaunched(Store store) {
         this.store = store;
     }
 
@@ -21,4 +21,5 @@ public class StoreEventStoreCreated implements StoreEvent {
     public void setStore(Store store) {
         this.store = store;
     }
+
 }

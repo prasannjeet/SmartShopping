@@ -5,6 +5,7 @@ import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
 
 import org.store.domain.event.StoreEventProductCreated;
+import org.store.domain.event.StoreEventProductDeleted;
 import org.store.domain.event.StoreEventProductPriceUpdated;
 import org.store.domain.event.StoreEventStoreCreated;
 import org.store.domain.model.PriceTag;
@@ -28,7 +29,8 @@ public class QueryEventSubscriber {
     public void createStore(DispatchedEvent<StoreEventStoreCreated> event) {
         try {
             this.storeRepository.save(new Store(event.getEntityId(), event.getEvent().getStore()));
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             System.err.println("Can't create store. " + e.getMessage());
         }
     }
@@ -48,6 +50,15 @@ public class QueryEventSubscriber {
             this.priceTagRepository.save(new PriceTag(event.getEntityId(), event.getEvent().getPriceTag()));
         } catch (Exception e) {
             System.err.println("Cannot update price tag. " + e.getMessage());
+        }
+    }
+
+    @EventHandlerMethod
+    public void deletePriceTag(DispatchedEvent<StoreEventProductDeleted> event) {
+        try {
+            this.priceTagRepository.delete(event.getEvent().getPriceTag());
+        } catch (Exception e) {
+            System.err.println("Cannot delete price tag. " + e.getMessage());
         }
     }
 }
