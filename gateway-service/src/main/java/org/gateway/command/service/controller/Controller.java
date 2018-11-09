@@ -240,7 +240,7 @@ public class Controller {
     @ResponseBody
     public ResponseEntity addProductToStore(@NotBlank @PathVariable String storeId, @RequestBody @Valid Product product) throws URISyntaxException
     {   
-    	PriceTag response;
+    	org.store.domain.model.Product response;
     	try {
 			response = commandService.addProductToStore(storeId, product);
 		} catch (Exception e) {
@@ -253,7 +253,7 @@ public class Controller {
     @ResponseBody
     public ResponseEntity updateProductInStore(@NotBlank @PathVariable String storeId, @RequestBody Product product) throws URISyntaxException
     {   
-    	org.store.domain.model.Product response;
+    	PriceTag response;
     	try {
 			response = commandService.updateProductInStore(storeId, product);
 		} catch (Exception e) {

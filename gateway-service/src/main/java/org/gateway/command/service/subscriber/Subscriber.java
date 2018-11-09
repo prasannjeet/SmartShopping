@@ -20,27 +20,31 @@ public class Subscriber {
 	public Semaphore scrapStoreSemaphore = new Semaphore(0);
 	
 	public StoreEventStoreCreated storeInitEvent = null;
-	public StoreEventProductPriceUpdated addProductEvent = null;
-	public StoreEventProductCreated updateProductEvent = null;
+	public StoreEventProductCreated addProductEvent = null;
+	public StoreEventProductPriceUpdated updateProductEvent = null;
 	public StoreEventScrapperLaunched scrapStoreEvent = null;
 	
 	@EventHandlerMethod
 	public void initializedStoreResponse(DispatchedEvent<StoreEventStoreCreated> event){
+		storeInitEvent = event.getEvent();
 		storeInitSemaphore.release();
 	}
 	
 	@EventHandlerMethod
 	public void updateProductReponse(DispatchedEvent<StoreEventProductPriceUpdated> event){
+		updateProductEvent = event.getEvent();
 		updateProductSemaphore.release();
 	}
 	
 	@EventHandlerMethod
 	public void addProductReponse(DispatchedEvent<StoreEventProductCreated> event){
+		addProductEvent = event.getEvent();
 		addProductSemaphore.release();
 	}
 	
 	@EventHandlerMethod
 	public void scrapStoreReponse(DispatchedEvent<StoreEventScrapperLaunched> event){
+		scrapStoreEvent = event.getEvent();
 		scrapStoreSemaphore.release();
 	}
 }

@@ -39,22 +39,22 @@ public class CommandService {
 		return subscriber.storeInitEvent.getStore();
 	}
 
-	public PriceTag addProductToStore(String storeId, Product product) throws Exception {
+	public  org.store.domain.model.Product addProductToStore(String storeId, Product product) throws Exception {
 		aggregateRepository.save(new AddProductInStoreCommand(product, storeId));
 		
 		boolean responseCatched = subscriber.addProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
 		if (!responseCatched)
 			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
-		return subscriber.addProductEvent.getPriceTag();
+		return subscriber.addProductEvent.getProduct();
 	}
 
-	public org.store.domain.model.Product updateProductInStore(String storeId, Product product) throws Exception {
+	public PriceTag updateProductInStore(String storeId, Product product) throws Exception {
 		aggregateRepository.save(new UpdatePriceInStoreCommand(product, storeId));
 		
 		boolean responseCatched = subscriber.updateProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
 		if (!responseCatched)
 			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
-		return subscriber.updateProductEvent.getProduct();
+		return subscriber.updateProductEvent.getPriceTag();
 	}
 	
 	public Store scrapProduct(String storeId) throws Exception {
