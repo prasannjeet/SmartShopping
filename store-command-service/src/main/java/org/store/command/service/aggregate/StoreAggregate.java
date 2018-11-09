@@ -1,8 +1,7 @@
 package org.store.command.service.aggregate;
 
-import io.eventuate.Event;
-import io.eventuate.EventUtil;
-import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
+import java.util.Collections;
+import java.util.List;
 
 import org.store.command.service.command.ApplyScrapperChangesCommand;
 import org.store.command.service.command.CreateProductCommand;
@@ -22,8 +21,9 @@ import org.store.domain.model.PriceTag;
 import org.store.domain.model.Product;
 import org.store.domain.model.Store;
 
-import java.util.Collections;
-import java.util.List;
+import io.eventuate.Event;
+import io.eventuate.EventUtil;
+import io.eventuate.ReflectiveMutableCommandProcessingAggregate;
 
 public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<StoreAggregate, StoreCommand> {
 

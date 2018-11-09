@@ -1,10 +1,10 @@
 package org.store.domain.dao;
 
-import org.store.domain.model.PriceTag;
-import org.store.domain.model.Store;
-
 import java.util.LinkedList;
 import java.util.List;
+
+import org.store.domain.model.PriceTag;
+import org.store.domain.model.Store;
 
 public class StoreDao {
 
