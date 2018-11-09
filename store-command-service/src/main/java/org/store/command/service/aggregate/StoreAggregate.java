@@ -3,7 +3,7 @@ package org.store.command.service.aggregate;
 import java.util.Collections;
 import java.util.List;
 
-import org.store.command.service.command.ApplyScrapperChangesCommand;
+import org.store.command.service.command.ScrapperInvokedCommand;
 import org.store.command.service.command.CreateProductCommand;
 import org.store.command.service.command.CreateStoreCommand;
 import org.store.command.service.command.DeleteProductCommand;
@@ -53,25 +53,8 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
         return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventCartUpdated(command.getStoreCartDao()));
     }
 
-    public List<Event> process(ApplyScrapperChangesCommand command) {
-        if(this.deleted) {
-            return Collections.emptyList();
-        }
-        List<Event> events = EventUtil.events();
-        command.getProductsCreated()
-            .forEach(product -> {
-                events.add(new StoreEventProductCreated(product));
-            });
-        command.getPricesUpdated()
-            .forEach(tag -> {
-                events.add(new StoreEventProductPriceUpdated(priceTag));
-            });
-        command.getPricesDeleted()
-        .forEach(tag -> {
-            events.add(new StoreEventProductDeleted(priceTag));
-        });
-        events.add(new StoreEventScrapperLaunched(command.getStore()));
-        return events;
+    public List<Event> process(ScrapperInvokedCommand command) {
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventScrapperLaunched(command.getStore()));
     }
 
     public void apply(StoreEventProductCreated event) {

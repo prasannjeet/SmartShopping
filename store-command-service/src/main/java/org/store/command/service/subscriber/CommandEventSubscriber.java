@@ -14,9 +14,10 @@ import org.gateway.domain.event.GatewayEventAddProductInStore;
 import org.gateway.domain.event.GatewayEventUpdatePriceInStore;
 import org.gateway.domain.event.GatewayEventScrap;
 import org.store.command.service.aggregate.StoreAggregate;
-import org.store.command.service.command.ApplyScrapperChangesCommand;
+import org.store.command.service.command.ScrapperInvokedCommand;
 import org.store.command.service.command.CreateProductCommand;
 import org.store.command.service.command.CreateStoreCommand;
+import org.store.command.service.command.DeleteProductCommand;
 import org.store.command.service.command.StoreCommand;
 import org.store.command.service.command.UpdateCartCommand;
 import org.store.command.service.command.UpdateProductPriceCommand;
@@ -131,24 +132,28 @@ public class CommandEventSubscriber {
             TypeReference<List<Product>> typeReference = new TypeReference<List<Product>>(){};
             InputStream inputStream = TypeReference.class.getResourceAsStream(this.storeRepository.findAll().get(0).getWebsite());
             List<Product> webProducts = mapper.readValue(inputStream,typeReference);
-            ArrayList<Product> productsCreate = new ArrayList<>();
-            ArrayList<PriceTag> pricesUpdated = new ArrayList<>();
-            ArrayList<PriceTag> pricesDeleted = new ArrayList<>();
             for (Product prod : webProducts) {
                 PriceTag correspondingTag = this.priceTagRepository.findByBarcode(prod.getBarcode());
                 if(correspondingTag == null) {
-                    productsCreate.add(prod);
+                    Product newProduct = new Product();
+                    newProduct.setId(event.getEntityId());
+                    newProduct.setBarcode(prod.getBarcode());
+                    newProduct.setName(prod.getName());
+                    newProduct.setPrice(prod.getPrice());
+                    newProduct.setHasWeight(prod.getHasWeight());
+                    this.aggregateRepository.save(new CreateProductCommand(newProduct));
                 }
                 else if (!correspondingTag.getPrice().contentEquals(prod.getPrice())) {
-                    pricesUpdated.add(correspondingTag);
+                    correspondingTag.setPrice(prod.getPrice());
+                    this.aggregateRepository.update(correspondingTag.getId(), new UpdateProductPriceCommand(correspondingTag));
                 }
             }
             for (PriceTag tag : this.priceTagRepository.findAll()) {
                 if(isDeleted(tag, webProducts)) {
-                    pricesDeleted.add(tag);
+                    this.aggregateRepository.update(tag.getId(), new DeleteProductCommand(tag));
                 }
             }
-            this.aggregateRepository.save(new ApplyScrapperChangesCommand(productsCreate, pricesUpdated, pricesDeleted, this.storeRepository.findAll().get(0)));
+            this.aggregateRepository.save(new ScrapperInvokedCommand(this.storeRepository.findAll().get(0)));
         } catch(Exception e) { System.err.println(e.getMessage());}
     }
 
