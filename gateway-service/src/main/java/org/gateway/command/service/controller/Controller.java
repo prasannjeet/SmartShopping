@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.store.domain.model.PriceTag;
+import org.store.domain.model.Store;
 
 @RestController
 @RequestMapping(value = "/")
@@ -223,7 +225,7 @@ public class Controller {
     @ResponseBody
     public ResponseEntity sortCartByPrice(@RequestBody @Valid StoreInfos storeInfos) throws URISyntaxException
     {   
-    	StoreInfos response;
+    	Store response;
 		
     	try {
 			response = commandService.initStore(storeInfos);
@@ -238,7 +240,7 @@ public class Controller {
     @ResponseBody
     public ResponseEntity addProductToStore(@NotBlank @PathVariable String storeId, @RequestBody @Valid Product product) throws URISyntaxException
     {   
-    	Product response;
+    	org.store.domain.model.Product response;
     	try {
 			response = commandService.addProductToStore(storeId, product);
 		} catch (Exception e) {
@@ -251,7 +253,7 @@ public class Controller {
     @ResponseBody
     public ResponseEntity updateProductInStore(@NotBlank @PathVariable String storeId, @RequestBody Product product) throws URISyntaxException
     {   
-    	Product response;
+    	PriceTag response;
     	try {
 			response = commandService.updateProductInStore(storeId, product);
 		} catch (Exception e) {
@@ -264,7 +266,7 @@ public class Controller {
     @ResponseBody
     public ResponseEntity initScrapStore(@NotBlank @PathVariable String storeId) throws URISyntaxException
     {   
-    	String response;
+    	Store response;
 		try {
 			response = commandService.scrapProduct(storeId);
 		} catch (Exception e) {

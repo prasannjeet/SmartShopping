@@ -15,6 +15,8 @@ import org.gateway.command.service.command.UpdatePriceInStoreCommand;
 import org.gateway.command.service.subscriber.Subscriber;
 import org.gateway.domain.model.Product;
 import org.gateway.domain.model.StoreInfos;
+import org.store.domain.model.PriceTag;
+import org.store.domain.model.Store;
 
 public class CommandService {
 
@@ -28,40 +30,39 @@ public class CommandService {
         this.subscriber = subscriber;
     }
 
-	public StoreInfos initStore(StoreInfos storeInfo) throws Exception {
+	public Store initStore(StoreInfos storeInfo) throws Exception {
 		aggregateRepository.save(new InitiateStoreCommand(storeInfo));
 		
 		boolean responseCatched = subscriber.storeInitSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
 		if (!responseCatched)
 			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
-		return storeInfo;
+		return subscriber.storeInitEvent.getStore();
 	}
 
-	public Product addProductToStore(String storeId, Product product) throws Exception {
+	public  org.store.domain.model.Product addProductToStore(String storeId, Product product) throws Exception {
 		aggregateRepository.save(new AddProductInStoreCommand(product, storeId));
 		
 		boolean responseCatched = subscriber.addProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
 		if (!responseCatched)
 			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
-		return product;
+		return subscriber.addProductEvent.getProduct();
 	}
 
-	public Product updateProductInStore(String storeId, Product product) throws Exception {
+	public PriceTag updateProductInStore(String storeId, Product product) throws Exception {
 		aggregateRepository.save(new UpdatePriceInStoreCommand(product, storeId));
 		
 		boolean responseCatched = subscriber.updateProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
 		if (!responseCatched)
 			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
-		return product;
+		return subscriber.updateProductEvent.getPriceTag();
 	}
 	
-	public String scrapProduct(String storeId) throws Exception {
+	public Store scrapProduct(String storeId) throws Exception {
 		aggregateRepository.save(new ScrapProductCommand(storeId));
 		
 		boolean responseCatched = subscriber.scrapStoreSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
 		if (!responseCatched)
 			throw new Exception("Timeout: Response not received in time ("+timeout+"ms)");
-		return "Scrapping store: "+storeId;
-	}
-	
+		return subscriber.scrapStoreEvent.getStore();
+	}	
 }
