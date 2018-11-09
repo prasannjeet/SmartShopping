@@ -62,6 +62,7 @@
     </dependencies>
 
     <modules>
+		<module>gateway-domain</module>
         <module>user-domain</module>
         <module>cart-domain</module>
         <module>gateway-service</module>
