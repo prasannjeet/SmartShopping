@@ -34,11 +34,6 @@ store-command-service:
   ports:
   - 7086:8080
 
-store-query-service:
-  build: ./store-query-service/
-  ports:
-  - 7087:8080
-
 #############################################################
 
 gateway-service:
