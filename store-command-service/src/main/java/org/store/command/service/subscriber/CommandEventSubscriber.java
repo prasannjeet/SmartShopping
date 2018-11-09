@@ -44,6 +44,7 @@ public class CommandEventSubscriber {
     public CommandEventSubscriber(AggregateRepository<StoreAggregate, StoreCommand> aggregateRepository,
             PriceTagRepository priceTagRepository, StoreRepository storeRepository) {
         this.aggregateRepository = aggregateRepository;
+        this.storeRepository = storeRepository;
     }
 
     @EventHandlerMethod
@@ -57,7 +58,7 @@ public class CommandEventSubscriber {
         }
         StoreCartDao storeCartDao = new StoreCartDao();
         storeCartDao.setUserId(event.getEvent().getCartDao().getUserId());
-        storeCartDao.setStoreName(this.storeRepository.findAll().get(0).getName());
+        storeCartDao.setStoreName(this.storeRepository.getSingleton().getName());
         storeCartDao.setStoreDistance(distance);
         event.getEvent().getCartDao().getProducts()
                 .forEach(product -> {
@@ -107,7 +108,7 @@ public class CommandEventSubscriber {
             product.setPrice(event.getEvent().getProduct().getPrice());
             product.setHasWeight(event.getEvent().getProduct().getHasWeight());
             this.priceTagRepository.save(new PriceTag(event.getEntityId(), product));
-            this.aggregateRepository.save(new CreateProductCommand(product));
+            this.aggregateRepository.save(new CreateProductCommand(this.storeRepository.getSingleton(), product));
         } catch(Exception e) {
             // TODO Add error command
         }
@@ -125,7 +126,7 @@ public class CommandEventSubscriber {
             }
             priceTag.setPrice(event.getEvent().getPrice());
             this.priceTagRepository.save(new PriceTag(event.getEntityId(), priceTag));
-            this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(priceTag));
+            this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(this.storeRepository.getSingleton(), priceTag));
         } catch(Exception e) {
             // TODO Add error command
         }
@@ -139,7 +140,7 @@ public class CommandEventSubscriber {
         try {
             ObjectMapper mapper = new ObjectMapper();
             TypeReference<List<Product>> typeReference = new TypeReference<List<Product>>(){};
-            InputStream inputStream = TypeReference.class.getResourceAsStream(this.storeRepository.findAll().get(0).getWebsite());
+            InputStream inputStream = TypeReference.class.getResourceAsStream(this.storeRepository.getSingleton().getWebsite());
             List<Product> webProducts = mapper.readValue(inputStream,typeReference);
             for (Product prod : webProducts) {
                 PriceTag correspondingTag = this.priceTagRepository.findByBarcode(prod.getBarcode());
@@ -151,12 +152,12 @@ public class CommandEventSubscriber {
                     newProduct.setPrice(prod.getPrice());
                     newProduct.setHasWeight(prod.getHasWeight());
                     this.priceTagRepository.save(new PriceTag(event.getEntityId(), newProduct));
-                    this.aggregateRepository.save(new CreateProductCommand(newProduct));
+                    this.aggregateRepository.save(new CreateProductCommand(this.storeRepository.getSingleton(), newProduct));
                 }
                 else if (!correspondingTag.getPrice().contentEquals(prod.getPrice())) {
                     correspondingTag.setPrice(prod.getPrice());
                     this.priceTagRepository.save(new PriceTag(event.getEntityId(), correspondingTag));
-                    this.aggregateRepository.update(correspondingTag.getId(), new UpdateProductPriceCommand(correspondingTag));
+                    this.aggregateRepository.update(correspondingTag.getId(), new UpdateProductPriceCommand(this.storeRepository.getSingleton(), correspondingTag));
                 }
             }
             for (PriceTag tag : this.priceTagRepository.findAll()) {
@@ -165,18 +166,17 @@ public class CommandEventSubscriber {
                     this.aggregateRepository.update(tag.getId(), new DeleteProductCommand(tag));
                 }
             }
-            this.aggregateRepository.save(new ScrapperInvokedCommand(this.storeRepository.findAll().get(0)));
+            this.aggregateRepository.save(new ScrapperInvokedCommand(this.storeRepository.getSingleton()));
         } catch(Exception e) { System.err.println(e.getMessage());}
     }
 
     private Double distanceFromUser(Double userLocation) {
-        double diff = userLocation - Double.parseDouble(storeRepository.findAll().get(0).getLocation());
+        double diff = userLocation - Double.parseDouble(storeRepository.getSingleton().getLocation());
         return (diff >= 0) ? diff : -diff;
     }
 
     private boolean isDestination(StoreInfos storeInfos) {
-        return storeRepository.findAll().get(0).getId().contentEquals(storeInfos.getId()) 
-            && storeRepository.findAll().get(0).getLocation().contentEquals(storeInfos.getLocation());
+        return storeRepository.getSingleton().getId().contentEquals(storeInfos.getId());
     }
 
     private static boolean isDeleted(PriceTag tag, List<Product> webProducts) {

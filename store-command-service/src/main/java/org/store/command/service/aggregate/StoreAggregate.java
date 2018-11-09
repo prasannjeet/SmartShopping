@@ -34,15 +34,15 @@ public class StoreAggregate extends ReflectiveMutableCommandProcessingAggregate<
     private boolean deleted;
 
     public List<Event> process(CreateProductCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductCreated(command.getProduct()));
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductCreated(command.getStore(), command.getProduct()));
     }
 
     public List<Event> process(UpdateProductPriceCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductPriceUpdated(command.getPriceTag()));
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductPriceUpdated(command.getStore(), command.getPriceTag()));
     }
 
     public List<Event> process(DeleteProductCommand command) {
-        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductDeleted(command.getPriceTag()));
+        return this.deleted ? Collections.emptyList() : EventUtil.events(new StoreEventProductDeleted(command.getStore(), command.getPriceTag()));
     }
 
     public List<Event> process(CreateStoreCommand command) {
