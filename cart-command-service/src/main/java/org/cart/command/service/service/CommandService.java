@@ -99,6 +99,7 @@ public class CommandService {
                                     : Integer.parseInt(storeProductDao.getQuantity()));
                             cartProductDao.setTotal("" + total + " kr");
                             grandTotal += total;
+                            cartStoreDao.getProducts().add(cartProductDao);
                         }
                         cartStoreDao.setGrandTotal(grandTotal + " kr");
                         sortByStoresDistanceDao.getStores().add(cartStoreDao);
