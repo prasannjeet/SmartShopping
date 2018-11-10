@@ -45,6 +45,7 @@ public class CommandEventSubscriber {
             PriceTagRepository priceTagRepository, StoreRepository storeRepository) {
         this.aggregateRepository = aggregateRepository;
         this.storeRepository = storeRepository;
+        this.priceTagRepository = priceTagRepository;
     }
 
     @EventHandlerMethod
@@ -91,15 +92,17 @@ public class CommandEventSubscriber {
             this.storeRepository.save(store);
             this.aggregateRepository.save(new CreateStoreCommand(store));
         } catch(Exception e) {
+            System.err.println(e.getMessage());
             // TODO Add error command
         }
     }
 
     @EventHandlerMethod
     public void addProduct(DispatchedEvent<GatewayEventAddProductInStore> event) {
-        if(storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
+        if(!storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
             return;
         }
+        System.err.println("identified and destination");
         Product product = new Product();
         try {
             product.setId(event.getEntityId());
@@ -110,13 +113,14 @@ public class CommandEventSubscriber {
             this.priceTagRepository.save(new PriceTag(event.getEntityId(), product));
             this.aggregateRepository.save(new CreateProductCommand(this.storeRepository.getSingleton(), product));
         } catch(Exception e) {
+            System.err.println(e.getMessage());
             // TODO Add error command
         }
     }
 
     @EventHandlerMethod
     public void updateProductPrice(DispatchedEvent<GatewayEventUpdatePriceInStore> event) {
-        if(storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
+        if(!storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
             return;
         }
         try {
@@ -128,13 +132,14 @@ public class CommandEventSubscriber {
             this.priceTagRepository.save(new PriceTag(event.getEntityId(), priceTag));
             this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(this.storeRepository.getSingleton(), priceTag));
         } catch(Exception e) {
+            System.err.println(e.getMessage());
             // TODO Add error command
         }
     }
 
     @EventHandlerMethod
     public void launchWebScrapper(DispatchedEvent<GatewayEventScrap> event) {
-        if(storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
+        if(!storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
             return;
         }
         try {
@@ -176,7 +181,9 @@ public class CommandEventSubscriber {
     }
 
     private boolean isDestination(StoreInfos storeInfos) {
-        return storeRepository.getSingleton().getId().contentEquals(storeInfos.getId());
+        String id1 = storeRepository.getSingleton().getId();
+        String id2 = storeInfos.getId();
+        return id1.equals(id2);
     }
 
     private static boolean isDeleted(PriceTag tag, List<Product> webProducts) {
