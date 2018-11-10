@@ -1,5 +1,9 @@
 package org.store.command.service;
 
+import io.eventuate.AggregateRepository;
+import io.eventuate.EventuateAggregateStore;
+import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
+import io.eventuate.javaclient.spring.EnableEventHandlers;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,11 +19,6 @@ import org.store.command.service.command.StoreCommand;
 import org.store.command.service.subscriber.CommandEventSubscriber;
 import org.store.domain.repository.PriceTagRepository;
 import org.store.domain.repository.StoreRepository;
-
-import io.eventuate.AggregateRepository;
-import io.eventuate.EventuateAggregateStore;
-import io.eventuate.javaclient.driver.EventuateDriverConfiguration;
-import io.eventuate.javaclient.spring.EnableEventHandlers;
 
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
@@ -45,7 +44,7 @@ public class StoreCommandServiceMain {
 
         @Bean
         public CommandEventSubscriber commandEventSubscriber(AggregateRepository<StoreAggregate, StoreCommand> aggregateRepository,
-                StoreRepository storeRepository, PriceTagRepository priceTagRepository) {
+                                                             StoreRepository storeRepository, PriceTagRepository priceTagRepository) {
             return new CommandEventSubscriber(aggregateRepository, priceTagRepository, storeRepository);
         }
     }

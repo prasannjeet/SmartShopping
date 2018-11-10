@@ -1,26 +1,26 @@
 [
-    {
-		"name" : "prod2",
-		"price" : "1.2",
-		"barcode" : "111",
-		"hasWeight" : "false"
-    },
-    {
-		"name" : "prod3",
-		"price" : "2.3",
-		"barcode" : "222",
-		"hasWeight" : "true"
-    },
-    {
-		"name" : "prod4",
-		"price" : "3.4",
-		"barcode" : "333",
-		"hasWeight" : "false"
-	},
-	{
-		"name" : "prod5",
-		"price" : "4.5",
-		"barcode" : "444",
-		"hasWeight" : "true"
-	}
+  {
+    "name": "prod2",
+    "price": "1.2",
+    "barcode": "111",
+    "hasWeight": "false"
+  },
+  {
+    "name": "prod3",
+    "price": "2.3",
+    "barcode": "222",
+    "hasWeight": "true"
+  },
+  {
+    "name": "prod4",
+    "price": "3.4",
+    "barcode": "333",
+    "hasWeight": "false"
+  },
+  {
+    "name": "prod5",
+    "price": "4.5",
+    "barcode": "444",
+    "hasWeight": "true"
+  }
 ]

@@ -4,7 +4,7 @@ import org.gateway.domain.model.StoreInfos;
 
 public class GatewayEventInitializeStore implements GatewayEvent {
 
-    private StoreInfos storeInfos; 
+    private StoreInfos storeInfos;
 
     public GatewayEventInitializeStore() {
 

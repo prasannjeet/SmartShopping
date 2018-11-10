@@ -1,7 +1,7 @@
 package org.gateway.domain.event;
 
-import org.gateway.domain.model.StoreInfos;
 import org.gateway.domain.model.Product;
+import org.gateway.domain.model.StoreInfos;
 
 public class GatewayEventAddProductInStore implements GatewayEvent {
 
