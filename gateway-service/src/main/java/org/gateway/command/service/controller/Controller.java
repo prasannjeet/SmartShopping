@@ -33,7 +33,7 @@ import org.store.domain.model.Store;
 @ResponseBody
 public class Controller {
 	
-	String serviceIp = "192.168.99.100";
+	String serviceIp = "192.168.1.99";
 	
 	private CommandService commandService;
 	

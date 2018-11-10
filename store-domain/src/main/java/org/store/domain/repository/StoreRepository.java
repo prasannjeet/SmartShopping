@@ -12,6 +12,6 @@ public interface StoreRepository extends JpaRepository<Store, String> {
     }
 
     default Store getSingleton() {
-        return this.isIdentified() ? null : this.findAll().get(0);
+        return !this.isIdentified() ? null : this.findAll().get(0);
     }
 }

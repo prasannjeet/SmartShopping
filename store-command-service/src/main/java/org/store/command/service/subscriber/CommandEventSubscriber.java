@@ -92,7 +92,7 @@ public class CommandEventSubscriber {
             this.storeRepository.save(store);
             this.aggregateRepository.save(new CreateStoreCommand(store));
         } catch(Exception e) {
-            System.err.println(e.getMessage());
+            e.getStackTrace();
             // TODO Add error command
         }
     }
@@ -113,26 +113,31 @@ public class CommandEventSubscriber {
             this.priceTagRepository.save(new PriceTag(event.getEntityId(), product));
             this.aggregateRepository.save(new CreateProductCommand(this.storeRepository.getSingleton(), product));
         } catch(Exception e) {
-            System.err.println(e.getMessage());
-            // TODO Add error command
+            e.getStackTrace();
+            // TODO Add error command 
         }
     }
 
     @EventHandlerMethod
     public void updateProductPrice(DispatchedEvent<GatewayEventUpdatePriceInStore> event) {
         if(!storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
+            System.err.println("not identified");
             return;
         }
         try {
             PriceTag priceTag = priceTagRepository.findByBarcode(event.getEvent().getBarcode());
             if(priceTag == null) {
+                System.err.println("no pricetag");
                 return;
             }
             priceTag.setPrice(event.getEvent().getPrice());
-            this.priceTagRepository.save(new PriceTag(event.getEntityId(), priceTag));
+            System.err.println("setters OK");
+            this.priceTagRepository.save(event.getEntityId(), new PriceTag(event.getEntityId(), priceTag));
+            System.err.println("save OK");
             this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(this.storeRepository.getSingleton(), priceTag));
+            System.err.println("Command OK");
         } catch(Exception e) {
-            System.err.println(e.getMessage());
+            e.getStackTrace();
             // TODO Add error command
         }
     }
@@ -172,7 +177,9 @@ public class CommandEventSubscriber {
                 }
             }
             this.aggregateRepository.save(new ScrapperInvokedCommand(this.storeRepository.getSingleton()));
-        } catch(Exception e) { System.err.println(e.getMessage());}
+        } catch(Exception e) {
+            e.getStackTrace();
+        }
     }
 
     private Double distanceFromUser(Double userLocation) {
