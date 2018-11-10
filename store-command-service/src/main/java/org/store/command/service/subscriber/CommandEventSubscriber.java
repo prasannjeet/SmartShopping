@@ -54,7 +54,7 @@ public class CommandEventSubscriber {
             return;
         }
         Double distance = this.distanceFromUser(event.getEvent().getCartDao().getUserLocation());
-        if(distance > 3) {  // Maybe change ?
+        if(distance > 3) {
             return;
         }
         StoreCartDao storeCartDao = new StoreCartDao();
@@ -93,7 +93,6 @@ public class CommandEventSubscriber {
             this.aggregateRepository.save(new CreateStoreCommand(store));
         } catch(Exception e) {
             e.getStackTrace();
-            // TODO Add error command
         }
     }
 
@@ -114,31 +113,24 @@ public class CommandEventSubscriber {
             this.aggregateRepository.save(new CreateProductCommand(this.storeRepository.getSingleton(), product));
         } catch(Exception e) {
             e.getStackTrace();
-            // TODO Add error command 
         }
     }
 
     @EventHandlerMethod
     public void updateProductPrice(DispatchedEvent<GatewayEventUpdatePriceInStore> event) {
         if(!storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
-            System.err.println("not identified");
             return;
         }
         try {
             PriceTag priceTag = priceTagRepository.findByBarcode(event.getEvent().getBarcode());
             if(priceTag == null) {
-                System.err.println("no pricetag");
                 return;
             }
             priceTag.setPrice(event.getEvent().getPrice());
-            System.err.println("setters OK");
-            this.priceTagRepository.save(event.getEntityId(), new PriceTag(event.getEntityId(), priceTag));
-            System.err.println("save OK");
+            this.priceTagRepository.save(new PriceTag(event.getEntityId(), priceTag));
             this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(this.storeRepository.getSingleton(), priceTag));
-            System.err.println("Command OK");
         } catch(Exception e) {
             e.getStackTrace();
-            // TODO Add error command
         }
     }
 
