@@ -19,17 +19,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 @Configuration
 @Import({MyConfiguration.class, EventuateDriverConfiguration.class})
 @EnableAutoConfiguration
 public class GatewayCommandServiceMain {
 
-    public static void main(String[] args) throws URISyntaxException {
-        URI uri = new URI("http", null, "192.168.99.100", 7082, "/", null, null);
-        System.out.println(uri.toString());
+    public static void main(String[] args) {
         SpringApplication.run(GatewayCommandServiceMain.class, args);
     }
 
