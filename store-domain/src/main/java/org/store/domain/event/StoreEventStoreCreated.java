@@ -7,7 +7,7 @@ public class StoreEventStoreCreated implements StoreEvent {
     private Store store;
 
     public StoreEventStoreCreated() {
-        
+
     }
 
     public StoreEventStoreCreated(Store store) {

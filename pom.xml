@@ -62,13 +62,13 @@
     </dependencies>
 
     <modules>
-		<module>gateway-domain</module>
-		<module>gateway-service</module>
+        <module>gateway-domain</module>
+        <module>gateway-service</module>
         <module>user-domain</module>
-		<module>user-query-service</module>
-		<module>user-command-service</module>
+        <module>user-query-service</module>
+        <module>user-command-service</module>
         <module>cart-domain</module>
-		<module>cart-query-service</module>
+        <module>cart-query-service</module>
         <module>cart-command-service</module>
         <module>product-domain</module>
         <module>product-query-service</module>

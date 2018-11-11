@@ -7,7 +7,7 @@ public class StoreEventScrapperLaunched implements StoreEvent {
     private Store store;
 
     public StoreEventScrapperLaunched() {
-        
+
     }
 
     public StoreEventScrapperLaunched(Store store) {

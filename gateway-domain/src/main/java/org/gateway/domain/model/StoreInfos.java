@@ -19,13 +19,13 @@ public class StoreInfos {
     private String location;
 
     public StoreInfos() {
-    	
+
     }
-    
+
     public StoreInfos(String id) {
-    	this.id = id;
+        this.id = id;
     }
-    
+
     public StoreInfos(String name, String website, String location) {
         this.name = name;
         this.website = website;
@@ -56,12 +56,12 @@ public class StoreInfos {
         this.location = location;
     }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
 }

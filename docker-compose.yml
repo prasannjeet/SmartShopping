@@ -176,14 +176,14 @@ store-command-service:
 #############################################################
 
 gateway-service:
- extends:
-   file: docker-compose-common.yml
-   service: gateway-service
- links:
- - mysql
- - kafka
- - zookeeper
- environment:
+  extends:
+    file: docker-compose-common.yml
+    service: gateway-service
+  links:
+  - mysql
+  - kafka
+  - zookeeper
+  environment:
     SPRING_DATASOURCE_URL: jdbc:mysql://mysql/storeservice
     SPRING_DATASOURCE_USERNAME: root
     SPRING_DATASOURCE_PASSWORD: rootpassword

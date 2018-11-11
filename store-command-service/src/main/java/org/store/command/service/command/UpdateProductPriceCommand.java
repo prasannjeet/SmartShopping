@@ -1,7 +1,7 @@
 package org.store.command.service.command;
 
-import org.store.domain.model.Store;
 import org.store.domain.model.PriceTag;
+import org.store.domain.model.Store;
 
 public class UpdateProductPriceCommand implements StoreCommand {
 

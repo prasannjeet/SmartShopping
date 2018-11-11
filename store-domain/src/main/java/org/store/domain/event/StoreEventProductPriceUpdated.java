@@ -9,7 +9,7 @@ public class StoreEventProductPriceUpdated implements StoreEvent {
     private PriceTag priceTag;
 
     public StoreEventProductPriceUpdated() {
-        
+
     }
 
     public StoreEventProductPriceUpdated(Store store, PriceTag priceTag) {

@@ -8,11 +8,11 @@ public class StoreEventProductDeleted implements StoreEvent {
     private Store store;
     private PriceTag priceTag;
 
-    public StoreEventProductDeleted () {
+    public StoreEventProductDeleted() {
 
     }
 
-    public StoreEventProductDeleted (Store store, PriceTag priceTag) {
+    public StoreEventProductDeleted(Store store, PriceTag priceTag) {
         this.store = store;
         this.priceTag = priceTag;
     }
