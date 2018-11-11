@@ -1,7 +1,6 @@
 package org.store.command.service.subscriber;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
