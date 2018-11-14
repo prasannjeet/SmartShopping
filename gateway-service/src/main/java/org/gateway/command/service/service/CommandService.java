@@ -24,38 +24,46 @@ public class CommandService {
     }
 
     public Store initStore(StoreInfos storeInfo) throws Exception {
-        aggregateRepository.save(new InitiateStoreCommand(storeInfo));
+    	subscriber.subscribe(this);
+    	aggregateRepository.save(new InitiateStoreCommand(storeInfo));
 
         boolean responseCatched = subscriber.storeInitSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
         if (!responseCatched)
             throw new Exception("Timeout: Response not received in time (" + timeout + "ms)");
+        subscriber.unsubscribe(this);
         return subscriber.storeInitEvent.getStore();
     }
 
     public org.store.domain.model.Product addProductToStore(String storeId, Product product) throws Exception {
-        aggregateRepository.save(new AddProductInStoreCommand(product, storeId));
+    	subscriber.subscribe(this);
+    	aggregateRepository.save(new AddProductInStoreCommand(product, storeId));
 
         boolean responseCatched = subscriber.addProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
         if (!responseCatched)
             throw new Exception("Timeout: Response not received in time (" + timeout + "ms)");
+        subscriber.unsubscribe(this);
         return subscriber.addProductEvent.getProduct();
     }
 
     public PriceTag updateProductInStore(String storeId, Product product) throws Exception {
-        aggregateRepository.save(new UpdatePriceInStoreCommand(product, storeId));
+    	subscriber.subscribe(this);
+    	aggregateRepository.save(new UpdatePriceInStoreCommand(product, storeId));
 
         boolean responseCatched = subscriber.updateProductSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
         if (!responseCatched)
             throw new Exception("Timeout: Response not received in time (" + timeout + "ms)");
+        subscriber.unsubscribe(this);
         return subscriber.updateProductEvent.getPriceTag();
     }
 
     public Store scrapProduct(String storeId) throws Exception {
-        aggregateRepository.save(new ScrapProductCommand(storeId));
+    	subscriber.subscribe(this);
+    	aggregateRepository.save(new ScrapProductCommand(storeId));
 
         boolean responseCatched = subscriber.scrapStoreSemaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS);
         if (!responseCatched)
             throw new Exception("Timeout: Response not received in time (" + timeout + "ms)");
+        subscriber.unsubscribe(this);
         return subscriber.scrapStoreEvent.getStore();
     }
 }
