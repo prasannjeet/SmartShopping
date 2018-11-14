@@ -1,12 +1,14 @@
 DROP DATABASE IF EXISTS userservice;
 DROP DATABASE IF EXISTS cartservice;
 DROP DATABASE IF EXISTS productservice;
-DROP DATABASE IF EXISTS storeservice;
+DROP DATABASE IF EXISTS storeservice1;
+DROP DATABASE IF EXISTS storeservice2;
 
 CREATE DATABASE userservice;
 CREATE DATABASE cartservice;
 CREATE DATABASE productservice;
-CREATE DATABASE storeservice;
+CREATE DATABASE storeservice1;
+CREATE DATABASE storeservice2;
 
 
 USE userservice;
@@ -54,7 +56,28 @@ create table product (
   deleted BOOLEAN
 );
 
-USE storeservice;
+USE storeservice1;
+
+DROP table IF EXISTS store;
+
+create table store (
+  id VARCHAR(255) PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  website varchar(255) NOT NULL,
+  location varchar(255) NOT NULL,
+  deleted BOOLEAN
+);
+
+DROP table IF EXISTS price_tag;
+
+create table price_tag (
+  id VARCHAR(255) PRIMARY KEY,
+  barcode VARCHAR(255) UNIQUE NOT NULL,
+  price VARCHAR(255) NOT NULL,
+  deleted BOOLEAN
+);
+
+USE storeservice2;
 
 DROP table IF EXISTS store;
 

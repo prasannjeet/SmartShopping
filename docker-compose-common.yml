@@ -29,10 +29,15 @@ product-query-service:
 
 #############################################################
 
-store-command-service:
+store-command-service-1:
   build: ./store-command-service/
   ports:
   - 7086:8080
+
+# store-command-service-2:
+#   build: ./store-command-service/
+#   ports:
+#   - 7087:8080
 
 #############################################################
 
