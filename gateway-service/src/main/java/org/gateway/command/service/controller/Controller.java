@@ -213,7 +213,7 @@ public class Controller {
         try {
             response = commandService.initStore(storeInfos);
         } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity(response, HttpStatus.OK);
@@ -226,7 +226,7 @@ public class Controller {
         try {
             response = commandService.addProductToStore(storeId, product);
         } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity(response, HttpStatus.OK);
     }
@@ -238,7 +238,7 @@ public class Controller {
         try {
             response = commandService.updateProductInStore(storeId, product);
         } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity(response, HttpStatus.OK);
     }
@@ -250,7 +250,7 @@ public class Controller {
         try {
             response = commandService.scrapProduct(storeId);
         } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity(response, HttpStatus.OK);
     }

@@ -9,62 +9,51 @@ import org.store.domain.event.StoreEventProductPriceUpdated;
 import org.store.domain.event.StoreEventScrapperLaunched;
 import org.store.domain.event.StoreEventStoreCreated;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Semaphore;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 @EventSubscriber(id = "gatewayEventHandler")
 public class Subscriber {
-
-    public Semaphore storeInitSemaphore = new Semaphore(0);
-    public Semaphore addProductSemaphore = new Semaphore(0);
-    public Semaphore updateProductSemaphore = new Semaphore(0);
-    public Semaphore scrapStoreSemaphore = new Semaphore(0);
-
-    public StoreEventStoreCreated storeInitEvent = null;
-    public StoreEventProductCreated addProductEvent = null;
-    public StoreEventProductPriceUpdated updateProductEvent = null;
-    public StoreEventScrapperLaunched scrapStoreEvent = null;
-	
-    private List<Object> subscribers = new ArrayList<Object>();
-
+	    
+    private MultivaluedMap<EventType, MessageListener> subscribers = new MultivaluedHashMap<EventType, MessageListener>();
+    
     @EventHandlerMethod
     public void initializedStoreResponse(DispatchedEvent<StoreEventStoreCreated> event) {
-    	if (subscribers.isEmpty())
+    	if (subscribers.get(EventType.STORE_CREATED).isEmpty())
     		return;
-    	storeInitEvent = event.getEvent();
-        storeInitSemaphore.release();
+    	else
+    		subscribers.get(EventType.STORE_CREATED).get(0).ReceiveEvent(event.getEvent());
     }
 
     @EventHandlerMethod
     public void updateProductReponse(DispatchedEvent<StoreEventProductPriceUpdated> event) {
-    	if (subscribers.isEmpty())
+    	if (subscribers.get(EventType.PRODUCT_UPDATED).isEmpty())
     		return;
-    	updateProductEvent = event.getEvent();
-        updateProductSemaphore.release();
+    	else
+    		subscribers.get(EventType.PRODUCT_UPDATED).get(0).ReceiveEvent(event.getEvent());
     }
 
     @EventHandlerMethod
     public void addProductReponse(DispatchedEvent<StoreEventProductCreated> event) {
-    	if (subscribers.isEmpty())
+    	if (subscribers.get(EventType.PRODUCT_CREATED).isEmpty())
     		return;
-    	addProductEvent = event.getEvent();
-        addProductSemaphore.release();
+    	else
+    		subscribers.get(EventType.PRODUCT_CREATED).get(0).ReceiveEvent(event.getEvent());
     }
 
     @EventHandlerMethod
     public void scrapStoreReponse(DispatchedEvent<StoreEventScrapperLaunched> event) {
-    	if (subscribers.isEmpty())
+    	if (subscribers.get(EventType.SCRAPPER_LAUNCHED).isEmpty())
     		return;
-        scrapStoreEvent = event.getEvent();
-        scrapStoreSemaphore.release();
+    	else
+    		subscribers.get(EventType.SCRAPPER_LAUNCHED).get(0).ReceiveEvent(event.getEvent());
     }
     
-    public void subscribe(Object o){
-    	subscribers.add(o);
+    public void subscribe(EventType eventType, MessageListener listener){
+    	subscribers.add(eventType, listener);
     }
     
-    public void unsubscribe(Object o){
-    	subscribers.remove(o);
+    public void unsubscribe(EventType eventType, MessageListener listener){
+    	subscribers.remove(eventType, listener);
     }
 }
