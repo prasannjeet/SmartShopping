@@ -1,5 +1,7 @@
 package org.gateway.command.service.subscriber;
 
+import java.util.List;
+
 import io.eventuate.DispatchedEvent;
 import io.eventuate.EventHandlerMethod;
 import io.eventuate.EventSubscriber;
@@ -19,34 +21,38 @@ public class Subscriber {
     
     @EventHandlerMethod
     public void initializedStoreResponse(DispatchedEvent<StoreEventStoreCreated> event) {
-    	if (subscribers.get(EventType.STORE_CREATED).isEmpty())
+    	List<MessageListener> listeners = subscribers.get(EventType.STORE_CREATED);
+    	if (listeners == null || listeners.isEmpty())
     		return;
     	else
-    		subscribers.get(EventType.STORE_CREATED).get(0).ReceiveEvent(event.getEvent());
+    		listeners.get(0).ReceiveEvent(event.getEvent());
     }
 
     @EventHandlerMethod
     public void updateProductReponse(DispatchedEvent<StoreEventProductPriceUpdated> event) {
-    	if (subscribers.get(EventType.PRODUCT_UPDATED).isEmpty())
+    	List<MessageListener> listeners = subscribers.get(EventType.PRODUCT_UPDATED);
+    	if (listeners == null || listeners.isEmpty())
     		return;
     	else
-    		subscribers.get(EventType.PRODUCT_UPDATED).get(0).ReceiveEvent(event.getEvent());
+    		listeners.get(0).ReceiveEvent(event.getEvent());
     }
 
     @EventHandlerMethod
     public void addProductReponse(DispatchedEvent<StoreEventProductCreated> event) {
-    	if (subscribers.get(EventType.PRODUCT_CREATED).isEmpty())
+    	List<MessageListener> listeners = subscribers.get(EventType.PRODUCT_CREATED);
+    	if (listeners == null || listeners.isEmpty())
     		return;
     	else
-    		subscribers.get(EventType.PRODUCT_CREATED).get(0).ReceiveEvent(event.getEvent());
+    		listeners.get(0).ReceiveEvent(event.getEvent());
     }
 
     @EventHandlerMethod
     public void scrapStoreReponse(DispatchedEvent<StoreEventScrapperLaunched> event) {
-    	if (subscribers.get(EventType.SCRAPPER_LAUNCHED).isEmpty())
+    	List<MessageListener> listeners = subscribers.get(EventType.SCRAPPER_LAUNCHED);
+    	if (listeners == null || listeners.isEmpty())
     		return;
     	else
-    		subscribers.get(EventType.SCRAPPER_LAUNCHED).get(0).ReceiveEvent(event.getEvent());
+    		listeners.get(0).ReceiveEvent(event.getEvent());
     }
     
     public void subscribe(EventType eventType, MessageListener listener){
