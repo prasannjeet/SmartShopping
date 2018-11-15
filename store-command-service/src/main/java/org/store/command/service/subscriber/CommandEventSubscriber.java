@@ -61,8 +61,7 @@ public class CommandEventSubscriber {
         storeCartDao.setUserId(event.getEvent().getCartDao().getUserId());
         storeCartDao.setStoreName(this.storeRepository.getSingleton().getName());
         storeCartDao.setStoreDistance(distance);
-        event.getEvent().getCartDao().getProducts()
-                .forEach(product -> {
+        for(org.cart.domain.model.Product product : event.getEvent().getCartDao().getProducts()) {
                     StoreProductDao storeProductDao = new StoreProductDao();
                     storeProductDao.setBarcode(product.getBarcode());
                     storeProductDao.setHasWeight(product.getHasWeight());
@@ -74,7 +73,7 @@ public class CommandEventSubscriber {
                     }
                     storeProductDao.setPrice(Double.parseDouble(priceTag.getPrice()));
                     storeCartDao.getStoreProductDaos().add(storeProductDao);
-                });
+                };
         this.aggregateRepository.save(new UpdateCartCommand(storeCartDao));
     }
 
@@ -101,7 +100,6 @@ public class CommandEventSubscriber {
         if (!storeRepository.isIdentified() || !this.isDestination(event.getEvent().getStoreInfos())) {
             return;
         }
-        System.err.println("identified and destination");
         Product product = new Product();
         try {
             product.setId(event.getEntityId());
@@ -126,6 +124,7 @@ public class CommandEventSubscriber {
             if (priceTag == null) {
                 return;
             }
+            this.priceTagRepository.delete(priceTag);
             priceTag.setPrice(event.getEvent().getPrice());
             this.priceTagRepository.save(new PriceTag(event.getEntityId(), priceTag));
             this.aggregateRepository.update(priceTag.getId(), new UpdateProductPriceCommand(this.storeRepository.getSingleton(), priceTag));
@@ -157,6 +156,7 @@ public class CommandEventSubscriber {
                     this.priceTagRepository.save(new PriceTag(event.getEntityId(), newProduct));
                     this.aggregateRepository.save(new CreateProductCommand(this.storeRepository.getSingleton(), newProduct));
                 } else if (!correspondingTag.getPrice().contentEquals(prod.getPrice())) {
+                    this.priceTagRepository.delete(correspondingTag);
                     correspondingTag.setPrice(prod.getPrice());
                     this.priceTagRepository.save(new PriceTag(event.getEntityId(), correspondingTag));
                     this.aggregateRepository.update(correspondingTag.getId(), new UpdateProductPriceCommand(this.storeRepository.getSingleton(), correspondingTag));
